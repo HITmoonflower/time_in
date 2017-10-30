@@ -3,12 +3,14 @@
         "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
         "http://struts.apache.org/dtds/struts-2.5.dtd">
 <struts>
-	<constant name="struts.devMode" value="true"></constant>
-<!-- 
-    <package name="book" namespace = "/" extends="struts-default">
-        <action name = "search" class = "com.bookmanage.action.ManageAction" method = "search">
-        	<result name = "success">/index.jsp</result>
-        </action>
-    </package>
--->
+  <package name = "pdo"  extends = "struts-default" namespace = "/">
+    <action name = "actionAddPdo" class = "action.PDO" method = "addPdo">
+      <result>/addSuccess.jsp</result>
+      <result name = "error">/addFail.jsp</result>
+    </action>
+    <action name = "actionQueryPdo" class = "action.PDO" method = "queryPdo">
+      <result>/addSuccess.jsp</result>
+      <result name = "error">/addFail.jsp</result>
+    </action>
+  </package>
 </struts>
