@@ -1701,7 +1701,7 @@ abbr[data-original-title] {
 	color: #FFF;
     font-size: 1em;
     margin: .5em 0 0 0;
-	text-align:right;
+	/**/text-align:center;
 }
 .copyright p a{
     color: #FFF;
