@@ -35,6 +35,8 @@ public class PDO extends ActionSupport {
   public void setAddInfo(Map<String, String> addInfo) {
     this.addInfo = addInfo;
   }
+  
+  //修饰前端传递的Map数据，可能根据前端变化而变化
   public Map<String, String> modifyAddInfo(){
     Map<String, String> info = this.getAddInfo();
     List<String> temp = new ArrayList<String>();
@@ -47,6 +49,8 @@ public class PDO extends ActionSupport {
     }
     return map;
   }
+  
+  //添加新的pdo，sql操作出错时返回ERROR，没有输入返回"input"否则返回SUCCESS
   public String addPdo() {
     String sqlAddValue = "'" + this.getUserID()+"','"+this.getPdoID()+"',";
     String sqlAddKey = sqlAddValue;
@@ -56,7 +60,7 @@ public class PDO extends ActionSupport {
     String tableQuery = "tableQuery"; //
     Map<String, String> info = modifyAddInfo();
     if (info == null) {
-      return ERROR;
+      return "noInput";
     }
     Iterator<String> iterator = info.keySet().iterator();
     String[] key = null;
@@ -99,6 +103,8 @@ public class PDO extends ActionSupport {
     }
     return SUCCESS;
   }
+  
+  //查询pdo  
   public String queryPdo() throws SQLException {
     String sqlQuery = "";
     String sqlKey = "";
@@ -128,17 +134,17 @@ public class PDO extends ActionSupport {
       key = tempKey.split(", ");
       value = tempValue.split(", ");
     }
-    if (key[0].equals("noStartDate")||key[0].equals("")) {
+    if (key[0].equals("")) {
       key[0] = minDate;
     }
-    if (value[0].equals("noEndDate")||value[0].equals("")) {
+    if (value[0].equals("")) {
       value[0] = maxDate;
     }
     dateInfo = "date between " + key[0] + " and " + value[0];
-    if (key[1].equals("noMinSpend")||key[1].equals("")) {
+    if (key[1].equals("")) {
         key[1] = minSpend;
       }
-      if (value[1].equals("noMaxSpend")||value[1].equals("")) {
+      if (value[1].equals("")) {
         value[1] = maxSpend;
       }
       spendInfo = "spend between " + key[1] + " and " + value[1];

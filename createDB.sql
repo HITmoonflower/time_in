@@ -10,7 +10,7 @@ CREATE TABLE `pdo`.`tablekey` (
   CREATE TABLE `pdo`.`tablevalue` (
   `userID` INT NOT NULL,
   `pdoID` INT NULL,
-  `dade` DATE NULL,
+  `date` DATE NULL,
   `spend` FLOAT NULL,
   `place` VARCHAR(45) NULL,
   `value0` VARCHAR(45) NULL,
@@ -18,7 +18,7 @@ CREATE TABLE `pdo`.`tablekey` (
   CREATE TABLE `pdo`.`tablequery` (
   `userID` INT NOT NULL,
   `pdoID` INT NULL,
-  `dade` DATE NULL,
+  `date` DATE NULL,
   `spend` FLOAT NULL,
   `place` VARCHAR(45) NULL,
   PRIMARY KEY (`userID`));
