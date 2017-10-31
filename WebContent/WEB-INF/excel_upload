@@ -356,68 +356,79 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
         <!-- main content start-->
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         <div id="page-wrapper">
             <div class="main-page">
-                <!--grids-->
-                <div class="grids">
-                    <div class="progressbar-heading grids-heading">
-                        <h2>Tables</h2>
-                    </div>
-                    <div class="panel panel-widget">
-                        <div class="tables">
-                            <h4>Colored Rows Table:</h4>
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Column heading</th>
-                                        <th>Column heading</th>
-                                        <th>Column heading</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                   
-                                    <tr class="danger">
-                                        <th scope="row">9</th>
-                                        <td>Column content</td>
-                                        <td>Column content</td>
-                                        <td>Column content</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                   
-                                
-                </div>
-                <!--//grids-->
+				<div class="container">
+					<div class="row clearfix">
+						<div class="col-md-4 column">
+						</div>
+						<div class="col-md-4 column">
+							<form role="form">
+								<div class="form-group">
+
+										<h3>
+											<br>
+											<br>
+											<br>
+											<br>	
+
+										</h3>
+
+									 <label for=" ">
+									 	<center><h3>新建pdo的名称</h3></center>
+									 </label><input class="form-control"  />
+								</div>
+
+								
+								<div class="form-group">
+									<h3>
+											<br>
+											<br>
+											
+
+										</h3>
+									 <label for="exampleInputFile"><h2>File input</h2></label><input type="file" id="exampleInputFile" />
+									<p class="help-block ">
+										<h3>
+											<br>
+											
+											<br>	
+
+										</h3>
+									</p>
+								</div>
+							 <button type="submit" class="btn btn-success btn-lg btn-block">添加</button>
+							</form>
+						</div>
+						<div class="col-md-4 column">
+						</div>
+					</div>
+				</div>
+
             </div>
         </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         <!--footer-->
 		 <div class="dev-page">
 	 
