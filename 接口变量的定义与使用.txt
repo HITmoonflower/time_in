@@ -1,6 +1,7 @@
 DataOperation 数据库操作类
 	在使用数据库之前要先修改database.DataConn.java中的数据库密码、帐号等信息
 	数据库名为pdo，有三张表tableValue,tableKey,tableQuery(我应该把我建数据库时用的指令也commit的。。。)
+	(数据库中只有4个字段，后续可以随便加)
 	使用方法：
 	int result1 = DataOperation.getInstance().delete_save_updata(sql);//删除保存更新操作返回1成功
 	ResultSet rs = DataOperation.getInstance().query(sql);//查询操作，返回ResultSet 
