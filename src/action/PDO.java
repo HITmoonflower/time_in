@@ -16,6 +16,7 @@ import com.opensymphony.xwork2.ActionSupport;
 public class PDO extends ActionSupport {
   private String userID;
   private String pdoID;
+  private String relateID;
   private Map<String, String> addInfo = new HashMap<String, String>();
   public String getUserID() {
     return userID;
@@ -172,4 +173,20 @@ public class PDO extends ActionSupport {
     this.setAddInfo(returnQueryInfo);
     return SUCCESS;
   }
+  //建立两个pdo之间的关系 main key auto incre col1 pdo1 col2 pdo2
+  //pdo1 < pdo2
+  public void addrelatePdo() throws SQLException{
+	  String tmp;
+	  if(pdoID.compareTo(relateID) > 0) {
+		  tmp = pdoID;
+		  pdoID = relateID;
+		  relateID = tmp;
+	  }
+	  String sql = "select * from Relation where pdo1 = " + pdoID + "and pdo2 = " + relateID + "limit 1";
+	  if(DataOperation.getInstance().query(sql).wasNull()) {
+		  sql = "insert into Relation values = (" + pdoID + "," + relateID + ")";
+		  DataOperation.getInstance().delete_save_updata(sql);
+	  }
+  }
+  
 }
