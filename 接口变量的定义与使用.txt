@@ -1,0 +1,42 @@
+DataOperation 数据库操作类
+	在使用数据库之前要先修改database.DataConn.java中的数据库密码、帐号等信息
+	数据库名为pdo，有三张表tableValue,tableKey,tableQuery(我应该把我建数据库时用的指令也commit的。。。)
+	使用方法：
+	int result1 = DataOperation.getInstance().delete_save_updata(sql);//删除保存更新操作返回1成功
+	ResultSet rs = DataOperation.getInstance().query(sql);//查询操作，返回ResultSet 
+
+
+
+PDO action
+属性  
+  	private String userID;
+  	private String pdoID;
+  	private Map<String, String> addInfo = new HashMap<String, String>();
+方法
+
+addPDO
+	用于添加PDO，需要提供userID,pdoID和属性以及相应值的信息，通过Map传递到后端
+	传入后端的Map形式：
+	<key, "key1">
+	<value, "value1">
+	<key, "key2">
+	<value, "value1">...
+	Map中的键是确定的，实际上我想要的Map是 键"key1"对应值"value1"，键"key2"对应值"value2"但是现在还没对前端的数据进行整理，所以就现这么做了，
+	输入的Map要按data,spend,place,其他属性的顺序
+	返回success添加成功 error添加失败
+	已经验证可以使用
+queryPdo
+	用于按维度查询pdo,需要提供userID,pdoID，暂时支持三个维度，date,spend,place，（也是按这个顺序提供map）
+	前端提供的Map为<startdate, enddate><minspend, maxspend><place, balabala> 其中有关date和spend的项可以为空，程序中有默认值
+	String minDate = "2000-1-1";
+    	String maxDate = "2100-12-31";
+    	String minSpend = "0";
+   	String maxSpend = "100000";
+	还没有验证完毕
+
+
+
+
+
+
+
