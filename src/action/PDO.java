@@ -14,19 +14,22 @@ import database.DataOperation;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class PDO extends ActionSupport {
-  private String userID;
-  private String pdoID;
+  private int userID;
+  private int pdoID;
+  private String relateID;
   private Map<String, String> addInfo = new HashMap<String, String>();
-  public String getUserID() {
+  private List<Map<String, String>> queryResult = new ArrayList<Map<String, String>>();
+  
+  public int getUserID() {
     return userID;
   }
-  public void setUserID(String userID) {
+  public void setUserID(int userID) {
     this.userID = userID;
   }
-  public String getPdoID() {
+  public int getPdoID() {
     return pdoID;
   }
-  public void setPdoID(String pdoID) {
+  public void setPdoID(int pdoID) {
     this.pdoID = pdoID;
   }
   public Map<String, String> getAddInfo() {
@@ -36,7 +39,14 @@ public class PDO extends ActionSupport {
     this.addInfo = addInfo;
   }
   
-  //����ǰ�˴��ݵ�Map���ݣ����ܸ���ǰ�˱仯���仯
+  
+  public List<Map<String, String>> getQueryResult() {
+    return queryResult;
+  }
+  public void setQueryResult(List<Map<String, String>> queryResult) {
+    this.queryResult = queryResult;
+  }
+  //修饰前端传递的Map，可能会根据前端的变化而变化  
   public Map<String, String> modifyAddInfo(){
     Map<String, String> info = this.getAddInfo();
     List<String> temp = new ArrayList<String>();
@@ -45,23 +55,24 @@ public class PDO extends ActionSupport {
      temp.add(entry.getValue());
     }
     for (int i = 0; i<temp.size();i = i + 2) {
+     //如果两个都是空话...      
       map.put(temp.get(i + 1), temp.get(i));
     }
     return map;
   }
   
-  //�����µ�pdo��sql��������ʱ����ERROR��û�����뷵��"input"���򷵻�SUCCESS
+  //添加pdo,sql语句执行失败返回error，无输入指返回noInput，成功返回success
   public String addPdo() {
-    String sqlAddValue = "'" + this.getUserID()+"','"+this.getPdoID()+"',";
+    String sqlAddValue = "'" + this.getUserID()+"'";
     String sqlAddKey = sqlAddValue;
     String sqlAddQuery = sqlAddValue;
+    String sqlValue = "userID";
+    String sqlKey = "userID";
+    String sqlQuery = "userID";
     String tableValue = "tableValue"; //the names of relative tables
     String tableKey = "tableKey";     //
     String tableQuery = "tableQuery"; //
     Map<String, String> info = modifyAddInfo();
-    if (info == null) {
-      return "noInput";
-    }
     Iterator<String> iterator = info.keySet().iterator();
     String[] key = null;
     String[] value = null;
@@ -71,40 +82,50 @@ public class PDO extends ActionSupport {
       key = tempKey.split(", ");
       value = tempValue.split(", ");
     }
+    List<String> queryKey = new ArrayList<String> ();
+    List<String> queryValue = new ArrayList<String>();
     int i = 0;
-    int j = 0;
-    for (i = 0; i <key.length;i++) {
-      if (i < key.length - 1) {
-        sqlAddValue = sqlAddValue + "'" + value[i] + "',";
-        sqlAddKey = sqlAddKey + "'" + key[i] + "',";
-      }
-      else {
-        sqlAddValue = sqlAddValue + "'" + value[i] + "'";
-        sqlAddKey = sqlAddKey + "'" + key[i] + "'";
-      }
-      if (j < 2) {
-        sqlAddQuery = sqlAddQuery + "'" + value[i] + "',";
-      }
-      else if (j == 2) {
-        sqlAddQuery = sqlAddQuery + "'" + value[j] + "'";
-      }
-      j++;
+    int offset = 0;
+    if (key.length == 0) {
+      return "noInput";
     }
-    sqlAddValue = "insert into " + tableValue + " values (" + sqlAddValue +")";
-    sqlAddKey = "insert into " + tableKey + " values (" + sqlAddKey +")";
-    sqlAddQuery = "insert into " + tableQuery + " values (" + sqlAddQuery +")";
+    for (i = 0; i <key.length;i++) {
+      if (value[i].equals("")||key[i].equals("")) {
+        offset++;
+        continue;
+      }
+      if (key[i].equals("datetime")||key[i].equals("spend")||key[i].equals("place")) {
+        queryKey.add(key[i]);
+        queryValue.add(value[i]);
+      }
+      sqlAddValue = sqlAddValue + ",'" + value[i] + "'";
+      sqlAddKey = sqlAddKey + ",'" + key[i] + "'";
+      sqlValue = sqlValue + ",value" + (i-offset);
+      sqlKey = sqlKey + ",key" + (i-offset);
+    }
+    for (int j = 0; j < queryKey.size();j++) {
+      sqlAddQuery = sqlAddQuery +",'" + queryValue.get(j) +"'";
+      sqlQuery = sqlQuery + "," + queryKey.get(j);
+    }
+    sqlAddValue = "insert into " + tableValue +"("+ sqlValue +")" + " values (" + sqlAddValue +")";
+    sqlAddKey = "insert into " + tableKey + "("+ sqlKey +")" + " values (" + sqlAddKey +")";
+    sqlAddQuery = "insert into " + tableQuery + "("+ sqlQuery +")" + " values (" + sqlAddQuery +")";
     System.out.println(sqlAddValue);
+    System.out.println(sqlAddKey);
     System.out.println(sqlAddQuery);
     int result1 = DataOperation.getInstance().delete_save_updata(sqlAddValue);
     int result2 = DataOperation.getInstance().delete_save_updata(sqlAddKey);
     int result3 = DataOperation.getInstance().delete_save_updata(sqlAddQuery);
     if (result1 == 0 || result2 == 0 || result3 == 0) {
+      System.out.println(""+ result1 + result2 + result3);
       return ERROR;
     }
     return SUCCESS;
   }
   
-  //��ѯpdo  
+  //查询pdo，查询所得的数据以为List<Map<String, String>>形式传递,无输入返回所有在maxdate,mindate之间
+  //且在minspend与maxspend之间的所有pdo(可以改成返回"noInput")
+  //没有匹配的pdo返回"noPdo",如果根据pdoId查不到相应的Pdo返回"error"
   public String queryPdo() throws SQLException {
     String sqlQuery = "";
     String sqlKey = "";
@@ -120,19 +141,15 @@ public class PDO extends ActionSupport {
     String dateInfo = "";
     String spendInfo = "";
     String otherInfo = "";
-    Map<String, String> returnQueryInfo = new HashMap<String, String>();
     Map<String, String> info = modifyAddInfo();
-    if (info == null) {
-      return ERROR;
-    }
     Iterator<String> iterator = info.keySet().iterator();
     String[] key = null;
     String[] value = null;
     while (iterator.hasNext()) {
       String tempKey = iterator.next();
       String tempValue = info.get(tempKey);
-      key = tempKey.split(", ");
-      value = tempValue.split(", ");
+      key = tempKey.split(",");
+      value = tempValue.split(",");
     }
     if (key[0].equals("")) {
       key[0] = minDate;
@@ -140,19 +157,22 @@ public class PDO extends ActionSupport {
     if (value[0].equals("")) {
       value[0] = maxDate;
     }
-    dateInfo = "date between " + key[0] + " and " + value[0];
-    if (key[1].equals("")) {
+    dateInfo = " and datetime between '" + key[0] + "' and '" + value[0] + "'";
+    if (key[1].equals(" ")) {
         key[1] = minSpend;
       }
-      if (value[1].equals("")) {
-        value[1] = maxSpend;
-      }
-      spendInfo = "spend between " + key[1] + " and " + value[1];
-    for (int i = 2;i < key.length;i++) {
-      otherInfo = key[i] +" =\'" + value[i] + "\'";
+    if (value[1].equals(" ")) {
+      value[1] = maxSpend;
     }
-    sqlQuery = "select pdoID from " + tableQuery + " where " + userInfo +" and "+ dateInfo 
-        + " and " + spendInfo + " and " + otherInfo;
+      spendInfo = " and spend between '" + key[1] + "' and '" + value[1] + "'";
+    for (int i = 2;i < key.length;i++) {
+      if (key[i].equals(" ")||value[i].equals(" ")) {
+        continue;
+      }
+      otherInfo = otherInfo +" and " + key[i] +" =\'" + value[i] + "\'";
+    }
+    sqlQuery = "select pdoID from " + tableQuery + " where " + userInfo + dateInfo 
+        + spendInfo  + otherInfo;
     System.out.println(sqlQuery);
     ResultSet rs = DataOperation.getInstance().query(sqlQuery);
     List <String> pdoList = new ArrayList<String>();
@@ -162,20 +182,58 @@ public class PDO extends ActionSupport {
     if (pdoList.size() == 0) {
       return "noPdo";
     }
-    int i = 0;
     String pdoIdInfo = "";
-    while (i < pdoList.size() - 1) {
-      pdoIdInfo = pdoIdInfo + pdoList.get(i) + ",";
+    for (int i = 0; i<pdoList.size()-1;i++) {
+      pdoIdInfo = pdoIdInfo +" pdoID = '" +  pdoList.get(i) + "'or";
     }
-    pdoIdInfo = pdoIdInfo + pdoList.get(pdoList.size());
-    sqlKey = "select * from " + tableKey + "where pdoID in (" + pdoIdInfo + ")";
-    sqlValue = "select * from " + tableValue + "where pdoID in (" + pdoIdInfo + ")";
+    pdoIdInfo = pdoIdInfo +" pdoID = '" +pdoList.get(pdoList.size()-1) + "'";
+    sqlKey = "select * from " + tableKey + " where"+ pdoIdInfo;
+    sqlValue = "select * from " + tableValue + " where"+  pdoIdInfo;
     ResultSet rsKey = DataOperation.getInstance().query(sqlKey);
     ResultSet rsValue = DataOperation.getInstance().query(sqlValue);
+    List<Map<String, String>> query = new ArrayList<Map<String,String>>();
     while (rsKey.next() && rsValue.next()) {
-      returnQueryInfo.put(rsKey.getString(1), rsValue.getString(1));
+      Map<String, String> map = new HashMap<String, String>();
+      map.put("pdoID",  rsValue.getString(1));
+      map.put("userID", rsValue.getString(2));
+      for (int i = 3;;i++) {
+        try {
+          if (rsKey.getString(i) == null) {
+            continue;
+          }
+          map.put(rsKey.getString(i), rsValue.getString(i));
+        }
+        catch(SQLException e) {
+          break;
+        }
+      }
+      query.add(map);
     }
-    this.setAddInfo(returnQueryInfo);
+    if(query.size() == 0) {
+      return ERROR;
+    }
+    // for (int i = 0;i<query.size();i++) {
+      // for (Map.Entry<String, String> entry : query.get(i).entrySet()) { 
+        // System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());  
+    // }  
+    // }
+    this.setQueryResult(query);
     return SUCCESS;
   }
+  //建立两个pdo之间的关系 main key auto incre col1 pdo1 col2 pdo2
+  //pdo1 < pdo2
+  public void addrelatePdo() throws SQLException{
+	  String tmp;
+//	  if(pdoID.compareTo(relateID) > 0) {
+//		  tmp = pdoID;
+//		  pdoID = relateID;
+//		  relateID = tmp;
+//	  }
+	  String sql = "select * from tablerelation where pdo1 = " + pdoID + "and pdo2 = " + relateID + "limit 1";
+	  if(DataOperation.getInstance().query(sql).wasNull()) {
+		  sql = "insert into tablerelation values = (" + pdoID + "," + relateID + ")";
+		  DataOperation.getInstance().delete_save_updata(sql);
+	  }
+  }
+  
 }
