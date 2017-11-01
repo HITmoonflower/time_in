@@ -188,5 +188,12 @@ public class PDO extends ActionSupport {
 		  DataOperation.getInstance().delete_save_updata(sql);
 	  }
   }
-  
+  //add new PDOs and load file with header
+  public boolean addNewPdo() {
+	  return true;
+  }
+  //add old pdos and load file without header
+  public boolean addOldPdo() {
+	  return true;
+  }
 }
