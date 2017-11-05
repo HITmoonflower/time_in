@@ -230,4 +230,35 @@ public class PDOService {
 		}
 		return ans;
 	}
+
+	public List<Map<String, String>> showAll(){
+	    String sqlKey = "select * from tablekey";
+	    String sqlValue = "select * from tablevalue";
+	    List<Map<String, String>> queryRes = new ArrayList<Map<String,String>>();
+	    try {
+	    	ResultSet rsKey = DataOperation.getInstance().query(sqlKey);
+	    	ResultSet rsValue = DataOperation.getInstance().query(sqlValue);
+	    	while (rsKey.next() && rsValue.next()) {
+	    		Map<String, String> map = new HashMap<String, String>();
+	    		map.put("pdoID",  rsValue.getString(1));
+	    		map.put("userID", rsValue.getString(2));
+	    		for (int i = 3;;i++) {
+	    			try {
+	    				if (rsKey.getString(i) == null) {
+	    					break;
+	    				}
+	    				map.put(rsKey.getString(i), rsValue.getString(i));
+	    			} catch(SQLException e) {
+	    				e.printStackTrace();
+	    				break;
+	    			}
+	    		}
+	    		queryRes.add(map);
+	    	}
+	    }catch(SQLException e) {
+	    	e.printStackTrace();
+	    }
+	    return queryRes;		
+	}
+	
 }

@@ -55,4 +55,9 @@ public class PDOAction extends ActionSupport {
 		formHeader = pdoService.showHeader(pdoId);
 		return SUCCESS;
 	}
+	
+	public String showAllPdo() {
+		queryRes = pdoService.showAll();
+		return SUCCESS;
+	}
 }

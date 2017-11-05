@@ -18,6 +18,9 @@
     <action name = "actionForm" class = "action.PDOAction" method = "generateForm">
       <result>/form.jsp</result>
     </action>
+    <action name = "actionshowAll" class = "action.PDOAction" method = "showAllPdo">
+      <result>/index.jsp</result>
+    </action>
   </package>
   
 </struts>
