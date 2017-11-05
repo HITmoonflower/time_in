@@ -95,7 +95,7 @@ public class PDOService {
 	//查询pdo，查询所得的数据以为List<Map<String, String>>形式传递,无输入返回所有在maxdate,mindate之间
 	//且在minspend与maxspend之间的所有pdo(可以改成返回"noInput")
 	//没有匹配的pdo,如果根据pdoId查不到相应的Pdo返回null
-	public List<Map<String, String>> query(int userId, Map<String, String>info) throws SQLException{
+	public List<PDOModel> query(int userId, Map<String, String>info) throws SQLException{
 	    String sqlQuery = "";
 	    String sqlKey = "";
 	    String sqlValue = "";
@@ -159,11 +159,12 @@ public class PDOService {
 	    sqlValue = "select * from " + tableValue + " where"+  pdoIdInfo;
 	    ResultSet rsKey = DataOperation.getInstance().query(sqlKey);
 	    ResultSet rsValue = DataOperation.getInstance().query(sqlValue);
-	    List<Map<String, String>> queryRes = new ArrayList<Map<String,String>>();
+	    List<PDOModel> queryRes = new ArrayList<PDOModel>();
+	    PDOModel pdo = new PDOModel();
 	    while (rsKey.next() && rsValue.next()) {
 	        Map<String, String> map = new HashMap<String, String>();
-	        map.put("pdoID",  rsValue.getString(1));
-	        map.put("userID", rsValue.getString(2));
+	        pdo.setPdoID(rsValue.getInt(1));
+	        pdo.setUserID(rsValue.getInt(2));
 	        for (int i = 3;;i++) {
 	            try {
 	                if (rsKey.getString(i) == null) {
@@ -175,7 +176,8 @@ public class PDOService {
 	                break;
 	            }
 	         }
-	         queryRes.add(map);
+	         pdo.setInfoMap(map);
+	         queryRes.add(pdo);
 	    }
 	    return queryRes;
 	}
@@ -231,17 +233,18 @@ public class PDOService {
 		return ans;
 	}
 
-	public List<Map<String, String>> showAll(){
+	public List<PDOModel> showAll(){
 	    String sqlKey = "select * from tablekey";
 	    String sqlValue = "select * from tablevalue";
-	    List<Map<String, String>> queryRes = new ArrayList<Map<String,String>>();
+	    List<PDOModel> queryRes = new ArrayList<PDOModel>();
+	    PDOModel pdo = new PDOModel();
 	    try {
 	    	ResultSet rsKey = DataOperation.getInstance().query(sqlKey);
 	    	ResultSet rsValue = DataOperation.getInstance().query(sqlValue);
 	    	while (rsKey.next() && rsValue.next()) {
 	    		Map<String, String> map = new HashMap<String, String>();
-	    		map.put("pdoID",  rsValue.getString(1));
-	    		map.put("userID", rsValue.getString(2));
+	    		pdo.setPdoID(rsValue.getInt(1));
+	    		pdo.setUserID(rsValue.getInt(2));
 	    		for (int i = 3;;i++) {
 	    			try {
 	    				if (rsKey.getString(i) == null) {
@@ -253,12 +256,13 @@ public class PDOService {
 	    				break;
 	    			}
 	    		}
-	    		queryRes.add(map);
+	    		pdo.setInfoMap(map);
+	    		queryRes.add(pdo);
 	    	}
 	    }catch(SQLException e) {
 	    	e.printStackTrace();
 	    }
 	    return queryRes;		
 	}
-	
+
 }

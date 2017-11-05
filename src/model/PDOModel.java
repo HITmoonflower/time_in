@@ -8,10 +8,10 @@ public class PDOModel {
 	private Map<String, String> infoMap;
 	public PDOModel() {
 	}
-	public int getpdoID() {
+	public int getPdoID() {
 		return pdoID;
 	}
-	public void setpdoID(int pdoID) {
+	public void setPdoID(int pdoID) {
 		this.pdoID = pdoID;
 	}
 	public int getUserID() {
