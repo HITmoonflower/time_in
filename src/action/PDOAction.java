@@ -20,8 +20,10 @@ public class PDOAction extends ActionSupport {
 	private PDOModel pdo = new PDOModel();
 	private PDOService pdoService = new PDOService();
 	private int userId; //use to store the userId now
+	private int pdoId; //use to store the pdoId of the form
 	private Map<String, String> info; //use to store query conditions
 	private List<Map<String, String>> queryRes; //use to store query result
+	private List<String> formHeader; //use to generate form by the pdoId
 	private int pdo1, pdo2; //use to link two pdo
 	
 	public String addPdo() {
@@ -44,8 +46,13 @@ public class PDOAction extends ActionSupport {
 		}
 	}
 	
-	public String addRelatePdo(int pdo1, int pdo2) {
+	public String addRelatePdo() {
 		pdoService.addrelate(pdo1, pdo2);
+		return SUCCESS;
+	}
+	
+	public String generateForm() {
+		formHeader = pdoService.showHeader(pdoId);
 		return SUCCESS;
 	}
 }

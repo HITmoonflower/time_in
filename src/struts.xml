@@ -15,6 +15,9 @@
     <action name = "actionAddRelatePdo" class = "action.PDOAction" method = "addRelatePdo">
       <result>/addSuccess.jsp</result>
     </action>
+    <action name = "actionForm" class = "action.PDOAction" method = "generateForm">
+      <result>/form.jsp</result>
+    </action>
   </package>
   
 </struts>

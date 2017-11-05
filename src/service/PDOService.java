@@ -103,9 +103,9 @@ public class PDOService {
 	    String maxDate = "2100-12-31";
 	    String minSpend = "0";
 	    String maxSpend = "100000";
-	    String tableValue = "tableValue"; //the names of relative tables
-	    String tableKey = "tableKey";   //
-	    String tableQuery = "tableQuery"; //
+	    String tableValue = "tablevalue"; //the names of relative tables
+	    String tableKey = "tablekey";   //
+	    String tableQuery = "tablequery"; //
 	    String userInfo = "userID = \'" + userId + "\'"; 
 	    String dateInfo = "";
 	    String spendInfo = "";
@@ -197,5 +197,37 @@ public class PDOService {
 			e.printStackTrace();
 		}
 	}	
-
+	
+	public List<String> showHeader(int pdoId) {
+		String sql = "select * from tablekey where pdoId = ?";
+		Connection conn = DataConn.getConnection();
+		PreparedStatement pst = null;
+		List<String> ans = new ArrayList<String>();
+		String key = null;
+		try {
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1, pdoId);
+			ResultSet rs = pst.executeQuery();
+			while(rs.next()) {
+				int colNum = 8 + 3;
+				int k = 3;
+				while(k < colNum) {
+					key = rs.getString(k);
+					if(key == null)
+						break;
+					ans.add(key);
+					k = k + 1;
+				}
+			}
+			if(rs != null)
+				rs.close();
+			if(pst != null)
+				pst.close();
+			if(conn != null)
+				conn.close();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return ans;
+	}
 }
