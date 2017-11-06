@@ -46,3 +46,9 @@ create table tablerelation
 	index(pdo1),
 	index(pdo2)
 )character set = utf8;
+
+create table tableuser
+(
+	userId int unsigned not null primary key,
+	password char(30) not null,
+)character set = utf8;
