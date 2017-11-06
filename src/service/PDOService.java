@@ -9,6 +9,7 @@ import java.sql.*;
 import model.*;
 import database.*;
 
+
 public class PDOService {
 	//添加pdo,sql语句执行失败返回error，无输入指返回noInput，成功返回success
 	public boolean add(PDOModel pdo) {
@@ -265,4 +266,5 @@ public class PDOService {
 	    return queryRes;		
 	}
 
+	
 }

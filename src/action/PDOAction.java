@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.io.*;
 import org.apache.poi.*;
+import org.apache.struts2.ServletActionContext;
 import database.DataOperation;
 import model.*;
 import service.*;
@@ -19,14 +20,16 @@ import com.opensymphony.xwork2.ActionSupport;
 public class PDOAction extends ActionSupport {
 	private PDOModel pdo = new PDOModel();
 	private PDOService pdoService = new PDOService();
+	private ExcelService excelService = new ExcelService();
 	private int userId; //use to store the userId now
 	private int pdoId; //use to store the pdoId of the form
 	private Map<String, String> info; //use to store query conditions
 	private List<PDOModel> queryRes; //use to store query result
 	private List<String> formHeader; //use to generate form by the pdoId
 	private int pdo1, pdo2; //use to link two pdo
+	private File excelFile; //use to upload the excel file
 	
-	public String addPdo() {
+ 	public String addPdo() {
 		boolean res = pdoService.add(pdo);
 		if(res) {
 			return SUCCESS;
@@ -59,5 +62,14 @@ public class PDOAction extends ActionSupport {
 	public String showAllPdo() {
 		queryRes = pdoService.showAll();
 		return SUCCESS;
+	}
+	
+	public String upLoadPdo() {
+		String realPath = ServletActionContext.getServletContext().getRealPath(File.separator +  "upload");
+		File file = new File(realPath);
+		if(!file.exists()) {
+			file.mkdirs();
+		}
+		return "success";
 	}
 }
