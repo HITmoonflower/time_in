@@ -73,14 +73,13 @@ public class ExcelService {
      * @param InputStream
      * @return Map 包含单元格数据内容的Map对象
      */
-    public Map<Integer, String> readExcelContent() {
-        Map<Integer, String> content = new HashMap<Integer, String>();
-        String str = "";
+    public String[][] readExcelContent() {
         sheet = wb.getSheetAt(0);
         // 得到总行数
         int rowNum = sheet.getLastRowNum();
         row = sheet.getRow(0);
         int colNum = row.getPhysicalNumberOfCells();
+        String[][] content = new String[rowNum][colNum];
         // 正文内容应该从第二行开始,第一行为表头的标题
         for (int i = 1; i <= rowNum; i++) {
             row = sheet.getRow(i);
@@ -90,11 +89,9 @@ public class ExcelService {
                 // 也可以将每个单元格的数据设置到一个javabean的属性中，此时需要新建一个javabean
                 // str += getStringCellValue(row.getCell((short) j)).trim() +
                 // "-";
-                str += getCellFormatValue(row.getCell((short) j)).trim() + "    ";
+                content[i][j] = getCellFormatValue(row.getCell((short) j)).trim();
                 j++;
             }
-            content.put(i, str);
-            str = "";
         }
         return content;
     }

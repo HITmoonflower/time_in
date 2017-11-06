@@ -27,7 +27,7 @@ public class PDOAction extends ActionSupport {
 	private List<PDOModel> queryRes; //use to store query result
 	private List<String> formHeader; //use to generate form by the pdoId
 	private int pdo1, pdo2; //use to link two pdo
-	private File excelFile; //use to upload the excel file
+	private String excelFileName; //use to store the excel's absolute path
 	
  	public String addPdo() {
 		boolean res = pdoService.add(pdo);
@@ -64,12 +64,35 @@ public class PDOAction extends ActionSupport {
 		return SUCCESS;
 	}
 	
-	public String upLoadPdo() {
-		String realPath = ServletActionContext.getServletContext().getRealPath(File.separator +  "upload");
-		File file = new File(realPath);
-		if(!file.exists()) {
-			file.mkdirs();
-		}
-		return "success";
+	public String uploadPdo() {
+		excelService.setExcelFile(excelFileName);
+		
+		if(excelService.createWB()) {
+			String[] header = excelService.readExcelTitle();
+			String[][] content = excelService.readExcelContent();
+			pdo.setUserID(userId);
+			for(int i = 0; i < content.length; i++) {
+				int excelColumn = content[i].length;
+				info = new HashMap<String, String>();
+				boolean flag = false;
+				for(int j = 0; j < header.length; j++) {
+					if(j < excelColumn) {
+						//不允许有空的value???
+						if(header[j].length() == 0 || content[i][j].length() == 0)
+							continue;
+						info.put(header[j], content[i][j]);
+						flag = true;
+					}else {
+						break;
+					}
+				}
+				if(flag) {
+					pdo.setInfoMap(info);
+					pdoService.add(pdo);
+				}
+			}
+			return SUCCESS;
+		}else
+			return "error";
 	}
 }

@@ -21,6 +21,9 @@
     <action name = "actionshowAll" class = "action.PDOAction" method = "showAllPdo">
       <result>/index.jsp</result>
     </action>
+    <action name = "actionImport" class = "action.PDOAction" method = "uploadPdo">
+      <result>/addSuccess.jsp</result>
+    </action>
   </package>
   
 </struts>
