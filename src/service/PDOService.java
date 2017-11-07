@@ -33,6 +33,7 @@ public class PDOService {
 			flag1 = flag2 = flag3 = false;
 			for (Map.Entry<String, String> entry: pdo.getInfoMap().entrySet()) {
 				key = entry.getKey();
+				System.out.println(key);
 				value = entry.getValue();
 				colNums = colNums - 1;
 				if(colNums < 0)

@@ -27,7 +27,31 @@ public class PDOAction extends ActionSupport {
 	private List<PDOModel> queryRes; //use to store query result
 	private List<String> formHeader; //use to generate form by the pdoId
 	private int pdo1, pdo2; //use to link two pdo
-	private String excelFileName; //use to store the excel's absolute path
+	public PDOModel getPdo() {
+    return pdo;
+  }
+
+  public PDOService getPdoService() {
+    return pdoService;
+  }
+
+  public void setPdoService(PDOService pdoService) {
+    this.pdoService = pdoService;
+  }
+
+  public ExcelService getExcelService() {
+    return excelService;
+  }
+
+  public void setExcelService(ExcelService excelService) {
+    this.excelService = excelService;
+  }
+
+  public void setPdo(PDOModel pdo) {
+    this.pdo = pdo;
+  }
+
+  private String excelFileName; //use to store the excel's absolute path
 	
  	public String addPdo() {
 		boolean res = pdoService.add(pdo);

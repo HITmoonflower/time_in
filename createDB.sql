@@ -50,5 +50,5 @@ create table tablerelation
 create table tableuser
 (
 	userId int unsigned not null primary key,
-	password char(30) not null,
+	password char(30) not null
 )character set = utf8;

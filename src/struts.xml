@@ -24,6 +24,14 @@
     <action name = "actionImport" class = "action.PDOAction" method = "uploadPdo">
       <result>/addSuccess.jsp</result>
     </action>
+    <action name = "actionLogin" class = "action.UserAction" method = "loginUser">
+      <result>/homePage.jsp</result>
+      <result name = "error">/loginError.jsp</result>
+    </action>
+    <action name = "actionRegister" class = "action.UserAction" method = "registerUser">
+      <result>/login.jsp</result>
+      <result name = "error">/registerError.jsp</result>
+    </action>
   </package>
   
 </struts>
