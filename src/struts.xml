@@ -6,6 +6,8 @@
   <package name = "pdo"  extends = "struts-default" namespace = "/">
     <action name = "actionAddPdo" class = "action.PDOAction" method = "addPdo">
       <result>/addSuccess.jsp</result>
+    <!-- <result type="redirect">/addSuccess.jsp?userId=${pdo.userID}</result>
+     -->  
       <result name = "error">/addFail.jsp</result>
     </action>
     <action name = "actionQueryPdo" class = "action.PDOAction" method = "queryPdo">
@@ -18,8 +20,8 @@
     <action name = "actionForm" class = "action.PDOAction" method = "generateForm">
       <result>/form.jsp</result>
     </action>
-    <action name = "actionshowAll" class = "action.PDOAction" method = "showAllPdo">
-      <result>/index.jsp</result>
+    <action name = "actionShowAll" class = "action.PDOAction" method = "showAllPdo">
+      <result>/showAll.jsp</result>
     </action>
     <action name = "actionImport" class = "action.PDOAction" method = "uploadPdo">
       <result>/addSuccess.jsp</result>

@@ -5,14 +5,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>login</title>
+<title>AddSuccess</title>
 </head>
 <body>
-<s:form action = "actionLogin.action">
-UserName:<s:textfield name="user.userId"/><br/>
-Password:<s:textfield name="user.password"/><br/>
-<s:submit value = "login"/>
-</s:form>
-<a href = "register.jsp">Don't has a account,register one</a>
+<h2>Add Pdo Successfully</h2><br/>
+<s:property value= "pdo.userID" />
 </body>
 </html>

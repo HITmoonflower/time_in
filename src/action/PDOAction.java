@@ -16,8 +16,9 @@ import model.*;
 import service.*;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.ModelDriven;
 
-public class PDOAction extends ActionSupport {
+public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 	private PDOModel pdo = new PDOModel();
 	private PDOService pdoService = new PDOService();
 	private ExcelService excelService = new ExcelService();
@@ -27,8 +28,33 @@ public class PDOAction extends ActionSupport {
 	private List<PDOModel> queryRes; //use to store query result
 	private List<String> formHeader; //use to generate form by the pdoId
 	private int pdo1, pdo2; //use to link two pdo
-	public PDOModel getPdo() {
+	
+	public int getUserId() {
+    return userId;
+  }
+
+  public void setUserId(int userId) {
+    this.userId = userId;
+  }
+
+  public List<PDOModel> getQueryRes() {
+    return queryRes;
+  }
+
+  public void setQueryRes(List<PDOModel> queryRes) {
+    this.queryRes = queryRes;
+  }
+
+  public PDOModel getPdo() {
     return pdo;
+  }
+
+  public Map<String, String> getInfo() {
+    return info;
+  }
+
+  public void setInfo(Map<String, String> info) {
+    this.info = info;
   }
 
   public PDOService getPdoService() {
@@ -84,7 +110,7 @@ public class PDOAction extends ActionSupport {
 	}
 	
 	public String showAllPdo() {
-		queryRes = pdoService.showAll();
+		queryRes = pdoService.showAll(userId);
 		return SUCCESS;
 	}
 	
@@ -119,4 +145,9 @@ public class PDOAction extends ActionSupport {
 		}else
 			return "error";
 	}
+	@Override
+  public Object getModel() {
+    // TODO Auto-generated method stub
+    return pdo;
+  }
 }

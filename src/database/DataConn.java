@@ -18,7 +18,6 @@ public class DataConn {
 		}
 		try {
 			connection =  DriverManager.getConnection(url,username,password);
-			System.out.println("link success");
 		}catch (Exception e) {
 			e.printStackTrace();
 		}

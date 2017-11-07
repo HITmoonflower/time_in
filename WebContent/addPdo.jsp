@@ -20,7 +20,7 @@
       var cell1=row.insertCell();
       var cell2=row.insertCell();
       temp = String(window.i);
-      cell0.innerHTML='<input type="text" name = "key'+temp+'" id = "key'+temp+'" value = "'+temp+'">';
+      cell0.innerHTML='<input type="text"  id = "key'+temp+'">';
       cell0.className ="col-sm-4"; 
       cell1.innerHTML='<input type="text" name = "value'+temp+'" id = "value'+temp+'">';
       cell1.className ="col-sm-4";
@@ -35,19 +35,28 @@
       i--;
   }
   function getMap(){
-	  var date = document.getElementById("date");
-	  var spend = document.getElementById("spend");
-	  var place = document.getElementById("place");
-	  date.name = "infoMap.date";
-	  spend.name = "infoMap.spend";
-	  place.name = "infoMap.place";
+	  // var date = document.getElementById("date");
+	  //var spend = document.getElementById("spend");
+	  //var place = document.getElementById("place");
+	  //date.name = "infoMap.date";
+	  //spend.name = "infoMap.spend";
+	  //place.name = "infoMap.place";
 	  for (var j = 3; j<window.i;j++){
 		  var key = document.getElementById("key"+String(j));
 		  var value = document.getElementById("value"+String(j));
-		  value.name = "info."+key.value;
+		  value.name = "infoMap."+key.value;
 	  }
-	  document.getElementById("pdoForm").submit();
-	  
+	  var url = window.location.search;  
+	  if (url.indexOf("?") != -1) {
+	        var str = url.substr(1);
+	        strs = str.split("=");
+	        key = document.getElementById("Id");
+	        key.value = strs[1];
+	        document.getElementById("pdoForm").submit();
+	    }
+	  else{
+	  alert("Error Happened")
+	  }
   }
   </script>
 <title>addPdo</title>
@@ -60,7 +69,8 @@
           <div class="page-header">
             <h1>AddPdo</h1>
           </div>
-          <form action="actionAddPdo" Class="form-horizontal" id = "pdoForm">
+          <s:form action="actionAddPdo" Class="form-horizontal" theme="simple" id = "pdoForm">
+            <input type="hidden" name="userID" id="Id" />
               <table id = "pdo">
               <tr class="form-group">
                     <th class="col-sm-4">Key</th>
@@ -70,33 +80,31 @@
               <tr class="form-group">
                     <td class="col-sm-4" >Date</td>
                     <td class="col-sm-4">
-                        <input type="text" name="info.datetime" Class="form-control" id = "date"/>
+                        <input type="text" name="infoMap.datetime" Class="form-control" id = "date"/>
                     </td>
              </tr>
               <tr class="form-group">
                     <td class="col-sm-4" >Spend</td>
                     <td class="col-sm-4">
-                        <input type="text" name="info.spend" Class="form-control" id = "spend"/>
+                        <input type="text" name="infoMap.spend" Class="form-control" id = "spend"/>
                     </td>
              </tr>
               <tr class="form-group">
                     <td class="col-sm-4">Place</td>
                     <td class="col-sm-4">
-                        <input type="text" name="info.place" Class="form-control" id = "place"/>
+                        <input type="text" name="infoMap.place" Class="form-control" id = "place"/>
                     </td>
              </tr>
              </table>
           <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-4">
-                        <input type="submit" Class="btn btn-primary" value = "AddPdo"
+                        <input type="button" Class="btn btn-primary" value = "AddPdo"
                         onclick = "getMap()"/>
-                       <!-- 
-                       
-                        <input type ="button" Class="btn btn-primary" value = "AddRow"onclick = "addRow()"/>
-                     -->
+                       <input type ="button" Class="btn btn-primary" value = "AddRow"onclick = "addRow()"/>
+                     
                     </div>
             </div>
-          </form>
+          </s:form>
           </div>
           </div>
           </div>

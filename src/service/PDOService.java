@@ -16,24 +16,23 @@ public class PDOService {
 		int colNums = 8;
 		String sqlkey = "insert into tablekey values(null,?,?,?,?,?,?,?,?,?)" ;
 		String sqlvalue = "insert into tablevalue values(null,?,?,?,?,?,?,?,?,?)";
-		String sqlquery = "insert into tablequery values(?,?,?,?,?,?)";
+		String sqlquery = "insert into tablequery values(?,?,?,?,?)";
 		String key, value;
 		Connection conn = DataConn.getConnection();
 		PreparedStatement pst1, pst2, pst3;
 		pst1 = pst2 = pst3 = null;
 		try {
 			pst1 = conn.prepareStatement(sqlkey);
-			pst2 = conn.prepareStatement(sqlvalue);
+			pst2 = conn.prepareStatement(sqlvalue,Statement.RETURN_GENERATED_KEYS);
 			pst3 = conn.prepareStatement(sqlquery);
-			pst1.setInt(2, pdo.getUserID());
-			pst2.setInt(2, pdo.getUserID());
-			pst2.setInt(2, pdo.getUserID());
-			int k = 3;
+			pst1.setInt(1, pdo.getUserID());
+			pst2.setInt(1, pdo.getUserID());
+			pst3.setInt(2, pdo.getUserID());
+			int k = 2;
 			boolean flag1, flag2, flag3;
 			flag1 = flag2 = flag3 = false;
 			for (Map.Entry<String, String> entry: pdo.getInfoMap().entrySet()) {
 				key = entry.getKey();
-				System.out.println(key);
 				value = entry.getValue();
 				colNums = colNums - 1;
 				if(colNums < 0)
@@ -41,7 +40,7 @@ public class PDOService {
 				pst1.setString(k, key);
 				pst2.setString(k, value);
 				k = k + 1;
-				if(key.equals("datatime")) {
+				if(key.equals("datetime")) {
 					pst3.setString(3, value);
 					flag1 = true;
 				}else if(key.equals("spend")) {
@@ -235,9 +234,9 @@ public class PDOService {
 		return ans;
 	}
 
-	public List<PDOModel> showAll(){
-	    String sqlKey = "select * from tablekey";
-	    String sqlValue = "select * from tablevalue";
+	public List<PDOModel> showAll(int userId){
+      String sqlKey = "select * from tablekey where userId = " + "\'" + userId + "\'";
+      String sqlValue = "select * from tablevalue where userId = " + "\'" + userId + "\'";
 	    List<PDOModel> queryRes = new ArrayList<PDOModel>();
 	    PDOModel pdo = new PDOModel();
 	    try {
