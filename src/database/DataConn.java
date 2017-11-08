@@ -10,7 +10,8 @@ public class DataConn {
 	//private static final String url = "jdbc:mysql://vbjdohencpml.mysql.sae.sina.com.cn:10630/lab2_data";
 	private static final String url = "jdbc:mysql://localhost:3306/pdo";
 	private static final String username = "root";
-	private static final String password = "11321x";
+	//private static final String password = "11321x";
+	private static final String password = "123456";
 	public static Connection getConnection() {
 		try {
 			Class.forName(driver);

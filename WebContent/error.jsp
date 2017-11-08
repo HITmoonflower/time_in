@@ -1,7 +1,9 @@
-<!DOCTYPE HTML>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>Signup</title>
+<title>404</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="Baxster Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
@@ -23,33 +25,15 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 <script src="js/jquery-1.11.1.min.js"></script>
 <!-- //js -->
 </head> 
-<body class="login-bg">
-		<div class="login-body">
-			<div class="login-heading">
-				<h1>Sign up</h1>
+<body class="cbp-spmenu-push">
+		<div class="error-page-body">
+			<div class="error-page">
+				<img src="images/404s_gothkid.jpg" alt="" />
 			</div>
-			<div class="login-info">
-				<form action = "actionRegister.action">
-
-
-					UserName:<input type="text" class="user" name="user.userId"  required="">
-					
-					Password:<input type="password" name="user.password" class="lock" >
-					
-
-
-
-
-					<input type="submit" name="Sign In" value="Sign up">
-					<div class="signup-text">
-						<a href="login.jsp">Already have an account? Login here.</a>
-					</div>
-				</form>
-			</div>
-		</div>
-		<div class="go-back login-go-back">
+			<div class="go-back">
 				<a href="index.html">Go To Home</a>
 			</div>
+		</div>
 		<div class="copyright login-copyright error-copyright">
            <p>Copyright &copy; 2017.HITmoonflower All rights reserved.</p>    
 		</div>

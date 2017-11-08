@@ -14,6 +14,12 @@
       <result>/queryResult.jsp</result>
       <result name = "error">/queryFail.jsp</result>
     </action>
+	
+	
+    <action name = "404" class="action.error" method="pagenofound" >
+      <result>/error.jsp</result>
+    </action>
+	
     <action name = "actionAddRelatePdo" class = "action.PDOAction" method = "addRelatePdo">
       <result>/addSuccess.jsp</result>
     </action>

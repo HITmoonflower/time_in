@@ -84,6 +84,12 @@
                     </td>
              </tr>
               <tr class="form-group">
+                    <td class="col-sm-4" >name</td>
+                    <td class="col-sm-4">
+                        <input type="text" name="infoMap.name" Class="form-control" id = "spend"/>
+                    </td>
+             </tr>
+              <tr class="form-group">
                     <td class="col-sm-4" >Spend</td>
                     <td class="col-sm-4">
                         <input type="text" name="infoMap.spend" Class="form-control" id = "spend"/>
