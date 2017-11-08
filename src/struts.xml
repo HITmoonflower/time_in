@@ -11,7 +11,7 @@
       <result name = "error">/addFail.jsp</result>
     </action>
     <action name = "actionQueryPdo" class = "action.PDOAction" method = "queryPdo">
-      <result>/addSuccess.jsp</result>
+      <result>/queryPdo.jsp</result>
       <result name = "error">/addFail.jsp</result>
     </action>
     <action name = "actionAddRelatePdo" class = "action.PDOAction" method = "addRelatePdo">

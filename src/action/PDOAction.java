@@ -24,7 +24,7 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 	private ExcelService excelService = new ExcelService();
 	private int userId; //use to store the userId now
 	private int pdoId; //use to store the pdoId of the form
-	private Map<String, String> info; //use to store query conditions
+	private Map<String, String> info = new HashMap<String, String>(); //use to store query conditions
 	private List<PDOModel> queryRes; //use to store query result
 	private List<String> formHeader; //use to generate form by the pdoId
 	private int pdo1, pdo2; //use to link two pdo
@@ -87,7 +87,7 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 		return "error";
 	}
 	
-	public String queryPdo() {
+	public String queryPdo() { 
 		try{
 			queryRes = pdoService.query(userId, info);
 			if(queryRes == null)

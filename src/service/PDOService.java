@@ -100,10 +100,6 @@ public class PDOService {
 	    String sqlQuery = "";
 	    String sqlKey = "";
 	    String sqlValue = "";
-	    String minDate = "2000-1-1";
-	    String maxDate = "2100-12-31";
-	    String minSpend = "0";
-	    String maxSpend = "100000";
 	    String tableValue = "tablevalue"; //the names of relative tables
 	    String tableKey = "tablekey";   //
 	    String tableQuery = "tablequery"; //
@@ -111,38 +107,14 @@ public class PDOService {
 	    String dateInfo = "";
 	    String spendInfo = "";
 	    String otherInfo = "";
-	    Iterator<String> iterator = info.keySet().iterator();
-	    String[] key = null;
-	    String[] value = null;
-	    while (iterator.hasNext()) {
-	        String tempKey = iterator.next();
-	        String tempValue = info.get(tempKey);
-	        key = tempKey.split(",");
-	        value = tempValue.split(",");
-	    }
-	    if (key[0].equals("")) {
-	        key[0] = minDate;
-	    }
-	    if (value[0].equals("")) {
-	        value[0] = maxDate;
-	    }
-	    dateInfo = " and datetime between '" + key[0] + "' and '" + value[0] + "'";
-	    if (key[1].equals(" ")) {
-	        key[1] = minSpend;
-	    }
-	    if (value[1].equals(" ")) {
-	        value[1] = maxSpend;
-	    }
-	    spendInfo = " and spend between '" + key[1] + "' and '" + value[1] + "'";
-	    for (int i = 2;i < key.length;i++) {
-	        if (key[i].equals(" ")||value[i].equals(" ")) {
-	            continue;
-	        }
-	        otherInfo = otherInfo +" and " + key[i] +" =\'" + value[i] + "\'";
+	    dateInfo = " and datetime between '" + info.get("startDate") + "' and '" + info.get("endDate") + "'";
+	    spendInfo = " and spend between '" + info.get("minSpend") + "' and '" + info.get("maxSpend") + "'";
+	    otherInfo = otherInfo +" and place " +" =\'" + info.get("place") + "\'";
+	    if(info.get("place").equals("noPlaceInput")||info.get("place").equals("")) {
+	      otherInfo = "";
 	    }
 	    sqlQuery = "select pdoID from " + tableQuery + " where " + userInfo + dateInfo 
 	        + spendInfo  + otherInfo;
-	    System.out.println(sqlQuery);
 	    ResultSet rs = DataOperation.getInstance().query(sqlQuery);
 	    List <String> pdoList = new ArrayList<String>();
 	    while (rs.next()) {
@@ -161,8 +133,8 @@ public class PDOService {
 	    ResultSet rsKey = DataOperation.getInstance().query(sqlKey);
 	    ResultSet rsValue = DataOperation.getInstance().query(sqlValue);
 	    List<PDOModel> queryRes = new ArrayList<PDOModel>();
-	    PDOModel pdo = new PDOModel();
 	    while (rsKey.next() && rsValue.next()) {
+	        PDOModel pdo = new PDOModel();
 	        Map<String, String> map = new HashMap<String, String>();
 	        pdo.setPdoID(rsValue.getInt(1));
 	        pdo.setUserID(rsValue.getInt(2));
@@ -238,11 +210,11 @@ public class PDOService {
       String sqlKey = "select * from tablekey where userId = " + "\'" + userId + "\'";
       String sqlValue = "select * from tablevalue where userId = " + "\'" + userId + "\'";
 	    List<PDOModel> queryRes = new ArrayList<PDOModel>();
-	    PDOModel pdo = new PDOModel();
 	    try {
 	    	ResultSet rsKey = DataOperation.getInstance().query(sqlKey);
 	    	ResultSet rsValue = DataOperation.getInstance().query(sqlValue);
 	    	while (rsKey.next() && rsValue.next()) {
+	    	  PDOModel pdo = new PDOModel();
 	    		Map<String, String> map = new HashMap<String, String>();
 	    		pdo.setPdoID(rsValue.getInt(1));
 	    		pdo.setUserID(rsValue.getInt(2));

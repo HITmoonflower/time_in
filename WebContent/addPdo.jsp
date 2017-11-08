@@ -70,7 +70,7 @@
             <h1>AddPdo</h1>
           </div>
           <s:form action="actionAddPdo" Class="form-horizontal" theme="simple" id = "pdoForm">
-            <input type="hidden" name="userID" id="Id" />
+            <input type="hidden" name="userId" id="Id" />
               <table id = "pdo">
               <tr class="form-group">
                     <th class="col-sm-4">Key</th>
