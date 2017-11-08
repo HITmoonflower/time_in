@@ -6,12 +6,21 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>login</title>
+<script>
+function login(){
+	var userId = document.getElementById("userInfo");
+	var postId = document.getElementById("Id");
+	postId.value = userId.value;
+	document.getElementById("loginForm").submit();
+}
+</script>
 </head>
 <body>
-<s:form action = "actionLogin.action">
-UserName:<s:textfield name="user.userId"/><br/>
-Password:<s:textfield name="user.password"/><br/>
-<s:submit value = "login"/>
+<s:form action = "actionLogin.action" id = "loginForm">
+<input type="hidden" name="userId" id = "Id" value = ""/>
+UserName:<input type = "text" name="user.userId" id = "userInfo"/><br/>
+Password:<input type = "text" name="user.password"/><br/>
+<input type = "button" value = "login" onclick = "login()"/>
 </s:form>
 <a href = "register.jsp">Don't has a account,register one</a>
 </body>

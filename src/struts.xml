@@ -11,8 +11,8 @@
       <result name = "error">/addFail.jsp</result>
     </action>
     <action name = "actionQueryPdo" class = "action.PDOAction" method = "queryPdo">
-      <result>/queryPdo.jsp</result>
-      <result name = "error">/addFail.jsp</result>
+      <result>/queryResult.jsp</result>
+      <result name = "error">/queryFail.jsp</result>
     </action>
     <action name = "actionAddRelatePdo" class = "action.PDOAction" method = "addRelatePdo">
       <result>/addSuccess.jsp</result>
@@ -21,13 +21,13 @@
       <result>/form.jsp</result>
     </action>
     <action name = "actionShowAll" class = "action.PDOAction" method = "showAllPdo">
-      <result>/showAll.jsp</result>
+      <result>/homePage.jsp</result>
     </action>
     <action name = "actionImport" class = "action.PDOAction" method = "uploadPdo">
       <result>/addSuccess.jsp</result>
     </action>
     <action name = "actionLogin" class = "action.UserAction" method = "loginUser">
-      <result>/homePage.jsp</result>
+      <result type = "chain">actionShowAll</result>
       <result name = "error">/loginError.jsp</result>
     </action>
     <action name = "actionRegister" class = "action.UserAction" method = "registerUser">

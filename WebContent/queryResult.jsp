@@ -6,11 +6,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="css/bootstrap.min.css" rel="stylesheet">
-<title>Show All Pdo</title>
+<title>QueryPdo</title>
 </head>
 <body>
 <table class="table table-striped">
-
   <s:iterator value = "queryRes" var = "pdo" status = "sta">
     <tr>
       <s:iterator value="#pdo.infoMap" status="ss" var = "map">

@@ -80,6 +80,7 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
   private String excelFileName; //use to store the excel's absolute path
 	
  	public String addPdo() {
+ 	  System.out.println(pdo.getUserID());
 		boolean res = pdoService.add(pdo);
 		if(res) {
 			return SUCCESS;
