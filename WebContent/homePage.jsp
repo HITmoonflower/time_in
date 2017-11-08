@@ -13,6 +13,20 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
     addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
 
     function hideURLbar() { window.scrollTo(0, 1); }
+    
+
+    function addPdoUrl(userId){
+    	window.location.href="addPdo.jsp?userId="+userId;
+    }
+    function queryPdoUrl(userId){
+    	window.location.href="queryPdo.jsp?userId="+userId;
+    }
+    //function showAllPdoUrl(userId){
+    	//  window.location.href="actionShowAll.action?userId="+userId;
+    //}
+
+    
+    
     </script>
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
@@ -387,6 +401,8 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
         <div id="page-wrapper">
             <div class="main-page">
                 <!--grids-->
+                
+              
                 <div class="grids">
                     <div class="progressbar-heading grids-heading">
                         <h2>Tables</h2>
@@ -427,6 +443,20 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                 
                 </div>
                 <!--//grids-->
+                
+                
+				     <div class="row clearfix">
+						<div class="col-md-6 column">
+							 <center><button type="button" class="btn btn-default btn-primary"  onclick = 'addPdoUrl("<s:property value = 'user.userId'/>")'>addPdo</button>
+						</div>
+						<div class="col-md-6 column">
+							<center> <button type="button" class="btn btn-default btn-primary"  onclick = 'queryPdoUrl("<s:property value = 'user.userId'/>")'>queryPdo</button>
+						</div>
+					</div>
+	
+
+
+               
             </div>
         </div>
         <!--footer-->
