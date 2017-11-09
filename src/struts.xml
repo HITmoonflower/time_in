@@ -14,6 +14,7 @@
       <result>/queryResult.jsp</result>
       <result name = "error">/queryFail.jsp</result>
     </action>
+
     <action name = "actionAddRelatePdo" class = "action.PDOAction" method = "addRelatePdo">
       <result type = "chain">actionShowAll</result>
     </action>
@@ -34,9 +35,6 @@
     <action name = "actionRegister" class = "action.UserAction" method = "registerUser">
       <result>/login.jsp</result>
       <result name = "error">/registerRrror.jsp</result>
-    </action>
-    <action name = "404" class = "action.Error" method = "notFound">
-      <result>/error.jsp</result>
     </action>
   </package>
   
