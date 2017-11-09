@@ -162,10 +162,10 @@ public class PDOService {
 			pdo1 = pdo2;
 			pdo2 = tmp;
 		}
-		String sql = "select * from tablerelation where pdo1 = " + pdo1 + "and pdo2 = " + pdo2 + "limit 1";
+		String sql = "select * from tablerelation where pdo1 = " + pdo1 + " and pdo2 = " + pdo2 + " limit 1";
 		try {
-			if(DataOperation.getInstance().query(sql).wasNull()) {
-				sql = "insert into tablerelation values = (" + pdo1 + "," + pdo2 + ")";
+			if(!DataOperation.getInstance().query(sql).next()) {
+				sql = "insert into tablerelation values (" + pdo1 + "," + pdo2 + ")";
 				DataOperation.getInstance().delete_save_updata(sql);
 			}
 		}catch(SQLException e) {

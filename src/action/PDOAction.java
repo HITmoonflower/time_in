@@ -28,8 +28,33 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 	private List<PDOModel> queryRes; //use to store query result
 	private List<String> formHeader; //use to generate form by the pdoId
 	private int pdo1, pdo2; //use to link two pdo
+  private String excelFileName; //use to store the excel's absolute path
 	
-	public int getUserId() {
+	public String getExcelFileName() {
+    return excelFileName;
+  }
+
+  public void setExcelFileName(String excelFileName) {
+    this.excelFileName = excelFileName;
+  }
+
+  public int getPdo1() {
+    return pdo1;
+  }
+
+  public void setPdo1(int pdo1) {
+    this.pdo1 = pdo1;
+  }
+
+  public int getPdo2() {
+    return pdo2;
+  }
+
+  public void setPdo2(int pdo2) {
+    this.pdo2 = pdo2;
+  }
+
+  public int getUserId() {
     return userId;
   }
 
@@ -77,7 +102,6 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
     this.pdo = pdo;
   }
 
-  private String excelFileName; //use to store the excel's absolute path
 	
  	public String addPdo() {
  	  System.out.println(pdo.getUserID());
@@ -146,6 +170,7 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 		}else
 			return "error";
 	}
+	
 	@Override
   public Object getModel() {
     // TODO Auto-generated method stub
