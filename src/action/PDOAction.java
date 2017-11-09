@@ -30,7 +30,23 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 	private int pdo1, pdo2; //use to link two pdo
   private String excelFileName; //use to store the excel's absolute path
 	
-	public String getExcelFileName() {
+	public int getPdoId() {
+    return pdoId;
+  }
+
+  public void setPdoId(int pdoId) {
+    this.pdoId = pdoId;
+  }
+
+  public List<String> getFormHeader() {
+    return formHeader;
+  }
+
+  public void setFormHeader(List<String> formHeader) {
+    this.formHeader = formHeader;
+  }
+
+  public String getExcelFileName() {
     return excelFileName;
   }
 

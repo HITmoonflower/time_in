@@ -33,7 +33,6 @@ function addRelation(){
 	else{
 		alert("请选择两个pdo")
 	}
-	
 }
 //function showAllPdoUrl(userId){
 	//  window.location.href="actionShowAll.action?userId="+userId;
@@ -46,12 +45,6 @@ function addRelation(){
  -->
 <input type = "button" onclick = 'addPdoUrl("<s:property value = 'user.userId'/>")'value = "addPdo"/>
 <input type = "button" onclick = 'queryPdoUrl("<s:property value = 'user.userId'/>")'value = "queryPdo"/>
-<!-- <s:url var= "idUser" action = "actionShowAll">
-              <s:param name = "userId">
-                <s:property value = "user.userId"/>
-              </s:param>
-            </s:url>
-<s:a href = "%{idUser}"><input type = "button" value="showAll"/></s:a> -->
 <!-- showAllPdo
 <input type = "button" onclick = 'showAllPdoUrl("<s:property value = 'user.userId'/>")'value = "shwoAll"/>
  -->
@@ -68,12 +61,21 @@ function addRelation(){
       <s:iterator value="#pdo.infoMap" status="ss" var = "map">
       <td><s:property value="%{#map.key}" /></td>
       </s:iterator>
+    <td rowspan = "2">
+    <form action = "actionForm">
+      <input type="hidden" name="userId" value = '<s:property value="#pdo.userID" />'/>
+      <input type="hidden" name="pdoId" value = '<s:property value="#pdo.pdoID" />'/>
+      <input type="submit" value="generateForm"/> 
+    </form>
+    </td>
     <tr/>
     <tr>
-    <td></td>
+    <!-- 单元格无内容占位？？？ -->
+      <td></td>
       <s:iterator value="#pdo.infoMap" status="ss" var = "map">
       <td><s:property value="%{#map.value}" /></td>
       </s:iterator>
+      <td></td>
     </tr>
   </s:iterator>
 </table>
