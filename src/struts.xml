@@ -36,6 +36,10 @@
       <result>/login.jsp</result>
       <result name = "error">/registerRrror.jsp</result>
     </action>
+    <action name = "actionshowDetail" class = "action.PDOAction" method = "showDetailPdo">
+      <result>/login.jsp</result>
+      <result name = "error">/registerRrror.jsp</result>
+    </action>
   </package>
   
 </struts>

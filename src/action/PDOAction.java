@@ -187,6 +187,13 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 			return "error";
 	}
 	
+	public String showDetailPdo() {
+		pdo = pdoService.getPdoById(pdoId);
+		if (pdo != null)
+			return SUCCESS;
+		return "error";
+	}
+	
 	@Override
   public Object getModel() {
     // TODO Auto-generated method stub

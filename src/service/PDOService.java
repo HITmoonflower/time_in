@@ -207,8 +207,8 @@ public class PDOService {
 	}
 
 	public List<PDOModel> showAll(int userId){
-      String sqlKey = "select * from tablekey where userId = " + "\'" + userId + "\'";
-      String sqlValue = "select * from tablevalue where userId = " + "\'" + userId + "\'";
+        String sqlKey = "select * from tablekey where userId = " + "\'" + userId + "\'";
+        String sqlValue = "select * from tablevalue where userId = " + "\'" + userId + "\'";
 	    List<PDOModel> queryRes = new ArrayList<PDOModel>();
 	    try {
 	    	ResultSet rsKey = DataOperation.getInstance().query(sqlKey);
@@ -238,5 +238,34 @@ public class PDOService {
 	    return queryRes;		
 	}
 
-	
+	public PDOModel getPdoById(int pdoId) {
+	      String sqlKey = "select * from tablekey where pdoId = " + "\'" + pdoId + "\'";
+	      String sqlValue = "select * from tablevalue where pdoId = " + "\'" + pdoId + "\'";	
+		  PDOModel pdo = new PDOModel();
+		  Map<String, String> map = new HashMap<String, String>();
+	      try {
+		    	ResultSet rsKey = DataOperation.getInstance().query(sqlKey);
+		    	ResultSet rsValue = DataOperation.getInstance().query(sqlValue);
+		    	if (rsKey.next() && rsValue.next()) {
+		    		pdo.setPdoID(rsValue.getInt(1));
+		    		pdo.setUserID(rsValue.getInt(2));
+		    		for (int i = 3;;i++) {
+		    			try {
+		    				if (rsKey.getString(i) == null) {
+		    					break;
+		    				}
+		    				map.put(rsKey.getString(i), rsValue.getString(i));
+		    			} catch(SQLException e) {
+		    				e.printStackTrace();
+		    				break;
+		    			}
+		    		}
+		    		pdo.setInfoMap(map);
+		    	}	    	  
+	      }catch(Exception e) {
+	    	  e.printStackTrace();
+	    	  return null;
+	      }
+	      return pdo;
+	}
 }
