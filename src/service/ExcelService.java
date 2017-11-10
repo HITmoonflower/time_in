@@ -1,9 +1,6 @@
 package service;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -20,14 +17,31 @@ import org.apache.poi.hssf.usermodel.*;
  */
 public class ExcelService {
     private String excelFileName;
+    private File excelFile;
     private FileInputStream is;
     private Workbook wb;
     private Sheet sheet;
     private Row row;
     
+    public String getExcelFileName(String excelFileName) {
+    	return excelFileName;
+    }	
+
+    public void setExcelFileName(String excelFileName) {
+    	this.excelFileName = excelFileName;
+    }
+
+	public File getExcelFile() {
+		return excelFile;
+	}
+
+	public void setExcelFile(File excelFile) {
+		this.excelFile = excelFile;
+	}
+    
     public boolean createWB() {
     	try {
-			is = new FileInputStream(excelFileName);
+    		is = new FileInputStream(excelFile);
     		if(excelFileName.endsWith(".xls")) {
     			wb = new HSSFWorkbook(is);
     		}else if(excelFileName.endsWith(".xlsx")) {
@@ -199,11 +213,5 @@ public class ExcelService {
             cellvalue = "";
         }
         return cellvalue;
-    }
-
-	
-
-    public void setExcelFile(String excelFileName) {
-    	this.excelFileName = excelFileName;
     }
 }

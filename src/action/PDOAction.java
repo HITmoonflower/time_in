@@ -29,7 +29,8 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 	private List<PDOModel> relateRes; //use to store query relate result
 	private List<String> formHeader; //use to generate form by the pdoId
 	private int pdo1, pdo2; //use to link two pdo
-  private String excelFileName; //use to store the excel's absolute path
+    private File excelFile; 
+    private String excelFileName; //use to store the excel's name
 	
 	public int getPdoId() {
     return pdoId;
@@ -47,12 +48,12 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
     this.formHeader = formHeader;
   }
 
-  public String getExcelFileName() {
-    return excelFileName;
+  public File getExcelFile() {
+    return excelFile;
   }
 
-  public void setExcelFileName(String excelFileName) {
-    this.excelFileName = excelFileName;
+  public void setExcelFile(File excelFile) {
+    this.excelFile = excelFile;
   }
 
   public int getPdo1() {
@@ -118,7 +119,20 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
   public void setPdo(PDOModel pdo) {
     this.pdo = pdo;
   }
+  public List<PDOModel> getRelateRes() {
+	return relateRes;
+  }
 
+  public void setRelateRes(List<PDOModel> relateRes) {
+		this.relateRes = relateRes;
+  }
+	public String getExcelFileName() {
+		return excelFileName;
+	}
+
+	public void setExcelFileName(String excelFileName) {
+		this.excelFileName = excelFileName;
+	}
 	
  	public String addPdo() {
  	  System.out.println(pdo.getUserID());
@@ -157,8 +171,8 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 	}
 	
 	public String uploadPdo() {
-		excelService.setExcelFile(excelFileName);
-		
+		excelService.setExcelFile(excelFile);
+		excelService.setExcelFileName(excelFileName);
 		if(excelService.createWB()) {
 			String[] header = excelService.readExcelTitle();
 			String[][] content = excelService.readExcelContent();
@@ -196,7 +210,7 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 	}
 	
 	public String showRelatePdo() {
-		relateRes = pdoService.getRelate(pdoId);
+		setRelateRes(pdoService.getRelate(pdoId));
 		return SUCCESS;
 	}
 	@Override
@@ -204,4 +218,5 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
     // TODO Auto-generated method stub
     return pdo;
   }
+
 }
