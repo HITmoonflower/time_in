@@ -409,13 +409,15 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                     </div>
                     <div class="panel panel-widget">
                         <div class="tables">
-                            <h4>Colored Rows Table:</h4>
+                            <h4>PDO数据信息</h4>
 
 
-                            <table class="table">
+                            
 
-                             <thead>
+                             
                              <s:iterator value = "queryRes" var = "pdo" status = "sta">
+                             <table class="table">
+                             <thead>
                                 <tr>
                                   <s:iterator value="#pdo.infoMap" status="ss" var = "map">
                                   <th><s:property value="%{#map.key}" /></th>
@@ -428,15 +430,11 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                   <th><s:property value="%{#map.value}" /></th>
                                   </s:iterator>
                                 </tr>
-                              </s:iterator>
                              </tbody>
-
-
-
-
+                             </table>
+                             </s:iterator>
                              
-
-                            </table>
+                            
                         </div>
                     </div>
                    
