@@ -162,10 +162,10 @@ public class PDOService {
 			pdo1 = pdo2;
 			pdo2 = tmp;
 		}
-		String sql = "select * from tablerelation where pdo1 = " + pdo1 + "and pdo2 = " + pdo2 + "limit 1";
+		String sql = "select * from tablerelation where pdo1 = " + pdo1 + " and pdo2 = " + pdo2 + " limit 1";
 		try {
-			if(DataOperation.getInstance().query(sql).wasNull()) {
-				sql = "insert into tablerelation values = (" + pdo1 + "," + pdo2 + ")";
+			if(!DataOperation.getInstance().query(sql).next()) {
+				sql = "insert into tablerelation values (" + pdo1 + "," + pdo2 + ")";
 				DataOperation.getInstance().delete_save_updata(sql);
 			}
 		}catch(SQLException e) {
@@ -207,8 +207,8 @@ public class PDOService {
 	}
 
 	public List<PDOModel> showAll(int userId){
-      String sqlKey = "select * from tablekey where userId = " + "\'" + userId + "\'";
-      String sqlValue = "select * from tablevalue where userId = " + "\'" + userId + "\'";
+        String sqlKey = "select * from tablekey where userId = " + "\'" + userId + "\'";
+        String sqlValue = "select * from tablevalue where userId = " + "\'" + userId + "\'";
 	    List<PDOModel> queryRes = new ArrayList<PDOModel>();
 	    try {
 	    	ResultSet rsKey = DataOperation.getInstance().query(sqlKey);
@@ -238,5 +238,53 @@ public class PDOService {
 	    return queryRes;		
 	}
 
+	public PDOModel getPdoById(int pdoId) {
+	      String sqlKey = "select * from tablekey where pdoId = " + "\'" + pdoId + "\'";
+	      String sqlValue = "select * from tablevalue where pdoId = " + "\'" + pdoId + "\'";	
+		  PDOModel pdo = new PDOModel();
+		  Map<String, String> map = new HashMap<String, String>();
+	      try {
+		    	ResultSet rsKey = DataOperation.getInstance().query(sqlKey);
+		    	ResultSet rsValue = DataOperation.getInstance().query(sqlValue);
+		    	if (rsKey.next() && rsValue.next()) {
+		    		pdo.setPdoID(rsValue.getInt(1));
+		    		pdo.setUserID(rsValue.getInt(2));
+		    		for (int i = 3;;i++) {
+		    			try {
+		    				if (rsKey.getString(i) == null) {
+		    					break;
+		    				}
+		    				map.put(rsKey.getString(i), rsValue.getString(i));
+		    			} catch(SQLException e) {
+		    				e.printStackTrace();
+		    				break;
+		    			}
+		    		}
+		    		pdo.setInfoMap(map);
+		    	}	    	  
+	      }catch(Exception e) {
+	    	  e.printStackTrace();
+	    	  return null;
+	      }
+	      return pdo;
+	}
 	
+	public List<PDOModel> getRelate(int pdoId){
+		String sql1 = "select pdo1 from tablerelation where pdo2 = " + "\'" + pdoId + "\'";
+		String sql2 = "select pdo2 from tablerelation where pdo1 = " + "\'" + pdoId + "\'";
+		List<PDOModel> ans = new ArrayList<PDOModel>();
+		try {
+	    	ResultSet rs1 = DataOperation.getInstance().query(sql1);
+	    	ResultSet rs2 = DataOperation.getInstance().query(sql2);
+	    	while (rs1.next()) {
+	    		ans.add(getPdoById(rs1.getInt(1)));
+	    	}
+	    	while (rs2.next()) {
+	    		ans.add(getPdoById(rs2.getInt(1)));
+	    	}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return ans;
+	}
 }

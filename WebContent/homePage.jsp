@@ -21,6 +21,26 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
     function queryPdoUrl(userId){
     	window.location.href="queryPdo.jsp?userId="+userId;
     }
+    function addRelation(){
+	var checkBox = document.getElementsByName("pdoItem");
+	var t = 0,num = 0;
+	var pdoId = new Array();
+	for (var i=0;i<checkBox.length;i++){
+		if (checkBox[i].checked){
+			pdoId[num] = checkBox[i].value;
+			num++;
+			t++;
+		}
+	}
+	if (t == 2){
+		document.getElementById("pdoId1").value = pdoId[0];
+		document.getElementById("pdoId2").value = pdoId[1];
+		document.getElementById("relation").submit();
+	}
+	else{
+		alert("请选择两个pdo")
+	}
+}
     //function showAllPdoUrl(userId){
     	//  window.location.href="actionShowAll.action?userId="+userId;
     //}
@@ -409,8 +429,13 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                     </div>
                     <div class="panel panel-widget">
                         <div class="tables">
-                            <h4>PDO数据信息</h4>
 
+                            <h4>Colored Rows Table:</h4>
+                            <s:form action = "actionAddRelatePdo.action" id = "relation">
+                                <input type="hidden" name="userId" id = "Id" value = '<s:property value = "userId"/>'/>
+                                <input type="hidden" name="pdo1" id="pdoId1"/>
+                                <input type="hidden" name="pdo2" id="pdoId2"/>
+                                </s:form>
 
                             
 
@@ -419,16 +444,29 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                              <table class="table">
                              <thead>
                                 <tr>
+                                    <!-- 复选框  -->
+                                  <td rowspan = "2"><input type = "checkbox" name = "pdoItem" value = '<s:property value = "#pdo.pdoID"/>'></td>
                                   <s:iterator value="#pdo.infoMap" status="ss" var = "map">
                                   <th><s:property value="%{#map.key}" /></th>
                                   </s:iterator>
+                                  <!-- generateFrom 按钮 -->
+                                  <td rowspan = "2">
+                                        <form action = "actionForm">
+                                          <input type="hidden" name="userId" value = '<s:property value="#pdo.userID" />'/>
+                                          <input type="hidden" name="pdoId" value = '<s:property value="#pdo.pdoID" />'/>
+                                          <input type="submit" value="generateForm"/> 
+                                        </form>
+                                        </td>
                                 <tr/>
                              </thead>
                              <tbody>
                                 <tr class="danger">
+                                     <!-- 单元格无内容占位？？？ -->
+                                    <th></th>
                                   <s:iterator value="#pdo.infoMap" status="ss" var = "map">
                                   <th><s:property value="%{#map.value}" /></th>
                                   </s:iterator>
+                                    <th></th>
                                 </tr>
                              </tbody>
                              </table>

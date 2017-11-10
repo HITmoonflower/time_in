@@ -14,14 +14,9 @@
       <result>/queryResult.jsp</result>
       <result name = "error">/queryFail.jsp</result>
     </action>
-	
-	
-    <action name = "404" class="action.error" method="pagenofound" >
-      <result>/error.jsp</result>
-    </action>
-	
+
     <action name = "actionAddRelatePdo" class = "action.PDOAction" method = "addRelatePdo">
-      <result>/addSuccess.jsp</result>
+      <result type = "chain">actionShowAll</result>
     </action>
     <action name = "actionForm" class = "action.PDOAction" method = "generateForm">
       <result>/form.jsp</result>
@@ -31,6 +26,7 @@
     </action>
     <action name = "actionImport" class = "action.PDOAction" method = "uploadPdo">
       <result>/addSuccess.jsp</result>
+      <result>/error.jsp</result>
     </action>
     <action name = "actionLogin" class = "action.UserAction" method = "loginUser">
       <result type = "chain">actionShowAll</result>
@@ -38,7 +34,14 @@
     </action>
     <action name = "actionRegister" class = "action.UserAction" method = "registerUser">
       <result>/login.jsp</result>
-      <result name = "error">/registerError.jsp</result>
+      <result name = "error">/registerRrror.jsp</result>
+    </action>
+    <action name = "actionshowDetail" class = "action.PDOAction" method = "showDetailPdo">
+      <result>/detail.jsp</result>
+      <result name = "error">/error.jsp</result>
+    </action>
+    <action name = "actionshowRelate" class = "action.PDOAction" method = "showRelatePdo">
+      <result>/detail.jsp</result>
     </action>
   </package>
   
