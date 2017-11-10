@@ -26,6 +26,7 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 	private int pdoId; //use to store the pdoId of the form
 	private Map<String, String> info = new HashMap<String, String>(); //use to store query conditions
 	private List<PDOModel> queryRes; //use to store query result
+	private List<PDOModel> relateRes; //use to store query relate result
 	private List<String> formHeader; //use to generate form by the pdoId
 	private int pdo1, pdo2; //use to link two pdo
   private String excelFileName; //use to store the excel's absolute path
@@ -194,6 +195,10 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 		return "error";
 	}
 	
+	public String showRelatePdo() {
+		relateRes = pdoService.getRelate(pdoId);
+		return SUCCESS;
+	}
 	@Override
   public Object getModel() {
     // TODO Auto-generated method stub

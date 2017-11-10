@@ -268,4 +268,23 @@ public class PDOService {
 	      }
 	      return pdo;
 	}
+	
+	public List<PDOModel> getRelate(int pdoId){
+		String sql1 = "select pdo1 from tablerelation where pdo2 = " + "\'" + pdoId + "\'";
+		String sql2 = "select pdo2 from tablerelation where pdo1 = " + "\'" + pdoId + "\'";
+		List<PDOModel> ans = new ArrayList<PDOModel>();
+		try {
+	    	ResultSet rs1 = DataOperation.getInstance().query(sql1);
+	    	ResultSet rs2 = DataOperation.getInstance().query(sql2);
+	    	while (rs1.next()) {
+	    		ans.add(getPdoById(rs1.getInt(1)));
+	    	}
+	    	while (rs2.next()) {
+	    		ans.add(getPdoById(rs2.getInt(1)));
+	    	}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return ans;
+	}
 }
