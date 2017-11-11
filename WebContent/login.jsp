@@ -25,6 +25,13 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 <!-- js -->
 <script src="js/jquery-1.11.1.min.js"></script>
 <script src="js/modernizr.custom.js"></script>
+<!-- jQuery Validate库文件-->
+<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
+<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js"></script>
+
+
+
 <script>
 function login(){
 	var userId = document.getElementById("userInfo");
@@ -33,54 +40,11 @@ function login(){
 	document.getElementById("loginForm").submit();
 }
 
-const isNotEmpty = value => value !== '';
-
-const isNumber = value => /^[0-9]*$/.test(value);
-
-const isBetween = (value, min, max) => {
-  if (max === undefined) {
-    max = Number.MAX_VALUE;
-  }
-  if (min === undefined) {
-    min = Number.MIN_VALUE;
-  }
-  return value > min && value < max;
-}
-
-const isEmail = value => {console.log(value);return /^\w+([+-.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(value);}
-
-document.getElementById('submit').addEventListener('click', validate);
-
-function validate() {
- 
-  let elePwd = document.getElementById('userPwd');
-  let eleMail = document.getElementById('userInfo');
-
-  if (!isNumber(elePwd.value)) {
-    alert('密码必须为数字');
-    return false;
-  }
-  if (!isBetween(elePwd.value, 0, 10000000000)) {
-    alert('密码应该是十位之内');
-    return false;
-  }
-  if (!isNotEmpty(eleMail.value)) {
-    alert('邮箱不能为空');
-    return false;
-  }
-  if (!isNumber(eleMail.value)) {
-    alert('邮箱格式不正确');
-    return false;
-  }
-  return true;
-};
-
-
 
 
 
 </script>
-
+<!-- jQuery Validate库文件-->
 <!-- //js -->
 </head> 
 <body class="login-bg">
@@ -94,7 +58,7 @@ function validate() {
 
 
 					<input type="hidden" name="userId" id = "Id" value = ""/>
-					UserName:<input type = "text" name="user.userId" id = "userInfo"/><br/>
+					E-Mail:<input type = "text" name="user.userId" id = "userInfo"/><br/>
 					Password:<input type = "password" name="user.password" id="userPwd"/><br/>
 					<input type = "button" class="btn btn-primary btn-lg btn-block" value = "login" onclick = "login()"/>
 
