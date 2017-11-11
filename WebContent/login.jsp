@@ -32,6 +32,53 @@ function login(){
 	postId.value = userId.value;
 	document.getElementById("loginForm").submit();
 }
+
+const isNotEmpty = value => value !== '';
+
+const isNumber = value => /^[0-9]*$/.test(value);
+
+const isBetween = (value, min, max) => {
+  if (max === undefined) {
+    max = Number.MAX_VALUE;
+  }
+  if (min === undefined) {
+    min = Number.MIN_VALUE;
+  }
+  return value > min && value < max;
+}
+
+const isEmail = value => {console.log(value);return /^\w+([+-.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(value);}
+
+document.getElementById('submit').addEventListener('click', validate);
+
+function validate() {
+ 
+  let elePwd = document.getElementById('userPwd');
+  let eleMail = document.getElementById('userInfo');
+
+  if (!isNumber(elePwd.value)) {
+    alert('密码必须为数字');
+    return false;
+  }
+  if (!isBetween(elePwd.value, 0, 10000000000)) {
+    alert('密码应该是十位之内');
+    return false;
+  }
+  if (!isNotEmpty(eleMail.value)) {
+    alert('邮箱不能为空');
+    return false;
+  }
+  if (!isNumber(eleMail.value)) {
+    alert('邮箱格式不正确');
+    return false;
+  }
+  return true;
+};
+
+
+
+
+
 </script>
 
 <!-- //js -->
@@ -48,7 +95,7 @@ function login(){
 
 					<input type="hidden" name="userId" id = "Id" value = ""/>
 					UserName:<input type = "text" name="user.userId" id = "userInfo"/><br/>
-					Password:<input type = "password" name="user.password"/><br/>
+					Password:<input type = "password" name="user.password" id="userPwd"/><br/>
 					<input type = "button" class="btn btn-primary btn-lg btn-block" value = "login" onclick = "login()"/>
 
 
@@ -90,9 +137,10 @@ function login(){
 				</form>
 			</div>
 		</div>
-		<div class="go-back login-go-back">
-				<a href="index.html">Go To Home</a>
+		<!--  <div class="go-back login-go-back">
+				<a href="actionLogin">Go To Home</a>
 			</div>
+		-->
 		<div class="copyright login-copyright error-copyright">
            <p>Copyright &copy; 2017.HITmoonflower All rights reserved.</p>    
 		</div>

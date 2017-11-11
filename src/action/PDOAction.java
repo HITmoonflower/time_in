@@ -35,7 +35,15 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
     private String excelFileName; //use to store the excel's name
     private String importRes;
 	
-	public int getPdoId() {
+	public List<PDOModel> getRelateRes() {
+    return relateRes;
+  }
+
+  public void setRelateRes(List<PDOModel> relateRes) {
+    this.relateRes = relateRes;
+  }
+
+  public int getPdoId() {
     return pdoId;
   }
 
@@ -121,13 +129,6 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 
   public void setPdo(PDOModel pdo) {
     this.pdo = pdo;
-  }
-  public List<PDOModel> getRelateRes() {
-	return relateRes;
-  }
-
-  public void setRelateRes(List<PDOModel> relateRes) {
-		this.relateRes = relateRes;
   }
 	public String getExcelFileName() {
 		return excelFileName;
