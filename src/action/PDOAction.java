@@ -15,8 +15,10 @@ import database.DataOperation;
 import model.*;
 import service.*;
 
+
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+import net.sf.json.*;
 
 public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 	private PDOModel pdo = new PDOModel();
@@ -31,6 +33,7 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 	private int pdo1, pdo2; //use to link two pdo
     private File excelFile; 
     private String excelFileName; //use to store the excel's name
+    private String importRes;
 	
 	public int getPdoId() {
     return pdoId;
@@ -171,6 +174,7 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 	}
 	
 	public String uploadPdo() {
+		String res = null;
 		try {
 			FileInputStream is = new FileInputStream(excelFile);
 			excelService.setFis(is);
@@ -178,44 +182,51 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 			if(excelService.createWB()) {
 				String[] header = excelService.readExcelTitle();
 				String[][] content = excelService.readExcelContent();
-				if(is != null)
-					is.close();
-				if(header == null || content == null)
-					return "empty";
-				pdo.setUserID(userId);
-				for(int i = 0; i < content.length; i++) {
-					int excelColumn = content[i].length;
-					info = new HashMap<String, String>();
-					boolean flag = false;	
-					for(int j = 0; j < header.length; j++) {
-						if(j < excelColumn) {
-							//不允许有空的value???
-							if(header[j].length() == 0 || content[i][j].length() == 0)
-								continue;
-							info.put(header[j], content[i][j]);
-							flag = true;
-						}else {
-							break;
+				if(header == null) {
+					res = "emptyHeader";
+				}else if(content == null) {
+					res = "emptyContent";
+				}else {
+					pdo.setUserID(userId);
+					for(int i = 0; i < content.length; i++) {
+						int excelColumn = content[i].length;
+						info = new HashMap<String, String>();
+						boolean flag = false;	
+						for(int j = 0; j < header.length; j++) {
+							if(j < excelColumn) {
+							//不允许有空的行???
+								if(header[j].length() == 0 || content[i][j].length() == 0)
+									continue;
+								info.put(header[j], content[i][j]);
+								flag = true;
+							}else {
+								break;
+							}
+						}
+						if(flag) {
+							pdo.setInfoMap(info);
+							pdoService.add(pdo);
 						}
 					}
-					if(flag) {
-						pdo.setInfoMap(info);
-						pdoService.add(pdo);
-					}
+					res = "success";
 				}
-				return SUCCESS;
+
 			}else {
-				if(is != null)
-					is.close();
-				return "typeError";
+				res = "typeError";
 			}
+			if(is != null)
+				is.close();
 		}catch(FileNotFoundException e) {
 			e.printStackTrace();
-			return "fileNotFound";
+			res = "fileNotFound";
 		}catch(IOException e) {
 			e.printStackTrace();
-			return "error";
+			res = "error";
 		}
+		Map<String, String> jsonMap = new HashMap();
+		jsonMap.put("importRes", res);
+		importRes = JSONObject.fromObject(jsonMap).toString();
+		return SUCCESS;
 	}
 	
 	public String showDetailPdo() {
@@ -234,5 +245,13 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
     // TODO Auto-generated method stub
     return pdo;
   }
+
+	public String getImportRes() {
+		return importRes;
+	}
+
+	public void setImportRes(String importRes) {
+		this.importRes = importRes;
+	}
 
 }

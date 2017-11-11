@@ -56,6 +56,8 @@ public class ExcelService {
         	return null;
         row = sheet.getRow(0);
         // 标题总列数
+        if(row == null)
+        	return null;
         int colNum = row.getPhysicalNumberOfCells();
         String[] title = new String[colNum];
         for (int i = 0; i < colNum; i++) {

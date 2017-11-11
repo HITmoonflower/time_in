@@ -3,7 +3,7 @@
         "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
         "http://struts.apache.org/dtds/struts-2.5.dtd">
 <struts>
-  <package name = "pdo"  extends = "struts-default" namespace = "/">
+  <package name = "pdo"  extends = "struts-default,json-default" namespace = "/">
     <action name = "actionAddPdo" class = "action.PDOAction" method = "addPdo">
       <result>/addSuccess.jsp</result>
     <!-- <result type="redirect">/addSuccess.jsp?userId=${pdo.userID}</result>
@@ -25,11 +25,9 @@
       <result>/homePage.jsp</result>
     </action>
     <action name = "actionImport" class = "action.PDOAction" method = "uploadPdo">
-      <result name = "success">/addSuccess.jsp</result>
-      <result name = "error">/error.jsp</result>
-      <result name = "empty">/error.jsp</result>
-      <result name = "fileNotFound">/error.jsp</result>
-      <result name = "typeError">/error.jsp</result>
+		<result type = "json">
+			<param name = "root">importRes</param>
+		</result>
     </action>
     <action name = "actionLogin" class = "action.UserAction" method = "loginUser">
       <result type = "chain">actionShowAll</result>

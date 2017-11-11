@@ -481,15 +481,20 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 							<center> <button type="button" class="btn btn-default btn-primary"  onclick = 'queryPdoUrl("<s:property value = 'user.userId'/>")'>queryPdo</button>
 						</div>
 					</div>
+<!--  			
 					<s:form action = "actionImport" enctype="multipart/form-data" method="post">
 					<input type = "hidden" name = "userId" value = '<s:property value = "user.userId"/>'/>
 					<input type = "hidden" name = "excelFileName" id = "fileName"/>
 					<input type = "file" name = "excelFile" onChange="if(this.value)insertTitle(this.value);">
 					<input type = "submit"/> 
 					</s:form>
-					
-	
-
+-->					
+					<s:form id = "fileForm">
+					<input type = "hidden" name = "userId" value = '<s:property value = "user.userId"/>'/>
+					<input type = "hidden" name = "excelFileName" id = "fileName"/>
+					<input type = "file" name = "excelFile" onChange="if(this.value)insertTitle(this.value);">
+					<input type = "button" value = "submit" onclick="importExcel();"/> 
+					</s:form>
 
                
             </div>
@@ -536,6 +541,41 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 				if( button !== 'showLeftPush' ) {
 					classie.toggle( showLeftPush, 'disabled' );
 				}
+			}
+			
+			//ajax请求导入excel
+			function importExcel(){
+				var formData = new FormData(document.getElementById("fileForm"));
+				$.ajax({
+					type : "post",
+					url : 'actionImport',
+					data : formData,
+					async : false,
+					cache : false,
+					contentType : false,
+					processData : false,
+					success : function(data){
+						var obj = JSON.parse(data);
+						if (obj.importRes == "emptyHeader"){
+							alert("请添加键");
+						}else if(obj.importRes == "emptyContent"){
+							alert("请添加值！");
+						}else if(obj.importRes == "typeError"){
+							alert("文件类型只能是xls或者xlsx！");
+						}else if(obj.importRes == "fileNotFound"){
+							alert("文件不存在！");
+						}else if(obj.importRes == "error"){
+							alert("上传失败！");
+						}else{
+							
+						}
+							
+					},
+					error : function(e){
+						alert("上传失败！");
+					}
+				});
+				get();
 			}
 		</script>
 	<!-- Bootstrap Core JavaScript --> 
