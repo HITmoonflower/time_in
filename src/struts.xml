@@ -36,12 +36,12 @@
       <result>/login.jsp</result>
       <result name = "error">/registerRrror.jsp</result>
     </action>
-    <action name = "actionshowDetail" class = "action.PDOAction" method = "showDetailPdo">
+    <action name = "actionShowDetail" class = "action.PDOAction" method = "showDetailPdo">
       <result>/detail.jsp</result>
       <result name = "error">/error.jsp</result>
     </action>
-    <action name = "actionshowRelate" class = "action.PDOAction" method = "showRelatePdo">
-      <result>/detail.jsp</result>
+    <action name = "actionShowRelate" class = "action.PDOAction" method = "showRelatePdo">
+      <result>/relativePdo.jsp</result>
     </action>
   </package>
   
