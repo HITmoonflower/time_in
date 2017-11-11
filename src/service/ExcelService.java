@@ -17,52 +17,34 @@ import org.apache.poi.hssf.usermodel.*;
  */
 public class ExcelService {
     private String excelFileName;
-    private File excelFile;
-    private FileInputStream is;
+    private FileInputStream fis;
     private Workbook wb;
     private Sheet sheet;
     private Row row;
-    
-    public String getExcelFileName(String excelFileName) {
-    	return excelFileName;
-    }	
 
-    public void setExcelFileName(String excelFileName) {
-    	this.excelFileName = excelFileName;
+    public void setFis(FileInputStream fis) {
+    	this.fis = fis;
     }
-
-	public File getExcelFile() {
-		return excelFile;
-	}
-
-	public void setExcelFile(File excelFile) {
-		this.excelFile = excelFile;
-	}
+    public void setFileName(String name) {
+    	this.excelFileName = name;
+    }
     
     public boolean createWB() {
     	try {
-    		is = new FileInputStream(excelFile);
     		if(excelFileName.endsWith(".xls")) {
-    			wb = new HSSFWorkbook(is);
+    			wb = new HSSFWorkbook(fis);
     		}else if(excelFileName.endsWith(".xlsx")) {
-    			wb = new XSSFWorkbook(is);
+    			wb = new XSSFWorkbook(fis);
     		}else {
     			return false;
     		}
-    	}catch(Exception e) {
+    	}catch(IOException e) {
     		e.printStackTrace();
     		return false;
     	}
     	return true;
     }
     
-    public void close() {
-    	try {
-    		is.close();
-    	}catch(Exception e) {
-    		e.printStackTrace();
-    	}
-    }
     /**
      * 读取Excel表格表头的内容
      * @param InputStream
@@ -70,10 +52,11 @@ public class ExcelService {
      */
     public String[] readExcelTitle() {
         sheet = wb.getSheetAt(0);
+        if(sheet.getLastRowNum() == 0)
+        	return null;
         row = sheet.getRow(0);
         // 标题总列数
         int colNum = row.getPhysicalNumberOfCells();
-        System.out.println("colNum:" + colNum);
         String[] title = new String[colNum];
         for (int i = 0; i < colNum; i++) {
             //title[i] = getStringCellValue(row.getCell((short) i));
@@ -91,11 +74,13 @@ public class ExcelService {
         sheet = wb.getSheetAt(0);
         // 得到总行数
         int rowNum = sheet.getLastRowNum();
+        if(rowNum <= 1)
+        	return null;
         row = sheet.getRow(0);
         int colNum = row.getPhysicalNumberOfCells();
-        String[][] content = new String[rowNum][colNum];
+        String[][] content = new String[rowNum - 1][colNum];
         // 正文内容应该从第二行开始,第一行为表头的标题
-        for (int i = 1; i <= rowNum; i++) {
+        for (int i = 1; i < rowNum; i++) {
             row = sheet.getRow(i);
             int j = 0;
             while (j < colNum) {
@@ -103,7 +88,7 @@ public class ExcelService {
                 // 也可以将每个单元格的数据设置到一个javabean的属性中，此时需要新建一个javabean
                 // str += getStringCellValue(row.getCell((short) j)).trim() +
                 // "-";
-                content[i][j] = getCellFormatValue(row.getCell((short) j)).trim();
+                content[i - 1][j] = getCellFormatValue(row.getCell((short) j)).trim();
                 j++;
             }
         }

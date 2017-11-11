@@ -171,35 +171,43 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 	}
 	
 	public String uploadPdo() {
-		excelService.setExcelFile(excelFile);
-		excelService.setExcelFileName(excelFileName);
-		if(excelService.createWB()) {
-			String[] header = excelService.readExcelTitle();
-			String[][] content = excelService.readExcelContent();
-			pdo.setUserID(userId);
-			for(int i = 0; i < content.length; i++) {
-				int excelColumn = content[i].length;
-				info = new HashMap<String, String>();
-				boolean flag = false;
-				for(int j = 0; j < header.length; j++) {
-					if(j < excelColumn) {
-						//不允许有空的value???
-						if(header[j].length() == 0 || content[i][j].length() == 0)
-							continue;
-						info.put(header[j], content[i][j]);
-						flag = true;
-					}else {
-						break;
+		try {
+			FileInputStream is = new FileInputStream(excelFile);
+			excelService.setFis(is);
+			excelService.setFileName(excelFileName);
+			if(excelService.createWB()) {
+				String[] header = excelService.readExcelTitle();
+				String[][] content = excelService.readExcelContent();
+				if(header == null || content == null)
+					return "empty";
+				pdo.setUserID(userId);
+				for(int i = 0; i < content.length; i++) {
+					int excelColumn = content[i].length;
+					info = new HashMap<String, String>();
+					boolean flag = false;	
+					for(int j = 0; j < header.length; j++) {
+						if(j < excelColumn) {
+							//不允许有空的value???
+							if(header[j].length() == 0 || content[i][j].length() == 0)
+								continue;
+							info.put(header[j], content[i][j]);
+							flag = true;
+						}else {
+							break;
+						}
+					}
+					if(flag) {
+						pdo.setInfoMap(info);
+						pdoService.add(pdo);
 					}
 				}
-				if(flag) {
-					pdo.setInfoMap(info);
-					pdoService.add(pdo);
-				}
-			}
-			return SUCCESS;
-		}else
-			return "error";
+				return SUCCESS;
+			}else
+				return "typeError";
+		}catch(FileNotFoundException e) {
+			e.printStackTrace();
+			return "fileNotFound";
+		}
 	}
 	
 	public String showDetailPdo() {
