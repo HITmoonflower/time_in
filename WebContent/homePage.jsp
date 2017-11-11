@@ -41,6 +41,16 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 		alert("请选择两个pdo")
 	}
 }
+    function insertTitle(path){  
+    	   var test1 = path.lastIndexOf("/");
+    	   var test2 = path.lastIndexOf("\\");
+    	   var test= Math.max(test1, test2)
+    	   if(test<0){  
+    	     document.getElementById("fileName").value = path;
+    	   }else{
+    	    document.getElementById("fileName").value = path.substring(test + 1);
+    	   }
+    	}  
     //function showAllPdoUrl(userId){
     	//  window.location.href="actionShowAll.action?userId="+userId;
     //}
@@ -471,6 +481,13 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 							<center> <button type="button" class="btn btn-default btn-primary"  onclick = 'queryPdoUrl("<s:property value = 'user.userId'/>")'>queryPdo</button>
 						</div>
 					</div>
+					<s:form action = "actionImport" enctype="multipart/form-data" method="post">
+					<input type = "hidden" name = "userId" value = '<s:property value = "user.userId"/>'/>
+					<input type = "hidden" name = "excelFileName" id = "fileName"/>
+					<input type = "file" name = "excelFile" onChange="if(this.value)insertTitle(this.value);">
+					<input type = "submit"/> 
+					</s:form>
+					
 	
 
 
