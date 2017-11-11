@@ -178,6 +178,8 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 			if(excelService.createWB()) {
 				String[] header = excelService.readExcelTitle();
 				String[][] content = excelService.readExcelContent();
+				if(is != null)
+					is.close();
 				if(header == null || content == null)
 					return "empty";
 				pdo.setUserID(userId);
@@ -202,11 +204,17 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 					}
 				}
 				return SUCCESS;
-			}else
+			}else {
+				if(is != null)
+					is.close();
 				return "typeError";
+			}
 		}catch(FileNotFoundException e) {
 			e.printStackTrace();
 			return "fileNotFound";
+		}catch(IOException e) {
+			e.printStackTrace();
+			return "error";
 		}
 	}
 	
