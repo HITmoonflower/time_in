@@ -240,6 +240,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                 
                 </div>
                 <!--//grids-->
+
 <!--                
 <<<<<<< HEAD
 				     <div class="row clearfix">
