@@ -44,9 +44,6 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
     //function showAllPdoUrl(userId){
     	//  window.location.href="actionShowAll.action?userId="+userId;
     //}
-
-    
-    
     </script>
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
@@ -64,8 +61,8 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
     <script src="js/jquery-1.11.1.min.js"></script>
     <script src="js/modernizr.custom.js"></script>
     <!--webfonts-->
-    <link href='http://fonts.useso.com/css?family=Roboto+Condensed:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>
-    <!--//webfonts-->
+<link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>
+
     <!--animate-->
     <link href="css/animate.css" rel="stylesheet" type="text/css" media="all">
     <script src="js/wow.min.js"></script>
@@ -89,89 +86,35 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                     <div class="scrollbar scrollbar1">
                         <ul class="nav" id="side-menu">
                             <li>
-                                <a href="index.html"><i class="fa fa-home nav_icon"></i>Dashboard</a>
+                                <a href="index.html"><i class="fa fa-home nav_icon"></i>个人主页</a>
                             </li>
+                           
                             <li>
-                                <a href="#"><i class="fa fa-cogs nav_icon"></i>Components<span class="fa arrow"></span></a>
-                                <ul class="nav nav-second-level collapse">
-                                    <li>
-                                        <a href="progressbar.html">Progressbar</a>
-                                    </li>
-                                    <li>
-                                        <a href="grid.html">Grid</a>
-                                    </li>
-                                </ul>
+                                <a  onclick = 'queryPdoUrl("<s:property value = 'user.userId'/>")'><i class="fa fa-book nav_icon"></i>查询数据 </a>
+
                                 <!-- /nav-second-level -->
                             </li>
+                            
+                           
                             <li>
-                                <a href="#"><i class="fa fa-book nav_icon"></i>Elements <span class="fa arrow"></span></a>
-                                <ul class="nav nav-second-level collapse">
-                                    <li>
-                                        <a href="buttons.html">Buttons</a>
-                                    </li>
-                                    <li>
-                                        <a href="typography.html">Typography</a>
-                                    </li>
-                                </ul>
-                                <!-- /nav-second-level -->
+                                <a onclick = 'addPdoUrl("<s:property value = 'user.userId'/>")'><i class="fa fa-th-large nav_icon"></i>添加pdo对象</a>
                             </li>
+                       
+                            
                             <li>
-                                <a href="widgets.html"><i class="fa fa-th-large nav_icon"></i>Widgets</a>
+                                <a href="login.jsp"><i class="fa fa-th-large nav_icon"></i>logout</a>
                             </li>
-                            <li>
-                                <a href="#"><i class="fa fa-check-square-o nav_icon"></i>Forms<span class="fa arrow"></span></a>
-                                <ul class="nav nav-second-level collapse">
-                                    <li>
-                                        <a href="inputs.html">Inputs</a>
-                                    </li>
-                                    <li>
-                                        <a href="validation.html">Form Validation</a>
-                                    </li>
-                                </ul>
-                                <!-- //nav-second-level -->
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa fa-envelope nav_icon"></i>Mailbox<span class="fa arrow"></span></a>
-                                <ul class="nav nav-second-level collapse">
-                                    <li>
-                                        <a href="inbox.html">Inbox</a>
-                                    </li>
-                                    <li>
-                                        <a href="compose.html">Compose email</a>
-                                    </li>
-                                </ul>
-                                <!-- //nav-second-level -->
-                            </li>
-                            <li>
-                                <a href="maps.html"><i class="fa fa-location-arrow nav_icon"></i>Maps</a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa fa-file-text-o nav_icon"></i>Pages<span class="fa arrow"></span></a>
-                                <ul class="nav nav-second-level collapse">
-                                    <li>
-                                        <a href="login.html">Login</a>
-                                    </li>
-                                    <li>
-                                        <a href="signup.html">SignUp</a>
-                                    </li>
-                                    <li>
-                                        <a href="blank-page.html">Blank Page</a>
-                                    </li>
-                                </ul>
-                                <!-- //nav-second-level -->
-                            </li>
-                            <li>
-                                <a href="charts.html" class="chart-nav"><i class="fa fa-bar-chart nav_icon"></i>Charts</a>
-                            </li>
+                            
+                            
                             <li>
                                 <a href="#" class="chart-nav"><i class="fa fa-bar-chart nav_icon"></i>Extras<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level collapse">
                                     <li>
-                                        <a href="tables.html">Tables</a>
+									 <a href="#" class="chart-nav"><i class="fa fa-bar-chart nav_icon"></i>统计个人数据信息</a>
                                     </li>
                                     <li>
-                                        <a href="404.html">404 Page</a>
-                                    </li>
+                                      <a href="#" class="chart-nav"><i class="fa fa-location-arrow nav_icon"></i>地图选点</a>
+                                   </li>
                                 </ul>
                                 <!-- //nav-second-level -->
                             </li>
@@ -187,182 +130,19 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
             <div class="header-left">
                 <!--logo -->
                 <div class="logo">
-                    <a href="index.html">
+                    <a href="https://github.com/HITmoonflower/time_in">
                         <ul>
                             <li><img src="images/logo1.png" alt="" /></li>
                             <li>
-                                <h1>Baxster</h1></li>
+                                <h1>HITmoonflower</h1></li>
                             <div class="clearfix"> </div>
                         </ul>
                     </a>
                 </div>
                 <!--//logo-->
-                <div class="header-right header-right-grid">
-                    <div class="profile_details_left">
-                        <!--notifications of menu start -->
-                        <ul class="nofitications-dropdown">
-                            <li class="dropdown head-dpdn">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i><span class="badge">3</span></a>
-                                <ul class="dropdown-menu anti-dropdown-menu">
-                                    <li>
-                                        <div class="notification_header">
-                                            <h3>You have 3 new messages</h3>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="user_img"><img src="images/1.png" alt=""></div>
-                                            <div class="notification_desc">
-                                                <p>Lorem ipsum dolor amet</p>
-                                                <p><span>1 hour ago</span></p>
-                                            </div>
-                                            <div class="clearfix"></div>
-                                        </a>
-                                    </li>
-                                    <li class="odd">
-                                        <a href="#">
-                                            <div class="user_img"><img src="images/2.png" alt=""></div>
-                                            <div class="notification_desc">
-                                                <p>Lorem ipsum dolor amet </p>
-                                                <p><span>1 hour ago</span></p>
-                                            </div>
-                                            <div class="clearfix"></div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="user_img"><img src="images/3.png" alt=""></div>
-                                            <div class="notification_desc">
-                                                <p>Lorem ipsum dolor amet </p>
-                                                <p><span>1 hour ago</span></p>
-                                            </div>
-                                            <div class="clearfix"></div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <div class="notification_bottom">
-                                            <a href="#">See all messages</a>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="dropdown head-dpdn">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-bell"></i><span class="badge blue">3</span></a>
-                                <ul class="dropdown-menu anti-dropdown-menu">
-                                    <li>
-                                        <div class="notification_header">
-                                            <h3>You have 3 new notification</h3>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="user_img"><img src="images/2.png" alt=""></div>
-                                            <div class="notification_desc">
-                                                <p>Lorem ipsum dolor amet</p>
-                                                <p><span>1 hour ago</span></p>
-                                            </div>
-                                            <div class="clearfix"></div>
-                                        </a>
-                                    </li>
-                                    <li class="odd">
-                                        <a href="#">
-                                            <div class="user_img"><img src="images/1.png" alt=""></div>
-                                            <div class="notification_desc">
-                                                <p>Lorem ipsum dolor amet </p>
-                                                <p><span>1 hour ago</span></p>
-                                            </div>
-                                            <div class="clearfix"></div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="user_img"><img src="images/3.png" alt=""></div>
-                                            <div class="notification_desc">
-                                                <p>Lorem ipsum dolor amet </p>
-                                                <p><span>1 hour ago</span></p>
-                                            </div>
-                                            <div class="clearfix"></div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <div class="notification_bottom">
-                                            <a href="#">See all notifications</a>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="dropdown head-dpdn">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-tasks"></i><span class="badge blue1">15</span></a>
-                                <ul class="dropdown-menu anti-dropdown-menu">
-                                    <li>
-                                        <div class="notification_header">
-                                            <h3>You have 8 pending task</h3>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="task-info">
-                                                <span class="task-desc">Database update</span><span class="percentage">40%</span>
-                                                <div class="clearfix"></div>
-                                            </div>
-                                            <div class="progress progress-striped active">
-                                                <div class="bar yellow" style="width:40%;"></div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="task-info">
-                                                <span class="task-desc">Dashboard done</span><span class="percentage">90%</span>
-                                                <div class="clearfix"></div>
-                                            </div>
-                                            <div class="progress progress-striped active">
-                                                <div class="bar green" style="width:90%;"></div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="task-info">
-                                                <span class="task-desc">Mobile App</span><span class="percentage">33%</span>
-                                                <div class="clearfix"></div>
-                                            </div>
-                                            <div class="progress progress-striped active">
-                                                <div class="bar red" style="width: 33%;"></div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="task-info">
-                                                <span class="task-desc">Issues fixed</span><span class="percentage">80%</span>
-                                                <div class="clearfix"></div>
-                                            </div>
-                                            <div class="progress progress-striped active">
-                                                <div class="bar  blue" style="width: 80%;"></div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <div class="notification_bottom">
-                                            <a href="#">See all pending tasks</a>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                        <div class="clearfix"> </div>
-                    </div>
-                </div>
-                <div class="clearfix"> </div>
+                
             </div>
-            <!--search-box-->
-            <div class="search-box">
-                <form class="input">
-                    <input class="sb-search-input input__field--madoka" placeholder="Search..." type="search" id="input-31" />
-                </form>
-            </div>
-            <!--//end-search-box-->
+
             <div class="header-right">
                 <!--notification menu end -->
                 <div class="profile_details">
@@ -370,14 +150,13 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                         <li class="dropdown profile_details_drop">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                 <div class="profile_img">
-                                    <span class="prfil-img"><img src="images/a.png" alt=""> </span>
+                                    <span class="prfil-img"><img src="images/user.png" alt=""> </span>
                                     <div class="clearfix"></div>
                                 </div>
                             </a>
                             <ul class="dropdown-menu drp-mnu">
-                                <li> <a href="#"><i class="fa fa-cog"></i> Settings</a> </li>
-                                <li> <a href="#"><i class="fa fa-user"></i> Profile</a> </li>
-                                <li> <a href="#"><i class="fa fa-sign-out"></i> Logout</a> </li>
+                                
+                                <li> <a href="login.jsp"><i class="fa fa-sign-out"></i> Logout</a> </li>
                             </ul>
                         </li>
                     </ul>
@@ -394,30 +173,6 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         <div id="page-wrapper">
             <div class="main-page">
                 <!--grids-->
@@ -430,7 +185,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                     <div class="panel panel-widget">
                         <div class="tables">
 
-                            <h4>Colored Rows Table:</h4>
+                     
                             <s:form action = "actionAddRelatePdo.action" id = "relation">
                                 <input type="hidden" name="userId" id = "Id" value = '<s:property value = "userId"/>'/>
                                 <input type="hidden" name="pdo1" id="pdoId1"/>
@@ -454,7 +209,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                         <form action = "actionForm">
                                           <input type="hidden" name="userId" value = '<s:property value="#pdo.userID" />'/>
                                           <input type="hidden" name="pdoId" value = '<s:property value="#pdo.pdoID" />'/>
-                                          <input type="submit" value="generateForm"/> 
+                                          <input type="submit" class="btn btn-primary  hvr-shutter-out-vertical" value="generateForm"/> 
                                         </form>
                                         </td>
                                 <tr/>
@@ -480,15 +235,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                 </div>
                 <!--//grids-->
                 
-                
-				     <div class="row clearfix">
-						<div class="col-md-6 column">
-							 <center><button type="button" class="btn btn-default btn-primary"  onclick = 'addPdoUrl("<s:property value = 'user.userId'/>")'>addPdo</button>
-						</div>
-						<div class="col-md-6 column">
-							<center> <button type="button" class="btn btn-default btn-primary"  onclick = 'queryPdoUrl("<s:property value = 'user.userId'/>")'>queryPdo</button>
-						</div>
-					</div>
+
 	
 
 
