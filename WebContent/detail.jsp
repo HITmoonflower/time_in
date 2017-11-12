@@ -79,15 +79,15 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                 <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right dev-page-sidebar mCustomScrollbar _mCS_1 mCS-autoHide mCS_no_scrollbar" id="cbp-spmenu-s1">
                     <div class="scrollbar scrollbar1">
                         <ul class="nav" id="side-menu">
-                            <li> 
-                                <s:form name = "backToHomepage" action = "actionShowAll">
+                            <li>
+                             <s:form name = "backToHomepage" action = "actionShowAll">
                                     <input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
                                 </s:form>
                                 <a href="javascript:document:backToHomepage.submit();"><i class="fa fa-home nav_icon"></i>个人主页</a>
                             </li>
                            
                             <li>
-                                <s:form name = "jumpQuery" action = "actionQueryPdo">
+                            <s:form name = "jumpQuery" action = "actionJumpQuery">
                                     <input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
                                 </s:form>
                                 <a href="javascript:document:jumpQuery.submit();"><i class="fa fa-book nav_icon"></i>查询数据 </a>
@@ -97,7 +97,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                             
                            
                             <li>
-                                <s:form name = "jumpAdd" action = "actionAddPdo">
+                                <s:form name = "jumpAdd" action = "actionJumpAdd">
                                     <input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
                                 </s:form>
                                 <a href="javascript:document:jumpAdd.submit();"><i class="fa fa-th-large nav_icon"></i>添加pdo对象</a>

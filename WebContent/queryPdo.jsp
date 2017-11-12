@@ -63,17 +63,8 @@ function queryPdoUrl(){
 	  if (placeIn.value == ""){
 	    placeIn.value = "noPlaceInput";
 	  }
-	  var url = window.location.search;
-	  if (url.indexOf("?") != -1) {
-          var str = url.substr(1);
-          strs = str.split("=");
-          var key = document.getElementById("Id");
-          key.value = strs[1];
-          document.getElementById("queryForm").submit();
-      }
-    else{
-    alert("Error Happened")
-    }
+    document.getElementById("queryForm").submit();
+     
 	}
 </script>
 
@@ -89,14 +80,14 @@ function queryPdoUrl(){
                     <div class="scrollbar scrollbar1">
                         <ul class="nav" id="side-menu">
                             <li>
-                                 <s:form name = "backToHomepage" action = "actionShowAll">
+                             <s:form name = "backToHomepage" action = "actionShowAll">
                                     <input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
                                 </s:form>
                                 <a href="javascript:document:backToHomepage.submit();"><i class="fa fa-home nav_icon"></i>个人主页</a>
                             </li>
                            
-                             <li>
-                            <s:form name = "jumpQuery" action = "actionQueryPdo">
+                            <li>
+                            <s:form name = "jumpQuery" action = "actionJumpQuery">
                                     <input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
                                 </s:form>
                                 <a href="javascript:document:jumpQuery.submit();"><i class="fa fa-book nav_icon"></i>查询数据 </a>
@@ -106,7 +97,7 @@ function queryPdoUrl(){
                             
                            
                             <li>
-                                <s:form name = "jumpAdd" action = "actionAddPdo">
+                                <s:form name = "jumpAdd" action = "actionJumpAdd">
                                     <input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
                                 </s:form>
                                 <a href="javascript:document:jumpAdd.submit();"><i class="fa fa-th-large nav_icon"></i>添加pdo对象</a>
@@ -203,7 +194,7 @@ function queryPdoUrl(){
 							</div>
 							<div class="col-md-8 column">
 							<s:form action="actionQueryPdo" Class="form-horizontal" theme="simple" id = "queryForm">
-				            <input type="hidden" name="userId" id = "Id" value = ""/>
+				            <input type="hidden" name="userId" value = '<s:property value = "userId"/>'/>
 				              <table class="table">
 				              <tr class="form-group success">
 				                    <td class="col-sm-4" >Date:</td>

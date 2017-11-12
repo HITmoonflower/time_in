@@ -35,7 +35,7 @@
     </action>
     <action name = "actionRegister" class = "action.UserAction" method = "registerUser">
       <result>/login.jsp</result>
-      <result name = "error">/registerRrror.jsp</result>
+      <result name = "error">/registerError.jsp</result>
     </action>
     <action name = "actionShowDetail" class = "action.PDOAction" method = "showDetailPdo">
       <result>/detail.jsp</result>
@@ -44,10 +44,10 @@
     <action name = "actionShowRelate" class = "action.PDOAction" method = "showRelatePdo">
       <result>/relativePdo.jsp</result>
     </action>
-    <action name = "actionAddPdo" class = "action.PDOAction" method = "jumpPage">
+    <action name = "actionJumpAdd" class = "action.PDOAction" method = "jumpPage">
       <result>/addPdo.jsp</result>
     </action>
-    <action name = "actionQueryPdo" class = "action.PDOAction" method = "jumpPage">
+    <action name = "actionJumpQuery" class = "action.PDOAction" method = "jumpPage">
       <result>/queryPdo.jsp</result>
     </action>
   </package>

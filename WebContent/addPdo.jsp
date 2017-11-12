@@ -78,7 +78,6 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 		  var value = document.getElementById("value"+String(j));
 		  value.name = "infoMap."+key.value;
 	  }
-	  var url = window.location.search;  
 	  document.getElementById("pdoForm").submit();
   }
   </script>
@@ -108,7 +107,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                             </li>
                            
                             <li>
-                                 <s:form name = "jumpQuery" action = "actionQueryPdo">
+                                 <s:form name = "jumpQuery" action = "actionJumpQuery">
                                     <input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
                                 </s:form>
                                 <a href="javascript:document:jumpQuery.submit();"><i class="fa fa-book nav_icon"></i>查询数据 </a>
@@ -116,7 +115,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                             </li>
                             
                              <li>
-                                <s:form name = "jumpAdd" action = "actionAddPdo">
+                                <s:form name = "jumpAdd" action = "actionJumpAdd">
                                     <input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
                                 </s:form>
                                 <a href="javascript:document:jumpAdd.submit();"><i class="fa fa-th-large nav_icon"></i>添加pdo对象</a>
@@ -219,6 +218,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 
 		<center><s:form action="actionAddPdo" Class="form-horizontal" theme="simple" id = "pdoForm">
             <input type="hidden" name="userID" value = '<s:property value = "userId"/>' />
+            <input type="hidden" name="userId" value = '<s:property value = "userId"/>' />
               <table id = "pdo">
               <tr class="form-group">
                     <th class="col-sm-2">Key</th>
