@@ -99,8 +99,11 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                             <li>
                                 <a onclick = 'addPdoUrl("<s:property value = 'user.userId'/>")'><i class="fa fa-th-large nav_icon"></i>添加pdo对象</a>
                             </li>
+                            <li>
+                                <a  onclick = 'addRelation()' ><i class="fa fa-th-large nav_icon"></i>添加数据关联</a>
+                            </li>
                        
-                            
+                             onclick = 'addRelation()'
                             <li>
                                 <a href="login.jsp"><i class="fa fa-th-large nav_icon"></i>logout</a>
                             </li>
@@ -210,12 +213,13 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                           <input type="hidden" name="userId" value = '<s:property value="#pdo.userID" />'/>
                                           <input type="hidden" name="pdoId" value = '<s:property value="#pdo.pdoID" />'/>
                                           <input type="submit" class="btn btn-primary  hvr-shutter-out-vertical" value="generateForm"/> 
+                                       	
                                         </form>
                                         </td>
                                  <td rowspan = "2">
                                         <form action = "actionShowDetail">
                                           <input type="hidden" name="pdoId" value = '<s:property value="#pdo.pdoID" />'/>
-                                          <input type="submit" value="Detail"/> 
+                                          <input type="submit" class="btn btn-primary  hvr-shutter-out-vertical"  value="Detail"/> 
                                         </form>
                                  </td>
                                 <tr/>
@@ -227,7 +231,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                   <s:iterator value="#pdo.infoMap" status="ss" var = "map">
                                   <th><s:property value="%{#map.value}" /></th>
                                   </s:iterator>
-                                    <th></th>
+                                    <th></th><th></th>
                                 </tr>
                              </tbody>
                              </table>
