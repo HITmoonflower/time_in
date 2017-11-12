@@ -40,43 +40,6 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 <script src="js/custom.js"></script>
 <link href="css/custom.css" rel="stylesheet">
 
-<script>
-function queryPdoUrl(){
-	  var startDate = document.getElementById("startDate");
-	  var endDate = document.getElementById("endDate");
-	  var maxSpend = document.getElementById("maxSpend");
-	  var minSpend = document.getElementById("minSpend");
-	  var placeIn = document.getElementById("place");
-	  if (startDate.value ==""){
-	    startDate.value = "2001-1-1";
-	  }
-	  if (endDate.value ==""){
-	      endDate.value = "2100-1-1";
-	  }
-	  if (minSpend.value == ""){
-	    minSpend.value ="0";
-	  }
-	  if (maxSpend.value == ""){
-	    maxSpend.value ="100000";
-	  }
-	  if (placeIn.value == ""){
-	    placeIn.value = "noPlaceInput";
-	  }
-	  var url = window.location.search;
-	  if (url.indexOf("?") != -1) {
-          var str = url.substr(1);
-          strs = str.split("=");
-          var key = document.getElementById("Id");
-          key.value = strs[1];
-          document.getElementById("queryForm").submit();
-      }
-    else{
-    alert("Error Happened")
-    }
-	}
-</script>
-
-
 <!--//Metis Menu -->
 </head> 
 <body class="cbp-spmenu-push">
@@ -87,22 +50,26 @@ function queryPdoUrl(){
                 <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right dev-page-sidebar mCustomScrollbar _mCS_1 mCS-autoHide mCS_no_scrollbar" id="cbp-spmenu-s1">
                     <div class="scrollbar scrollbar1">
                         <ul class="nav" id="side-menu">
-                            <li>
-                                <a href="index.html"><i class="fa fa-home nav_icon"></i>个人主页</a>
+                            <li> <s:form name = "backToHomepage" action = "actionShowAll">
+                                    <input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
+                                </s:form>
+                                <a href="javascript:document:backToHomepage.submit();"><i class="fa fa-home nav_icon"></i>个人主页</a>
                             </li>
                            
                             <li>
-                                <a href="#" onclick = 'queryPdoUrl("<s:property value = 'user.userId'/>")'><i class="fa fa-book nav_icon"></i>查询数据 </a>
-
+                                 <s:form name = "jumpQuery" action = "actionQueryPdo">
+                                    <input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
+                                </s:form>
+                                <a href="javascript:document:jumpQuery.submit();"><i class="fa fa-book nav_icon"></i>查询数据 </a>
                                 <!-- /nav-second-level -->
                             </li>
                             
                            
                             <li>
-                                <a onclick = 'addPdoUrl("<s:property value = 'user.userId'/>")'><i class="fa fa-th-large nav_icon"></i>添加pdo对象<span class="fa arrow"></span></a>
-                            </li>
-                             <li>
-                                <a onclick = 'addPdoUrl("<s:property value = 'user.userId'/>")'><i class="fa fa-th-large nav_icon"></i>添加pdo对象<span class="fa arrow"></span></a>
+                                <s:form name = "jumpAdd" action = "actionAddPdo">
+                                    <input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
+                                </s:form>
+                                <a href="javascript:document:jumpAdd.submit();"><i class="fa fa-th-large nav_icon"></i>添加pdo对象</a>
                             </li>
                             
                             <li>

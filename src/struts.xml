@@ -44,6 +44,12 @@
     <action name = "actionShowRelate" class = "action.PDOAction" method = "showRelatePdo">
       <result>/relativePdo.jsp</result>
     </action>
+    <action name = "actionAddPdo" class = "action.PDOAction" method = "jumpPage">
+      <result>/addPdo.jsp</result>
+    </action>
+    <action name = "actionQueryPdo" class = "action.PDOAction" method = "jumpPage">
+      <result>/queryPdo.jsp</result>
+    </action>
   </package>
   
 </struts>

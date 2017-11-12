@@ -15,12 +15,6 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
     function hideURLbar() { window.scrollTo(0, 1); }
     
 
-    function addPdoUrl(userId){
-    	window.location.href="addPdo.jsp?userId="+userId;
-    }
-    function queryPdoUrl(userId){
-    	window.location.href="queryPdo.jsp?userId="+userId;
-    }
     function addRelation(){
 	var checkBox = document.getElementsByName("pdoItem");
 	var t = 0,num = 0;
@@ -96,24 +90,32 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                     <div class="scrollbar scrollbar1">
                         <ul class="nav" id="side-menu">
                             <li>
-                                <a href="index.html"><i class="fa fa-home nav_icon"></i>个人主页</a>
+                             <s:form name = "backToHomepage" action = "actionShowAll">
+                                    <input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
+                                </s:form>
+                                <a href="javascript:document:backToHomepage.submit();"><i class="fa fa-home nav_icon"></i>个人主页</a>
                             </li>
                            
                             <li>
-                                <a  onclick = 'queryPdoUrl("<s:property value = 'user.userId'/>")'><i class="fa fa-book nav_icon"></i>查询数据 </a>
+                            <s:form name = "jumpQuery" action = "actionQueryPdo">
+                                    <input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
+                                </s:form>
+                                <a href="javascript:document:jumpQuery.submit();"><i class="fa fa-book nav_icon"></i>查询数据 </a>
 
                                 <!-- /nav-second-level -->
                             </li>
                             
                            
                             <li>
-                                <a onclick = 'addPdoUrl("<s:property value = 'user.userId'/>")'><i class="fa fa-th-large nav_icon"></i>添加pdo对象</a>
+                                <s:form name = "jumpAdd" action = "actionAddPdo">
+                                    <input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
+                                </s:form>
+                                <a href="javascript:document:jumpAdd.submit();"><i class="fa fa-th-large nav_icon"></i>添加pdo对象</a>
                             </li>
                             <li>
                                 <a  onclick = 'addRelation()' ><i class="fa fa-th-large nav_icon"></i>添加数据关联</a>
                             </li>
-                       
-                        
+
                             <li>
                                 <a href="login.jsp"><i class="fa fa-th-large nav_icon"></i>logout</a>
                             </li>
@@ -186,7 +188,6 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 
 
 
-
         <div id="page-wrapper">
             <div class="main-page">
                 <!--grids-->
@@ -220,18 +221,19 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                   </s:iterator>
                                   <!-- generateFrom 按钮 -->
                                   <td rowspan = "2">
-                                        <form action = "actionForm">
+                                        <s:form action = "actionForm">
                                           <input type="hidden" name="userId" value = '<s:property value="#pdo.userID" />'/>
                                           <input type="hidden" name="pdoId" value = '<s:property value="#pdo.pdoID" />'/>
                                           <input type="submit" class="btn btn-primary  hvr-shutter-out-vertical" value="generateForm"/> 
                                        	
-                                        </form>
+                                        </s:form>
                                         </td>
                                  <td rowspan = "2">
-                                        <form action = "actionShowDetail">
+                                        <s:form action = "actionShowDetail">
                                           <input type="hidden" name="pdoId" value = '<s:property value="#pdo.pdoID" />'/>
+                                          <input type="hidden" name="userId" value = '<s:property value="userId" />'/>
                                           <input type="submit" class="btn btn-primary  hvr-shutter-out-vertical"  value="Detail"/> 
-                                        </form>
+                                        </s:form>
                                  </td>
                                 <tr/>
                              </thead>
@@ -256,30 +258,9 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                 </div>
                 <!--//grids-->
 
-<!--                
-<<<<<<< HEAD
-				     <div class="row clearfix">
-				    <div class="col-md-4 column">
-               <center><button type="button" class="btn btn-default btn-primary"  onclick = 'addRelation()'>addRelation</button>
-            </div> 
-						<div class="col-md-6 column">
-							 <center><button type="button" class="btn btn-default btn-primary"  onclick = 'addPdoUrl("<s:property value = 'user.userId'/>")'>addPdo</button>
-						</div>
-						<div class="col-md-6 column">
-							<center> <button type="button" class="btn btn-default btn-primary"  onclick = 'queryPdoUrl("<s:property value = 'user.userId'/>")'>queryPdo</button>
-						</div>
-					</div>
-<<<<<<< HEAD
-<!--  			
-					<s:form action = "actionImport" enctype="multipart/form-data" method="post">
-					<input type = "hidden" name = "userId" value = '<s:property value = "user.userId"/>'/>
-					<input type = "hidden" name = "excelFileName" id = "fileName"/>
-					<input type = "file" name = "excelFile" onChange="if(this.value)insertTitle(this.value);">
-					<input type = "submit"/> 
-					</s:form>
--->					
+
 					<s:form id = "fileForm">
-					<input type = "hidden" name = "userId" value = '<s:property value = "user.userId"/>'/>
+					<input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
 					<input type = "hidden" name = "excelFileName" id = "fileName"/>
 					<input type = "file" name = "excelFile" onChange="if(this.value)insertTitle(this.value);">
 					<input type = "button" value = "submit" onclick="importExcel();"/> 

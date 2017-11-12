@@ -15,7 +15,6 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
     function hideURLbar() { window.scrollTo(0, 1); }
     
 
-}
     //function showAllPdoUrl(userId){
     	//  window.location.href="actionShowAll.action?userId="+userId;
     //}
@@ -60,25 +59,33 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                 <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right dev-page-sidebar mCustomScrollbar _mCS_1 mCS-autoHide mCS_no_scrollbar" id="cbp-spmenu-s1">
                     <div class="scrollbar scrollbar1">
                         <ul class="nav" id="side-menu">
-                            <li>
-                                <a href="index.html"><i class="fa fa-home nav_icon"></i>个人主页</a>
+                            <li> 
+                                <s:form name = "backToHomepage" action = "actionShowAll">
+                                    <input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
+                                </s:form>
+                                <a href="javascript:document:backToHomepage.submit();"><i class="fa fa-home nav_icon"></i>个人主页</a>
                             </li>
                            
                             <li>
-                                <a  onclick = 'queryPdoUrl("<s:property value = 'user.userId'/>")'><i class="fa fa-book nav_icon"></i>查询数据 </a>
+                                <s:form name = "jumpQuery" action = "actionQueryPdo">
+                                    <input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
+                                </s:form>
+                                <a href="javascript:document:jumpQuery.submit();"><i class="fa fa-book nav_icon"></i>查询数据 </a>
 
                                 <!-- /nav-second-level -->
                             </li>
                             
                            
                             <li>
-                                <a onclick = 'addPdoUrl("<s:property value = 'user.userId'/>")'><i class="fa fa-th-large nav_icon"></i>添加pdo对象</a>
+                                <s:form name = "jumpAdd" action = "actionAddPdo">
+                                    <input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
+                                </s:form>
+                                <a href="javascript:document:jumpAdd.submit();"><i class="fa fa-th-large nav_icon"></i>添加pdo对象</a>
                             </li>
                             <li>
                                 <a  onclick = 'addRelation()' ><i class="fa fa-th-large nav_icon"></i>添加数据关联</a>
                             </li>
                        
-                             onclick = 'addRelation()'
                             <li>
                                 <a href="login.jsp"><i class="fa fa-th-large nav_icon"></i>logout</a>
                             </li>
@@ -175,6 +182,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 						<td><s:property value="%{#mapPdo.value}" /></td>
 						</tr>
 						</s:iterator>
+
 					</tbody>
 					
 					
@@ -184,11 +192,13 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 					<!-- 我觉得pdo的编号还是没有必要让用户知道,所以我把这个属性给隐藏了 -->
 						<div hidden>
 						<input  type = "text" name = "pdoId"  readonly  unselectable="on" value ='<s:property value = "pdo.pdoID" />'/>
+						<input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
 						</div>
 						<div class="col-md-11 column">
 						<center>
 						<input type = "submit" class="btn btn-lg btn-success" value = "RelativaPdo"/>
 						</div>
+
 						</s:form>
 					</table>
 

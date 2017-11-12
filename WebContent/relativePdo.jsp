@@ -86,24 +86,32 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                     <div class="scrollbar scrollbar1">
                         <ul class="nav" id="side-menu">
                             <li>
-                                <a href="index.html"><i class="fa fa-home nav_icon"></i>个人主页</a>
+                                <s:form name = "backToHomepage" action = "actionShowAll">
+                                    <input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
+                                </s:form>
+                                <a href="javascript:document:backToHomepage.submit();"><i class="fa fa-home nav_icon"></i>个人主页</a>
                             </li>
                            
                             <li>
-                                <a  onclick = 'queryPdoUrl("<s:property value = 'user.userId'/>")'><i class="fa fa-book nav_icon"></i>查询数据 </a>
+                            <s:form name = "jumpQuery" action = "actionQueryPdo">
+                                    <input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
+                                </s:form>
+                                <a href="javascript:document:jumpQuery.submit();"><i class="fa fa-book nav_icon"></i>查询数据 </a>
 
                                 <!-- /nav-second-level -->
                             </li>
                             
                            
                             <li>
-                                <a onclick = 'addPdoUrl("<s:property value = 'user.userId'/>")'><i class="fa fa-th-large nav_icon"></i>添加pdo对象</a>
+                                <s:form name = "jumpAdd" action = "actionAddPdo">
+                                    <input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
+                                </s:form>
+                                <a href="javascript:document:jumpAdd.submit();"><i class="fa fa-th-large nav_icon"></i>添加pdo对象</a>
                             </li>
                             <li>
                                 <a  onclick = 'addRelation()' ><i class="fa fa-th-large nav_icon"></i>添加数据关联</a>
                             </li>
                        
-                             onclick = 'addRelation()'
                             <li>
                                 <a href="login.jsp"><i class="fa fa-th-large nav_icon"></i>logout</a>
                             </li>
@@ -198,6 +206,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                             
  
                              <s:iterator value = "relateRes" var = "pdo" status = "sta">
+
 								
 									<table class="table">
 									<thead>
@@ -208,6 +217,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 									<td>
 									<s:property value = "#pdo.pdoId"/>
 									</td>
+
 									
 									</tr>
 									</thead>
@@ -221,14 +231,17 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 									
 									<!-- 我觉得pdo的编号还是没有必要让用户知道,所以我把这个属性给隐藏了 -->
 									<s:form action = "actionShowRelate">
+
 									<div hidden>
 									<input type = "text" name = "pdoId" value ='<s:property value = "#pdo.pdoID"/>'/>
 									</div>
 									<div class="col-md-11 column">
 									<center>
 									<input type = "submit"  class="btn btn-lg btn-success" value = "RelativaPdo"/>
+									<input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
 									</div>
 									</br></br></br>
+
 									</s:form>
 							</s:iterator>
                             
@@ -240,7 +253,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                 <!--//grids-->
 
 <!--                
-<<<<<<< HEAD
+
 				     <div class="row clearfix">
 				    <div class="col-md-4 column">
                <center><button type="button" class="btn btn-default btn-primary"  onclick = 'addRelation()'>addRelation</button>
@@ -252,9 +265,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 							<center> <button type="button" class="btn btn-default btn-primary"  onclick = 'queryPdoUrl("<s:property value = 'user.userId'/>")'>queryPdo</button>
 						</div>
 					</div>
-=======
 
->>>>>>> origin/core
                 -->
 	
 

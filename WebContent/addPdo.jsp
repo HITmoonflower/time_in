@@ -79,16 +79,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 		  value.name = "infoMap."+key.value;
 	  }
 	  var url = window.location.search;  
-	  if (url.indexOf("?") != -1) {
-	        var str = url.substr(1);
-	        strs = str.split("=");
-	        key = document.getElementById("Id");
-	        key.value = strs[1];
-	        document.getElementById("pdoForm").submit();
-	    }
-	  else{
-	  alert("Error Happened")
-	  }
+	  document.getElementById("pdoForm").submit();
   }
   </script>
 
@@ -110,22 +101,25 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                 <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right dev-page-sidebar mCustomScrollbar _mCS_1 mCS-autoHide mCS_no_scrollbar" id="cbp-spmenu-s1">
                     <div class="scrollbar scrollbar1">
                         <ul class="nav" id="side-menu">
-                            <li>
-                                <a href="index.html"><i class="fa fa-home nav_icon"></i>个人主页</a>
+                            <li> <s:form name = "backToHomepage" action = "actionShowAll">
+                                    <input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
+                                </s:form>
+                                <a href="javascript:document:backToHomepage.submit();"><i class="fa fa-home nav_icon"></i>个人主页</a>
                             </li>
                            
                             <li>
-                                <a href="#" onclick = 'queryPdoUrl("<s:property value = 'user.userId'/>")'><i class="fa fa-book nav_icon"></i>查询数据 </a>
-
+                                 <s:form name = "jumpQuery" action = "actionQueryPdo">
+                                    <input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
+                                </s:form>
+                                <a href="javascript:document:jumpQuery.submit();"><i class="fa fa-book nav_icon"></i>查询数据 </a>
                                 <!-- /nav-second-level -->
                             </li>
                             
-                           
-                            <li>
-                                <a onclick = 'addPdoUrl("<s:property value = 'user.userId'/>")'><i class="fa fa-th-large nav_icon"></i>添加pdo对象<span class="fa arrow"></span></a>
-                            </li>
                              <li>
-                                <a onclick = 'addPdoUrl("<s:property value = 'user.userId'/>")'><i class="fa fa-th-large nav_icon"></i>添加pdo对象<span class="fa arrow"></span></a>
+                                <s:form name = "jumpAdd" action = "actionAddPdo">
+                                    <input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
+                                </s:form>
+                                <a href="javascript:document:jumpAdd.submit();"><i class="fa fa-th-large nav_icon"></i>添加pdo对象</a>
                             </li>
                             
                             <li>
@@ -224,7 +218,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 						
 
 		<center><s:form action="actionAddPdo" Class="form-horizontal" theme="simple" id = "pdoForm">
-            <input type="hidden" name="userID" id="Id" />
+            <input type="hidden" name="userID" value = '<s:property value = "userId"/>' />
               <table id = "pdo">
               <tr class="form-group">
                     <th class="col-sm-2">Key</th>

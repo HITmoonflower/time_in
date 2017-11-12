@@ -53,7 +53,7 @@ function login(){
 				<h1>Login</h1>
 			</div>
 			<div class="login-info">
-				<form action = "actionLogin.action" id = "loginForm">
+				<s:form action = "actionLogin.action" id = "loginForm">
 					
 
 
@@ -98,7 +98,7 @@ function login(){
 						</ul>
 					</div>
 					-->
-				</form>
+				</s:form>
 			</div>
 		</div>
 		<!--  <div class="go-back login-go-back">
