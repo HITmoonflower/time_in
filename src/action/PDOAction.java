@@ -15,8 +15,10 @@ import database.DataOperation;
 import model.*;
 import service.*;
 
+
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+import net.sf.json.*;
 
 public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 	private PDOModel pdo = new PDOModel();
@@ -29,7 +31,9 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 	private List<PDOModel> relateRes; //use to store query relate result
 	private List<String> formHeader; //use to generate form by the pdoId
 	private int pdo1, pdo2; //use to link two pdo
-  private String excelFileName; //use to store the excel's absolute path
+    private File excelFile; 
+    private String excelFileName; //use to store the excel's name
+    private String importRes;
 	
 	public List<PDOModel> getRelateRes() {
     return relateRes;
@@ -55,12 +59,12 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
     this.formHeader = formHeader;
   }
 
-  public String getExcelFileName() {
-    return excelFileName;
+  public File getExcelFile() {
+    return excelFile;
   }
 
-  public void setExcelFileName(String excelFileName) {
-    this.excelFileName = excelFileName;
+  public void setExcelFile(File excelFile) {
+    this.excelFile = excelFile;
   }
 
   public int getPdo1() {
@@ -126,7 +130,13 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
   public void setPdo(PDOModel pdo) {
     this.pdo = pdo;
   }
+	public String getExcelFileName() {
+		return excelFileName;
+	}
 
+	public void setExcelFileName(String excelFileName) {
+		this.excelFileName = excelFileName;
+	}
 	
  	public String addPdo() {
  	  System.out.println(pdo.getUserID());
@@ -165,35 +175,59 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 	}
 	
 	public String uploadPdo() {
-		excelService.setExcelFile(excelFileName);
-		
-		if(excelService.createWB()) {
-			String[] header = excelService.readExcelTitle();
-			String[][] content = excelService.readExcelContent();
-			pdo.setUserID(userId);
-			for(int i = 0; i < content.length; i++) {
-				int excelColumn = content[i].length;
-				info = new HashMap<String, String>();
-				boolean flag = false;
-				for(int j = 0; j < header.length; j++) {
-					if(j < excelColumn) {
-						//不允许有空的value???
-						if(header[j].length() == 0 || content[i][j].length() == 0)
-							continue;
-						info.put(header[j], content[i][j]);
-						flag = true;
-					}else {
-						break;
+		String res = null;
+		try {
+			FileInputStream is = new FileInputStream(excelFile);
+			excelService.setFis(is);
+			excelService.setFileName(excelFileName);
+			if(excelService.createWB()) {
+				String[] header = excelService.readExcelTitle();
+				String[][] content = excelService.readExcelContent();
+				if(header == null) {
+					res = "emptyHeader";
+				}else if(content == null) {
+					res = "emptyContent";
+				}else {
+					pdo.setUserID(userId);
+					for(int i = 0; i < content.length; i++) {
+						int excelColumn = content[i].length;
+						info = new HashMap<String, String>();
+						boolean flag = false;	
+						for(int j = 0; j < header.length; j++) {
+							if(j < excelColumn) {
+							//不允许有空的行???
+								if(header[j].length() == 0 || content[i][j].length() == 0)
+									continue;
+								info.put(header[j], content[i][j]);
+								flag = true;
+							}else {
+								break;
+							}
+						}
+						if(flag) {
+							pdo.setInfoMap(info);
+							pdoService.add(pdo);
+						}
 					}
+					res = "success";
 				}
-				if(flag) {
-					pdo.setInfoMap(info);
-					pdoService.add(pdo);
-				}
+
+			}else {
+				res = "typeError";
 			}
-			return SUCCESS;
-		}else
-			return "error";
+			if(is != null)
+				is.close();
+		}catch(FileNotFoundException e) {
+			e.printStackTrace();
+			res = "fileNotFound";
+		}catch(IOException e) {
+			e.printStackTrace();
+			res = "error";
+		}
+		Map<String, String> jsonMap = new HashMap();
+		jsonMap.put("importRes", res);
+		importRes = JSONObject.fromObject(jsonMap).toString();
+		return SUCCESS;
 	}
 	
 	public String showDetailPdo() {
@@ -204,7 +238,7 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 	}
 	
 	public String showRelatePdo() {
-		relateRes = pdoService.getRelate(pdoId);
+		setRelateRes(pdoService.getRelate(pdoId));
 		return SUCCESS;
 	}
 	@Override
@@ -212,4 +246,13 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
     // TODO Auto-generated method stub
     return pdo;
   }
+
+	public String getImportRes() {
+		return importRes;
+	}
+
+	public void setImportRes(String importRes) {
+		this.importRes = importRes;
+	}
+
 }

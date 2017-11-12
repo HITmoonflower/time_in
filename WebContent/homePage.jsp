@@ -41,6 +41,16 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 		alert("请选择两个pdo")
 	}
 }
+    function insertTitle(path){  
+    	   var test1 = path.lastIndexOf("/");
+    	   var test2 = path.lastIndexOf("\\");
+    	   var test= Math.max(test1, test2)
+    	   if(test<0){  
+    	     document.getElementById("fileName").value = path;
+    	   }else{
+    	    document.getElementById("fileName").value = path.substring(test + 1);
+    	   }
+    	}  
     //function showAllPdoUrl(userId){
     	//  window.location.href="actionShowAll.action?userId="+userId;
     //}
@@ -61,8 +71,8 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
     <script src="js/jquery-1.11.1.min.js"></script>
     <script src="js/modernizr.custom.js"></script>
     <!--webfonts-->
-<link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>
-
+    <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>
+    <!--//webfonts-->
     <!--animate-->
     <link href="css/animate.css" rel="stylesheet" type="text/css" media="all">
     <script src="js/wow.min.js"></script>
@@ -176,6 +186,14 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 
 
 
+<<<<<<< HEAD
+
+
+
+
+
+=======
+>>>>>>> origin/core
         <div id="page-wrapper">
             <div class="main-page">
                 <!--grids-->
@@ -258,16 +276,26 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 							<center> <button type="button" class="btn btn-default btn-primary"  onclick = 'queryPdoUrl("<s:property value = 'user.userId'/>")'>queryPdo</button>
 						</div>
 					</div>
-=======
-
->>>>>>> origin/core
-                -->
-	
-
+<<<<<<< HEAD
+<!--  			
+					<s:form action = "actionImport" enctype="multipart/form-data" method="post">
+					<input type = "hidden" name = "userId" value = '<s:property value = "user.userId"/>'/>
+					<input type = "hidden" name = "excelFileName" id = "fileName"/>
+					<input type = "file" name = "excelFile" onChange="if(this.value)insertTitle(this.value);">
+					<input type = "submit"/> 
+					</s:form>
+-->					
+					<s:form id = "fileForm">
+					<input type = "hidden" name = "userId" value = '<s:property value = "user.userId"/>'/>
+					<input type = "hidden" name = "excelFileName" id = "fileName"/>
+					<input type = "file" name = "excelFile" onChange="if(this.value)insertTitle(this.value);">
+					<input type = "button" value = "submit" onclick="importExcel();"/> 
+					</s:form>
 
                
             </div>
         </div>
+
         <!--footer-->
 		 <div class="dev-page">
 	 
@@ -309,6 +337,41 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 				if( button !== 'showLeftPush' ) {
 					classie.toggle( showLeftPush, 'disabled' );
 				}
+			}
+			
+			//ajax请求导入excel
+			function importExcel(){
+				var formData = new FormData(document.getElementById("fileForm"));
+				$.ajax({
+					type : "post",
+					url : 'actionImport',
+					data : formData,
+					async : false,
+					cache : false,
+					contentType : false,
+					processData : false,
+					success : function(data){
+						var obj = JSON.parse(data);
+						if (obj.importRes == "emptyHeader"){
+							alert("请添加键");
+						}else if(obj.importRes == "emptyContent"){
+							alert("请添加值！");
+						}else if(obj.importRes == "typeError"){
+							alert("文件类型只能是xls或者xlsx！");
+						}else if(obj.importRes == "fileNotFound"){
+							alert("文件不存在！");
+						}else if(obj.importRes == "error"){
+							alert("上传失败！");
+						}else{
+							
+						}
+							
+					},
+					error : function(e){
+						alert("上传失败！");
+					}
+				});
+				get();
 			}
 		</script>
 	<!-- Bootstrap Core JavaScript --> 
