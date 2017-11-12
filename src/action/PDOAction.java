@@ -241,6 +241,10 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 		setRelateRes(pdoService.getRelate(pdoId));
 		return SUCCESS;
 	}
+	
+	public String jumpPage() {
+	  return SUCCESS;
+	}
 	@Override
   public Object getModel() {
     // TODO Auto-generated method stub
