@@ -115,7 +115,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                             <li>
                                 <a  onclick = 'addRelation()' ><i class="fa fa-th-large nav_icon"></i>添加数据关联</a>
                             </li>
-                       
+
                             <li>
                                 <a href="login.jsp"><i class="fa fa-th-large nav_icon"></i>logout</a>
                             </li>
@@ -125,10 +125,10 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                 <a href="#" class="chart-nav"><i class="fa fa-bar-chart nav_icon"></i>Extras<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level collapse">
                                     <li>
-									 <a href="#" class="chart-nav"><i class="fa fa-bar-chart nav_icon"></i>统计个人数据信息</a>
+									 <a href="" class="chart-nav"><i class="fa fa-bar-chart nav_icon"></i>统计个人数据信息</a>
                                     </li>
                                     <li>
-                                      <a href="#" class="chart-nav"><i class="fa fa-location-arrow nav_icon"></i>地图选点</a>
+                                      <a href="" class="chart-nav"><i class="fa fa-location-arrow nav_icon"></i>地图选点</a>
                                    </li>
                                 </ul>
                                 <!-- //nav-second-level -->
@@ -185,6 +185,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
         </div>
         <!-- //header-ends -->
         <!-- main content start-->
+
 
 
         <div id="page-wrapper">
