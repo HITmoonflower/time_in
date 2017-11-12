@@ -78,7 +78,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 		  var value = document.getElementById("value"+String(j));
 		  value.name = "infoMap."+key.value;
 	  }
-	  var url = window.location.search;  
+  
 	  document.getElementById("pdoForm").submit();
   }
   </script>
@@ -217,7 +217,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 						<div class="row clearfix">
 						
 
-		<center><s:form action="actionAddPdo" Class="form-horizontal" theme="simple" id = "pdoForm">
+		<center><form action="actionAddPdo" Class="form-horizontal" theme="simple" id = "pdoForm" method = "post">
             <input type="hidden" name="userID" value = '<s:property value = "userId"/>' />
               <table id = "pdo">
               <tr class="form-group">
@@ -228,7 +228,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
               <tr class="form-group">
                     <td class="col-sm-4" >Date</td>
                     <td class="col-sm-4">
-                        <input type="text" name="infoMap.datetime" Class="form-control" id = "date"/>
+                        <input type="text" name="infoMap.datetime" Class="form-control" id = "date" data-validation="date" data-validation-help="Please input as the format 'YYYY-MM-DD'"/>
                     </td>
              </tr><br>
               <tr class="form-group">
@@ -262,7 +262,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 		              
 		                    </div>
           		  </div>
-          </s:form>
+          </form>
 
 
 								
@@ -323,7 +323,10 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 			}
 		</script>
 	<!-- Bootstrap Core JavaScript --> 
-		
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>		
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
 
         <script type="text/javascript" src="js/dev-loaders.js"></script>
@@ -348,7 +351,12 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 		<!-- real-time-updates -->
 		<script language="javascript" type="text/javascript" src="js/jquery.flot.js"></script>
 		<script type="text/javascript">
-
+		
+		$.validate({
+			form:'#pdoForm',
+			moudles:'html5,date'
+		});
+	
 		$(function() {
 
 			// We use an inline data source in the example, usually data would

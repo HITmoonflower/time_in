@@ -30,12 +30,12 @@
 		</result>
     </action>
     <action name = "actionLogin" class = "action.UserAction" method = "loginUser">
-      <result type = "chain">actionShowAll</result>
+      <result name = "success" type = "chain">actionShowAll</result>
       <result name = "error">/loginError.jsp</result>
     </action>
     <action name = "actionRegister" class = "action.UserAction" method = "registerUser">
       <result>/login.jsp</result>
-      <result name = "error">/registerRrror.jsp</result>
+      <result name = "error">/registerError.jsp</result>
     </action>
     <action name = "actionShowDetail" class = "action.PDOAction" method = "showDetailPdo">
       <result>/detail.jsp</result>
@@ -43,9 +43,6 @@
     </action>
     <action name = "actionShowRelate" class = "action.PDOAction" method = "showRelatePdo">
       <result>/relativePdo.jsp</result>
-    </action>
-    <action name = "actionAddPdo" class = "action.PDOAction" method = "jumpPage">
-      <result>/addPdo.jsp</result>
     </action>
     <action name = "actionQueryPdo" class = "action.PDOAction" method = "jumpPage">
       <result>/queryPdo.jsp</result>

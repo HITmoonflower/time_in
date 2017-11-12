@@ -208,11 +208,11 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                              <s:iterator value = "relateRes" var = "pdo" status = "sta">
 
 								
-									<table class="table">
+									<table class="table table-hover table-striped">
 									<thead>
 									<tr class="info">
 									<td>
-									pdo编号
+										pdo编号
 									</td>
 									<td>
 									<s:property value = "#pdo.pdoId"/>
@@ -221,12 +221,16 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 									
 									</tr>
 									</thead>
+									<tbody>
 									<s:iterator value="#pdo.infoMap" status="ss" var = "map">
 									<tr class="info">
+									
+									
 									<td><s:property value="%{#map.key}" /></td>
 									<td><s:property value="%{#map.value}" /></td>
 									</tr>
 									</s:iterator>
+									</tbody>
 									</table>
 									
 									<!-- 我觉得pdo的编号还是没有必要让用户知道,所以我把这个属性给隐藏了 -->
