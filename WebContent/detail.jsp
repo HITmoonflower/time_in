@@ -15,31 +15,6 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
     function hideURLbar() { window.scrollTo(0, 1); }
     
 
-    function addPdoUrl(userId){
-    	window.location.href="addPdo.jsp?userId="+userId;
-    }
-    function queryPdoUrl(userId){
-    	window.location.href="queryPdo.jsp?userId="+userId;
-    }
-    function addRelation(){
-	var checkBox = document.getElementsByName("pdoItem");
-	var t = 0,num = 0;
-	var pdoId = new Array();
-	for (var i=0;i<checkBox.length;i++){
-		if (checkBox[i].checked){
-			pdoId[num] = checkBox[i].value;
-			num++;
-			t++;
-		}
-	}
-	if (t == 2){
-		document.getElementById("pdoId1").value = pdoId[0];
-		document.getElementById("pdoId2").value = pdoId[1];
-		document.getElementById("relation").submit();
-	}
-	else{
-		alert("请选择两个pdo")
-	}
 }
     //function showAllPdoUrl(userId){
     	//  window.location.href="actionShowAll.action?userId="+userId;
@@ -187,18 +162,35 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                     </div>
                     
                     
-                    <table>
+                    <table class="table">
+                    <thead>
+                    <tr class="info">
+                    <td>key</td>
+                    <td>value</td>
+                    </thead>
+                    <tbody>
 						<s:iterator value ="pdo.infoMap" var = "mapPdo" status = "sta">
-						<tr>
+						<tr class="info">
 						<td><s:property value="%{#mapPdo.key}" /></td>
 						<td><s:property value="%{#mapPdo.value}" /></td>
 						</tr>
 						</s:iterator>
-						<s:form action = "actionShowRelate">
-						<input type = "text" name = "pdoId" value ='<s:property value = "pdo.pdoID"/>'/>
-						<input type = "submit" value = "RelativaPdo"/>
+					</tbody>
+					
+					
+					
+						<s:form action = "actionShowRelate" class="navbar-form navbar-left" >
+					
+					<!-- 我觉得pdo的编号还是没有必要让用户知道,所以我把这个属性给隐藏了 -->
+						<div hidden>
+						<input  type = "text" name = "pdoId"  readonly  unselectable="on" value ='<s:property value = "pdo.pdoID" />'/>
+						</div>
+						<div class="col-md-11 column">
+						<center>
+						<input type = "submit" class="btn btn-lg btn-success" value = "RelativaPdo"/>
+						</div>
 						</s:form>
-						</table>
+					</table>
 
 
 

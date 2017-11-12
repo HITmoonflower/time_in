@@ -196,24 +196,41 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                 </s:form>
 
                             
-
-                             
+ 
                              <s:iterator value = "relateRes" var = "pdo" status = "sta">
+								
+									<table class="table">
+									<thead>
+									<tr class="info">
+									<td>
+									pdo编号
+									</td>
+									<td>
 									<s:property value = "#pdo.pdoId"/>
-									<table>
+									</td>
 									
+									</tr>
+									</thead>
 									<s:iterator value="#pdo.infoMap" status="ss" var = "map">
-									<tr>
+									<tr class="info">
 									<td><s:property value="%{#map.key}" /></td>
 									<td><s:property value="%{#map.value}" /></td>
 									</tr>
 									</s:iterator>
 									</table>
+									
+									<!-- 我觉得pdo的编号还是没有必要让用户知道,所以我把这个属性给隐藏了 -->
 									<s:form action = "actionShowRelate">
+									<div hidden>
 									<input type = "text" name = "pdoId" value ='<s:property value = "#pdo.pdoID"/>'/>
-									<input type = "submit" value = "RelativaPdo"/>
+									</div>
+									<div class="col-md-11 column">
+									<center>
+									<input type = "submit"  class="btn btn-lg btn-success" value = "RelativaPdo"/>
+									</div>
+									</br></br></br>
 									</s:form>
-									</s:iterator>
+							</s:iterator>
                             
                         </div>
                     </div>
