@@ -30,7 +30,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 			</div>
 			<div class="login-info">
 			
-				<form id = "setupForm" action = "actionRegister.action" data-toggle="validator" role="form">
+				<form id = "setupForm" action = "actionRegister.action" data-toggle="validator" role="form" method = "post">
 
 					<div class="form-group">
 					  <label for="inputUserID" class="control-label">UserID</label>

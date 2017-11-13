@@ -366,6 +366,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 						}else if(obj.importRes == "error"){
 							alert("上传失败！");
 						}else{
+							location.reload("true");
                             alert("导入成功！")
 						}
 							
