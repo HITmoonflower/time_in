@@ -311,7 +311,7 @@ $.validator.addMethod("isPositive",date()
 										<center>
 											<button type="submit"
 												class="btn  btn-lg btn-primary  hvr-shutter-out-vertical"
-												onsubmit=" queryPdoUrl()">queryPdo</button>
+												onclick=" queryPdoUrl()">queryPdo</button>
 										</center>
 										
 										<!--onsubmit 显示正常,但是存在的问题是无法查询数据
