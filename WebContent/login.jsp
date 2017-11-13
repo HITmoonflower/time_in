@@ -50,10 +50,11 @@ function login(){
 				<h1>Login</h1>
 			</div>
 			<div class="login-info">
-				<form action = "actionLogin" id = "loginForm" method = "post" data-toggle="validator" role="form">
+			
 
+	<form action = "actionLogin" id = "loginForm" method = "post" data-toggle="validator" onClick = "input()" role="form">
 
-    
+   	 <input type = "hidden" name ="userId" id = "Id"/>
     
     					<div class="form-group">
 					  <label for="userInfo" class="control-label">UserID</label>

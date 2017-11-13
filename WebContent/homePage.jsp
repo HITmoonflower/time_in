@@ -129,16 +129,16 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 									<input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
 									<input type = "hidden" name = "excelFileName" id = "fileName"/>
 									
-                                    <li>
+                                    <li class="btn btn-default">
 								
 									  <center><input type = "file" name = "excelFile"
-									  onChange="if(this.value)insertTitle(this.value);" />
+									  onChange="if(this.value)insertTitle(this.value);"  />
 									  </center>
                                     </li>
                                     <br/>
-                                    <li>
+                                    <li class="btn btn-default">
                                      
-                                       <center><input type = "button" class="btn btn-primary btn-default"
+                                       <center><input type = "button" class="btn  btn-default"
                                        value = "submit" onclick="importExcel();" />
                                    </li>
                                    </s:form>
@@ -375,6 +375,8 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 					}
 				});
 				get();
+				
+				
 			}
 		</script>
 	<!-- Bootstrap Core JavaScript --> 
