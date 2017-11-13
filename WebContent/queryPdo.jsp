@@ -94,11 +94,6 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 // 		            RETURN FALSE;
 
 // 		}
-
-		
-		
-		
-		
 		if (startDate.value == "") {
 			startDate.value = "0000-00-00";
 		}
@@ -115,7 +110,6 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 		if (placeIn.value == "") {
 			placeIn.value = "noPlaceInput";
 		}
-
 		document.getElementById("queryForm").submit();
 		return true;
 	}
@@ -317,7 +311,7 @@ $.validator.addMethod("isPositive",date()
 										<center>
 											<button type="submit"
 												class="btn  btn-lg btn-primary  hvr-shutter-out-vertical"
-												onsubmit="  queryPdoUrl()">queryPdo</button>
+												onsubmit=" queryPdoUrl()">queryPdo</button>
 										</center>
 										
 										<!--onsubmit 显示正常,但是存在的问题是无法查询数据
