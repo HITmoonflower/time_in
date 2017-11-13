@@ -31,7 +31,8 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 				<img src="images/404s_gothkid.jpg" alt="" />
 			</div>
 			<div class="go-back">
-				<a href="index.html">Go To Home</a>
+				<a href="login.jsp">login
+				</a>
 			</div>
 		</div>
 		<div class="copyright login-copyright error-copyright">

@@ -27,7 +27,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 <script src="js/modernizr.custom.js"></script>
 <!-- jQuery Validate库文件-->
 <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
-<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
 <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js"></script>
 
 
@@ -37,11 +37,8 @@ function login(){
 	var userId = document.getElementById("userInfo");
 	var postId = document.getElementById("Id");
 	postId.value = userId.value;
-	document.getElementById("loginForm").submit();
+	return true;
 }
-
-
-
 
 </script>
 <!-- jQuery Validate库文件-->
@@ -53,15 +50,33 @@ function login(){
 				<h1>Login</h1>
 			</div>
 			<div class="login-info">
-				<s:form action = "actionLogin.action" id = "loginForm">
-					
+				<form action = "actionLogin" id = "loginForm" method = "post" data-toggle="validator" role="form">
 
 
-					<input type="hidden" name="userId" id = "Id" value = ""/>
-					E-Mail:<input type = "text" name="user.userId" id = "userInfo"/><br/>
-					Password:<input type = "password" name="user.password" id="userPwd"/><br/>
-					<input type = "button" class="btn btn-primary btn-lg btn-block" value = "login" onclick = "login()"/>
-
+    
+    
+    					<div class="form-group">
+					  <label for="userInfo" class="control-label">UserID</label>
+					  
+					  
+					   <input type="number" maxlength="10" class="form-control" id="userInfo" name="user.userId" required>
+					     <!--  <div class="help-block with-errors" ></div><br/>
+					     -->
+					   </div>
+					   
+					  <div class="form-group">
+					  <label for="userPwd" class="control-label">Password</label>
+					  
+					  
+					   <input type="password" maxlength="10" class="form-control" id="userPwd" name="user.password" required>
+					     <!--  <div class="help-block with-errors" ></div><br/>
+					     -->
+					   </div>
+					   
+					   
+					   
+					   
+					<button type = "submit" class="btn btn-primary btn-lg btn-block" onclick = "return login()">login</button>
 
 
 					<!--
@@ -98,7 +113,7 @@ function login(){
 						</ul>
 					</div>
 					-->
-				</s:form>
+				</form>
 			</div>
 		</div>
 		<!--  <div class="go-back login-go-back">
@@ -108,5 +123,18 @@ function login(){
 		<div class="copyright login-copyright error-copyright">
            <p>Copyright &copy; 2017.HITmoonflower All rights reserved.</p>    
 		</div>
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>		
+       
+       
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script>
+        $.validate({
+        	form : '#loginForm',
+        	modules : 'security,html5'
+        });
+        </script>
 </body>
 </html>

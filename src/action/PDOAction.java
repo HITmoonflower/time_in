@@ -139,7 +139,6 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 	}
 	
  	public String addPdo() {
- 	  System.out.println(pdo.getUserID());
 		boolean res = pdoService.add(pdo);
 		if(res) {
 			return SUCCESS;

@@ -4,7 +4,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <title>详细信息</title>
+    <title>queryFail</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="Baxster Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
@@ -15,9 +15,18 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
     function hideURLbar() { window.scrollTo(0, 1); }
     
 
+    function addPdoUrl(userId){
+    	window.location.href="addPdo.jsp?userId="+userId;
+    }
+    function queryPdoUrl(userId){
+    	window.location.href="queryPdo.jsp?userId="+userId;
+    }
     //function showAllPdoUrl(userId){
     	//  window.location.href="actionShowAll.action?userId="+userId;
     //}
+
+    
+    
     </script>
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
@@ -53,7 +62,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 
 <body class="cbp-spmenu-push">
     <div class="main-content">
-        <!--left-fixed -navigation-->
+         <!--left-fixed -navigation-->
         <div class="sidebar" role="navigation">
             <div class="navbar-collapse">
                 <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right dev-page-sidebar mCustomScrollbar _mCS_1 mCS-autoHide mCS_no_scrollbar" id="cbp-spmenu-s1">
@@ -115,7 +124,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
             <div class="header-left">
                 <!--logo -->
                 <div class="logo">
-                    <a href="https://github.com/HITmoonflower/time_in">
+                    <a href="index.html">
                         <ul>
                             <li><img src="images/logo1.png" alt="" /></li>
                             <li>
@@ -158,61 +167,51 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 
 
 
+
+
         <div id="page-wrapper">
             <div class="main-page">
                 <!--grids-->
                 
               
                 <div class="grids">
-                    <div class="progressbar-heading grids-heading">
-                        <h2>Tables</h2>
-                    </div>
-                    
-                    
-                    <table class="table">
-                    <thead>
-                    <tr class="info">
-                    <td>key</td>
-                    <td>value</td>
-                    </thead>
-                    <tbody>
-						<s:iterator value ="pdo.infoMap" var = "mapPdo" status = "sta">
-						<tr class="info">
-						<td><s:property value="%{#mapPdo.key}" /></td>
-						<td><s:property value="%{#mapPdo.value}" /></td>
-						</tr>
-						</s:iterator>
-
-					</tbody>
-					
-					
-					
-						<s:form action = "actionShowRelate" class="navbar-form navbar-left" >
-					
-					<!-- 我觉得pdo的编号还是没有必要让用户知道,所以我把这个属性给隐藏了 -->
-						<div hidden>
-						<input  type = "text" name = "pdoId"  readonly  unselectable="on" value ='<s:property value = "pdo.pdoID" />'/>
-						<input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
+                
+                
+				 
+					<div class="row clearfix">
+						<div class="col-md-12 column">
+							<div class="alert alert-dismissable alert-warning">
+								 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+								<center><h2>
+									查询失败!
+								</h2> 
+								<center><strong>你创建的数据之中没符合条件的</strong>
+							</div>
 						</div>
-						<div class="col-md-11 column">
-						<center>
-						<input type = "submit" class="btn btn-lg btn-success" value = "RelativaPdo"/>
-						</div>
-
-						</s:form>
-					</table>
+					</div>
 
 
 
 
-
-
-
+             <div class="error-page">
+				<img src="images/loginerror.jpg" alt="" />
+			</div>
+                   
                                 
                 </div>
                 <!--//grids-->
-
-
+                
+                
+				  <!--   <div class="row clearfix">
+						<div class="col-md-6 column">
+							 <center><button type="button" class="btn btn-default btn-primary"  onclick = 'addPdoUrl("<s:property value = 'userId'/>")'>addPdo</button>
+						</div>
+						<div class="col-md-6 column">
+							<center> <button type="button" class="btn btn-default btn-primary"  onclick = 'queryPdoUrl("<s:property value = 'userId'/>")'>queryPdo</button>
+						</div>
+					</div>
+				--> 
+	
 
 
                

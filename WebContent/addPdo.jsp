@@ -27,6 +27,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 <script src="js/modernizr.custom.js"></script>
 <!--webfonts-->
 <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
 
 <!--//webfonts--> 
 <!--animate-->
@@ -67,19 +68,41 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
       i--;
   }
   function getMap(){
-	  // var date = document.getElementById("date");
-	  //var spend = document.getElementById("spend");
-	  //var place = document.getElementById("place");
-	  //date.name = "infoMap.date";
-	  //spend.name = "infoMap.spend";
-	  //place.name = "infoMap.place";
+	  var date = document.getElementById("date");
+	  var spend = document.getElementById("spend");
+	  var place = document.getElementById("place");
+	  var name = document.getElementById("name");
+	  if (date.value.trim() != ""){
+	  	date.name = "infoMap.datetime";
+	  }
+	  if (spend.value.trim() != ""){
+		  spend.name = "infoMap.spend";
+	  }
+	  if (place.value.trim() != ""){
+		  place.name = "infoMap.place";
+	  }
+	  if (name.value.trim() != ""){
+		  name.name = "infoMap.name";
+	  }
 	  for (var j = 3; j<window.i;j++){
 		  var key = document.getElementById("key"+String(j));
 		  var value = document.getElementById("value"+String(j));
 		  value.name = "infoMap."+key.value;
 	  }
-  
-	  document.getElementById("pdoForm").submit();
+	  
+	  if(data.value.trim() != ""){
+        var result = date.value.trim().match(/^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2})$/);
+        if(result == null){
+            return false;
+        }
+	  }
+	  if(spend.value.trim() != ""){
+		 var reg = /^\d+(?=\.{0,1}\d+$|$)/;
+		 if(!reg.test(num)){
+				return false ;
+		 }
+	   }
+	 return true;
   }
   </script>
 
@@ -95,33 +118,39 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 </head> 
 <body class="cbp-spmenu-push">
     <div class="main-content">
-        <!--left-fixed -navigation-->
+          <!--left-fixed -navigation-->
         <div class="sidebar" role="navigation">
             <div class="navbar-collapse">
                 <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right dev-page-sidebar mCustomScrollbar _mCS_1 mCS-autoHide mCS_no_scrollbar" id="cbp-spmenu-s1">
                     <div class="scrollbar scrollbar1">
                         <ul class="nav" id="side-menu">
-                            <li> <s:form name = "backToHomepage" action = "actionShowAll">
+                            <li>
+                             <s:form name = "backToHomepage" action = "actionShowAll">
                                     <input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
                                 </s:form>
                                 <a href="javascript:document:backToHomepage.submit();"><i class="fa fa-home nav_icon"></i>个人主页</a>
                             </li>
                            
                             <li>
-                                 <s:form name = "jumpQuery" action = "actionQueryPdo">
+                            <s:form name = "jumpQuery" action = "actionJumpQuery">
                                     <input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
                                 </s:form>
                                 <a href="javascript:document:jumpQuery.submit();"><i class="fa fa-book nav_icon"></i>查询数据 </a>
+
                                 <!-- /nav-second-level -->
                             </li>
                             
-                             <li>
-                                <s:form name = "jumpAdd" action = "actionAddPdo">
+                           
+                            <li>
+                                <s:form name = "jumpAdd" action = "actionJumpAdd">
                                     <input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
                                 </s:form>
                                 <a href="javascript:document:jumpAdd.submit();"><i class="fa fa-th-large nav_icon"></i>添加pdo对象</a>
                             </li>
-                            
+                            <li>
+                                <a  onclick = 'addRelation()' ><i class="fa fa-th-large nav_icon"></i>添加数据关联</a>
+                            </li>
+
                             <li>
                                 <a href="login.jsp"><i class="fa fa-th-large nav_icon"></i>logout</a>
                             </li>
@@ -131,10 +160,10 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                 <a href="#" class="chart-nav"><i class="fa fa-bar-chart nav_icon"></i>Extras<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level collapse">
                                     <li>
-									 <a href="#" class="chart-nav"><i class="fa fa-bar-chart nav_icon"></i>统计个人数据信息</a>
+									 <a href="" class="chart-nav"><i class="fa fa-bar-chart nav_icon"></i>统计个人数据信息</a>
                                     </li>
                                     <li>
-                                      <a href="#" class="chart-nav"><i class="fa fa-location-arrow nav_icon"></i>地图选点</a>
+                                      <a href="" class="chart-nav"><i class="fa fa-location-arrow nav_icon"></i>地图选点</a>
                                    </li>
                                 </ul>
                                 <!-- //nav-second-level -->
@@ -217,8 +246,9 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 						<div class="row clearfix">
 						
 
-		<center><form action="actionAddPdo" Class="form-horizontal" theme="simple" id = "pdoForm" method = "post">
+		<center><form action="actionAddPdo" Class="form-horizontal" theme="simple" id = "pdoForm" method = "post" data-toggle="validator" role="form">
             <input type="hidden" name="userID" value = '<s:property value = "userId"/>' />
+            <input type="hidden" name="userId" value = '<s:property value = "userId"/>' />
               <table id = "pdo">
               <tr class="form-group">
                     <th class="col-sm-2">Key</th>
@@ -228,25 +258,31 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
               <tr class="form-group">
                     <td class="col-sm-4" >Date</td>
                     <td class="col-sm-4">
-                        <input type="text" name="infoMap.datetime" Class="form-control" id = "date" data-validation="date" data-validation-help="Please input as the format 'YYYY-MM-DD'"/>
+                        <input type="text"  data-error="时间格式xxxx-xx-xx"
+				            pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"  Class="form-control" 
+				            id = "date" />
+				         <div class="help-block with-errors"></div>
                     </td>
              </tr><br>
               <tr class="form-group">
                     <td class="col-sm-4" >name</td>
                     <td class="col-sm-4">
-                        <input type="text" name="infoMap.name" Class="form-control" id = "spend"/>
+                        <input type="text"  maxlength="10" Class="form-control" id = "name"/>
+                        <div class="help-block with-errors"></div>
                     </td>
              </tr><br>
               <tr class="form-group">
                     <td class="col-sm-4" >Spend</td>
                     <td class="col-sm-4">
-                        <input type="text" name="infoMap.spend" Class="form-control" id = "spend"/>
+                        <input type="number" min=0 max=10000000000  Class="form-control" id = "spend"/>
+                        <div class="help-block with-errors"></div>
                     </td>
              </tr><br>
               <tr class="form-group">
                     <td class="col-sm-4">Place</td>
                     <td class="col-sm-4">
-                        <input type="text" name="infoMap.place" Class="form-control" id = "place"/>
+                        <input type="text" maxlength="10" Class="form-control" id = "place"/>
+                         <div class="help-block with-errors"></div>
                     </td>
              </tr><br>
              </table>
@@ -254,7 +290,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 		          <div class="form-group">
 		                    <div class="col-sm-offset-2 col-sm-4">
 		                    
-		                <button type="button" class="btn  btn-lg btn-primary  hvr-shutter-out-vertical" onclick = "getMap()" >AddPdo</button>
+		                <button type="submit" class="btn  btn-lg btn-primary  hvr-shutter-out-vertical" onclick = "return getMap()">AddPdo</button>
 							</div>
 							<div class="col-sm-offset-2 col-sm-4">
 		                       <button type="button" class="btn btn-lg btn-primary  hvr-shutter-out-vertical" onclick = "addRow()" >AddRow</button>
@@ -323,10 +359,10 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 			}
 		</script>
 	<!-- Bootstrap Core JavaScript --> 
-    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>		
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>		
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
 
         <script type="text/javascript" src="js/dev-loaders.js"></script>
@@ -356,6 +392,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 			form:'#pdoForm',
 			moudles:'html5,date'
 		});
+		
 	
 		$(function() {
 

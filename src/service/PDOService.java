@@ -31,6 +31,8 @@ public class PDOService {
 			int k = 2;
 			boolean flag1, flag2, flag3;
 			flag1 = flag2 = flag3 = false;
+			if(pdo.getInfoMap() == null)
+			    return true;
 			for (Map.Entry<String, String> entry: pdo.getInfoMap().entrySet()) {
 				key = entry.getKey();
 				value = entry.getValue();

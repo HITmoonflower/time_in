@@ -97,7 +97,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                             </li>
                            
                             <li>
-                            <s:form name = "jumpQuery" action = "actionQueryPdo">
+                            <s:form name = "jumpQuery" action = "actionJumpQuery">
                                     <input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
                                 </s:form>
                                 <a href="javascript:document:jumpQuery.submit();"><i class="fa fa-book nav_icon"></i>查询数据 </a>
@@ -107,7 +107,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                             
                            
                             <li>
-                                <s:form name = "jumpAdd" action = "actionAddPdo">
+                                <s:form name = "jumpAdd" action = "actionJumpAdd">
                                     <input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
                                 </s:form>
                                 <a href="javascript:document:jumpAdd.submit();"><i class="fa fa-th-large nav_icon"></i>添加pdo对象</a>
@@ -115,7 +115,39 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                             <li>
                                 <a  onclick = 'addRelation()' ><i class="fa fa-th-large nav_icon"></i>添加数据关联</a>
                             </li>
-
+							
+							
+							
+							 <li>
+							   
+									 
+								
+                                <a href="javascript:document:jumpAdd.submit();"><i class="fa fa-th-large nav_icon"></i>添加文件<span class="fa arrow"></span></a>
+                            		
+                            		<ul class="nav nav-second-level collapse">
+                                     <s:form id = "fileForm">
+									<input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
+									<input type = "hidden" name = "excelFileName" id = "fileName"/>
+									
+                                    <li>
+								
+									  <center><input type = "file" name = "excelFile"
+									  onChange="if(this.value)insertTitle(this.value);" />
+									  </center>
+                                    </li>
+                                    <br/>
+                                    <li>
+                                     
+                                       <center><input type = "button" class="btn btn-primary btn-default"
+                                       value = "submit" onclick="importExcel();" />
+                                   </li>
+                                   </s:form>
+                                </ul>
+                                
+                            </li>
+                            
+                            
+                            
                             <li>
                                 <a href="login.jsp"><i class="fa fa-th-large nav_icon"></i>logout</a>
                             </li>
@@ -193,6 +225,8 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                 <!--grids-->
                 
               
+
+					
                 <div class="grids">
                     <div class="progressbar-heading grids-heading">
                         <h2>Tables</h2>
@@ -259,12 +293,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                 <!--//grids-->
 
 
-					<s:form id = "fileForm">
-					<input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
-					<input type = "hidden" name = "excelFileName" id = "fileName"/>
-					<input type = "file" name = "excelFile" onChange="if(this.value)insertTitle(this.value);">
-					<input type = "button" value = "submit" onclick="importExcel();"/> 
-					</s:form>
+					
 
                
             </div>
@@ -337,7 +366,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 						}else if(obj.importRes == "error"){
 							alert("上传失败！");
 						}else{
-							
+                            alert("导入成功！")
 						}
 							
 					},

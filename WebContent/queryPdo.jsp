@@ -39,6 +39,8 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 <!-- Metis Menu -->
 <script src="js/metisMenu.min.js"></script>
 <script src="js/custom.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
+
 <link href="css/custom.css" rel="stylesheet">
 
 <script>
@@ -63,40 +65,35 @@ function queryPdoUrl(){
 	  if (placeIn.value == ""){
 	    placeIn.value = "noPlaceInput";
 	  }
-	  var url = window.location.search;
-	  if (url.indexOf("?") != -1) {
-          var str = url.substr(1);
-          strs = str.split("=");
-          var key = document.getElementById("Id");
-          key.value = strs[1];
-          document.getElementById("queryForm").submit();
-      }
-    else{
-    alert("Error Happened")
-    }
+    document.getElementById("queryForm").submit();
+     
 	}
 </script>
 
 
+
+   $.validator.addMethod("isPositive",date()<font color='#E47068'>请输入XXXX-XX-XX形式的日期</font>");
+            
+            
 <!--//Metis Menu -->
 </head> 
 <body class="cbp-spmenu-push">
     <div class="main-content">
-        <!--left-fixed -navigation-->
+         <!--left-fixed -navigation-->
         <div class="sidebar" role="navigation">
             <div class="navbar-collapse">
                 <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right dev-page-sidebar mCustomScrollbar _mCS_1 mCS-autoHide mCS_no_scrollbar" id="cbp-spmenu-s1">
                     <div class="scrollbar scrollbar1">
                         <ul class="nav" id="side-menu">
                             <li>
-                                 <s:form name = "backToHomepage" action = "actionShowAll">
+                             <s:form name = "backToHomepage" action = "actionShowAll">
                                     <input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
                                 </s:form>
                                 <a href="javascript:document:backToHomepage.submit();"><i class="fa fa-home nav_icon"></i>个人主页</a>
                             </li>
                            
-                             <li>
-                            <s:form name = "jumpQuery" action = "actionQueryPdo">
+                            <li>
+                            <s:form name = "jumpQuery" action = "actionJumpQuery">
                                     <input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
                                 </s:form>
                                 <a href="javascript:document:jumpQuery.submit();"><i class="fa fa-book nav_icon"></i>查询数据 </a>
@@ -106,12 +103,15 @@ function queryPdoUrl(){
                             
                            
                             <li>
-                                <s:form name = "jumpAdd" action = "actionAddPdo">
+                                <s:form name = "jumpAdd" action = "actionJumpAdd">
                                     <input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
                                 </s:form>
                                 <a href="javascript:document:jumpAdd.submit();"><i class="fa fa-th-large nav_icon"></i>添加pdo对象</a>
                             </li>
-                            
+                            <li>
+                                <a  onclick = 'addRelation()' ><i class="fa fa-th-large nav_icon"></i>添加数据关联</a>
+                            </li>
+
                             <li>
                                 <a href="login.jsp"><i class="fa fa-th-large nav_icon"></i>logout</a>
                             </li>
@@ -121,10 +121,10 @@ function queryPdoUrl(){
                                 <a href="#" class="chart-nav"><i class="fa fa-bar-chart nav_icon"></i>Extras<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level collapse">
                                     <li>
-									 <a href="#" class="chart-nav"><i class="fa fa-bar-chart nav_icon"></i>统计个人数据信息</a>
+									 <a href="" class="chart-nav"><i class="fa fa-bar-chart nav_icon"></i>统计个人数据信息</a>
                                     </li>
                                     <li>
-                                      <a href="#" class="chart-nav"><i class="fa fa-location-arrow nav_icon"></i>地图选点</a>
+                                      <a href="" class="chart-nav"><i class="fa fa-location-arrow nav_icon"></i>地图选点</a>
                                    </li>
                                 </ul>
                                 <!-- //nav-second-level -->
@@ -202,26 +202,39 @@ function queryPdoUrl(){
 							<div class="col-md-2 column">
 							</div>
 							<div class="col-md-8 column">
-							<s:form action="actionQueryPdo" Class="form-horizontal" theme="simple" id = "queryForm">
-				            <input type="hidden" name="userId" id = "Id" value = ""/>
+							<s:form action="actionQueryPdo" Class="form-horizontal" theme="simple" id = "queryForm" data-toggle="validator" role="form">
+				            <input type="hidden" name="userId" value = '<s:property value = "userId"/>'/>
 				              <table class="table">
+				              
+
+  
 				              <tr class="form-group success">
 				                    <td class="col-sm-4" >Date:</td>
 				                    <td class="col-sm-4">
-				                        <input type="text" name="info.startDate" Class="form-control" id = "startDate"/>
+				                        <input type="text" name="info.startDate" class="form-control"
+				                         data-error="时间格式xxxx-xx-xx"
+				                    
+				                           pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
+				                        date() id = "startDate"/>
+				                         <div class="help-block with-errors"></div>
+    									   <!--    pattern="(\d\d\d\d)[-.\/](1[0-9]|2[0-9])|0?[1-9][-.\/](0?[1-9]|[12][0-9]|3[01])" id = "startDate"/>-->
 				                    </td>
 				                    <td class="col-sm-4">
-				                        <input type="text" name="info.endDate" Class="form-control" id = "endDate"/>
+				                        <input type="text" name="info.endDate" 
+				                         data-error="时间格式xxxx-xx-xx"
+				                         pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
+				                        class="form-control" date() id = "endDate"/>
+				                         <div class="help-block with-errors"></div>
 				                    </td>
 				             </tr>
 				          
 				              <tr class="form-group success">
 				                    <td class="col-sm-4" >Spend</td>
 				                    <td class="col-sm-4">
-				                        <input type="text" name="info.minSpend" Class="form-control" id = "minSpend"/>
+				                        <input type="number" name="info.minSpend" Class="form-control" id = "minSpend"/>
 				                    </td>
 				                    <td class="col-sm-4 ">
-				                        <input type="text" name="info.maxSpend" Class="form-control" id = "maxSpend"/>
+				                        <input type="number" name="info.maxSpend" Class="form-control" id = "maxSpend"/>
 				                    </td>
 				             </tr>
 				           
