@@ -27,13 +27,16 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 	private int userId; //use to store the userId now
 	private int pdoId; //use to store the pdoId of the form
 	private Map<String, String> info = new HashMap<String, String>(); //use to store query conditions
-	private List<PDOModel> queryRes; //use to store query result
+	private Map<String, List<PDOModel>> queryRes; //use to store query result
 	private List<PDOModel> relateRes; //use to store query relate result
 	private List<String> formHeader; //use to generate form by the pdoId
 	private int pdo1, pdo2; //use to link two pdo
     private File excelFile; 
     private String excelFileName; //use to store the excel's name
     private String importRes;
+    private String name;
+
+    
 	
 	public List<PDOModel> getRelateRes() {
     return relateRes;
@@ -91,11 +94,11 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
     this.userId = userId;
   }
 
-  public List<PDOModel> getQueryRes() {
+  public Map<String, List<PDOModel>> getQueryRes() {
     return queryRes;
   }
 
-  public void setQueryRes(List<PDOModel> queryRes) {
+  public void setQueryRes(Map<String, List<PDOModel>> queryRes) {
     this.queryRes = queryRes;
   }
 
@@ -152,6 +155,7 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 			queryRes = pdoService.query(userId, info);
 			if(queryRes == null)
 				return "error";
+			
 			return SUCCESS;
 		} catch(SQLException e) {
 			e.printStackTrace();
@@ -165,7 +169,7 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 	}
 	
 	public String generateForm() {
-		formHeader = pdoService.showHeader(pdoId);
+		formHeader = pdoService.getHeaderByName(userId, name);
 		return SUCCESS;
 	}
 	
@@ -186,30 +190,93 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 				if(header == null) {
 					res = "emptyHeader";
 				}else if(content == null) {
-					res = "emptyContent";
-				}else {
-					pdo.setUserID(userId);
-					for(int i = 0; i < content.length; i++) {
-						int excelColumn = content[i].length;
-						info = new HashMap<String, String>();
-						boolean flag = false;	
-						for(int j = 0; j < header.length; j++) {
-							if(j < excelColumn) {
-							//不允许有空的行???
-								if(header[j].length() == 0 || content[i][j].length() == 0)
-									continue;
-								info.put(header[j], content[i][j]);
-								flag = true;
-							}else {
-								break;
-							}
+					//header = pdoService.getHeaderByName(name);
+					List<String> tmpheader = pdoService.getHeaderByName(userId, name);
+					if (tmpheader == null) {
+						tmpheader = new ArrayList<String>();
+						for (int i = 0; i < header.length; i++) {
+							tmpheader.add(header[i]);
 						}
-						if(flag) {
-							pdo.setInfoMap(info);
-							pdoService.add(pdo);
+						boolean tmpres = pdoService.addHeader(userId, name, tmpheader);
+						if(tmpres == true)
+							res = "addHeaderSuccess";
+						else
+							res = "addHeaderFail";
+					}else {
+						res = "existPdo";
+					}
+				}else {
+					List<String> tmpheader = pdoService.getHeaderByName(userId, name);
+					if(tmpheader == null) {
+						tmpheader = new ArrayList<String>();
+						for (int i = 0; i < header.length; i++) {
+							tmpheader.add(header[i]);
+						}
+						boolean tmpres = pdoService.addHeader(userId, name, tmpheader);
+						if(tmpres == true) {
+							pdo.setUserID(userId);
+							pdo.setName(name);
+							for(int i = 0; i < content.length; i++) {
+								int excelColumn = content[i].length;
+								info = new HashMap<String, String>();
+								boolean flag = false;	
+								for(int j = 0; j < header.length; j++) {
+									if(j < excelColumn) {
+										if(header[j].length() == 0 || content[i][j].length() == 0)
+											continue;
+										info.put(header[j], content[i][j]);
+										flag = true;
+									}else {
+										break;
+									}
+								}
+								if(flag) {
+									pdo.setInfoMap(info);
+									pdoService.add(pdo);
+								}
+							}
+							res = "addPdoSuccess";
+						}else {
+							res = "addHeaderFail";	
+						}
+					}else {
+						if (header.length == tmpheader.size()) {
+							boolean flag = true;
+							for (int i = 0; i < header.length; i++) {
+								if (header[i].equals(tmpheader.get(i)) == false) {
+									res = "notSameHeader";
+									flag = false;
+									break;
+								}
+							}
+							if(flag) {
+								pdo.setUserID(userId);
+								pdo.setName(name);
+								for(int i = 0; i < content.length; i++) {
+									int excelColumn = content[i].length;
+									info = new HashMap<String, String>();
+									flag = false;	
+									for(int j = 0; j < header.length; j++) {
+										if(j < excelColumn) {
+											if(header[j].length() == 0 || content[i][j].length() == 0)
+												continue;
+											info.put(header[j], content[i][j]);
+											flag = true;
+										}else {
+											break;
+										}
+									}
+									if(flag) {
+										pdo.setInfoMap(info);
+										pdoService.add(pdo);
+									}
+								}
+								res = "addPdoSuccess";								
+							}
+						}else {
+							res = "notSameHeader";
 						}
 					}
-					res = "success";
 				}
 
 			}else {
@@ -224,7 +291,7 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 			e.printStackTrace();
 			res = "error";
 		}
-		Map<String, String> jsonMap = new HashMap();
+		Map<String, String> jsonMap = new HashMap<String, String>();
 		jsonMap.put("importRes", res);
 		importRes = JSONObject.fromObject(jsonMap).toString();
 		return SUCCESS;
@@ -247,7 +314,6 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 	}
 	@Override
   public Object getModel() {
-    // TODO Auto-generated method stub
     return pdo;
   }
 
@@ -257,6 +323,14 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 
 	public void setImportRes(String importRes) {
 		this.importRes = importRes;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }
