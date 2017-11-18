@@ -28,25 +28,32 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 	private int pdoId; //use to store the pdoId of the form
 	private Map<String, String> info = new HashMap<String, String>(); //use to store query conditions
 	private Map<String, List<PDOModel>> queryRes; //use to store query result
-	private List<PDOModel> relateRes; //use to store query relate result
+	private String relateRes; //use to store query relate result
 	private List<String> formHeader; //use to generate form by the pdoId
 	private int pdo1, pdo2; //use to link two pdo
     private File excelFile; 
     private String excelFileName; //use to store the excel's name
     private String importRes;
-    private String name;
+    private String tranName;
 
-    
-	
-	public List<PDOModel> getRelateRes() {
-    return relateRes;
-  }
 
-  public void setRelateRes(List<PDOModel> relateRes) {
-    this.relateRes = relateRes;
-  }
+  public String getTranName() {
+		return tranName;
+	}
 
-  public int getPdoId() {
+	public void setTranName(String tranName) {
+		this.tranName = tranName;
+	}
+
+public String getRelateRes() {
+		return relateRes;
+	}
+
+	public void setRelateRes(String relateRes) {
+		this.relateRes = relateRes;
+	}
+
+public int getPdoId() {
     return pdoId;
   }
 
@@ -142,7 +149,6 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 	}
 	
  	public String addPdo() {
- 	  System.out.println(pdo.getUserID());
 		boolean res = pdoService.add(pdo);
 		if(res) {
 			return SUCCESS;
@@ -150,12 +156,11 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 		return "error";
 	}
 	
-	public String queryPdo() { 
+	public String queryPdo() {
 		try{
 			queryRes = pdoService.query(userId, info);
 			if(queryRes == null)
 				return "error";
-			
 			return SUCCESS;
 		} catch(SQLException e) {
 			e.printStackTrace();
@@ -169,7 +174,7 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 	}
 	
 	public String generateForm() {
-		formHeader = pdoService.getHeaderByName(userId, name);
+		formHeader = pdoService.getHeaderByName(userId, tranName);
 		return SUCCESS;
 	}
 	
@@ -179,6 +184,7 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 	}
 	
 	public String uploadPdo() {
+		String name = this.getTranName();
 		String res = null;
 		try {
 			FileInputStream is = new FileInputStream(excelFile);
@@ -305,7 +311,16 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 	}
 	
 	public String showRelatePdo() {
-		setRelateRes(pdoService.getRelate(pdoId));
+		List<PDOModel> temp = pdoService.getRelate(pdoId);
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
+		for (int i=0;i<temp.size();i++) {
+			Map<String,String> pdoTemp = temp.get(i).getInfoMap();
+			pdoTemp.put("pdoId", Integer.toString(temp.get(i).getPdoID()));
+			list.add(pdoTemp);
+		}
+		map.put("datas", list);
+		relateRes = JSONObject.fromObject(map).toString();
 		return SUCCESS;
 	}
 	
@@ -323,14 +338,6 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 
 	public void setImportRes(String importRes) {
 		this.importRes = importRes;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 }

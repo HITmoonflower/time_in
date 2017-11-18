@@ -19,6 +19,21 @@ public class PDOService {
 		String key, value;
 		Connection conn = DataConn.getConnection();
 		PreparedStatement pst1, pst2, pst3;
+		List<String> header = new ArrayList<String>();
+		Map<String,String> temp=pdo.getInfoMap();
+		for (Map.Entry<String, String> entry:temp.entrySet()) {
+			header.add(entry.getKey());
+		}
+		String queryHeader = "SELECT * FROM pdo.tableheader where name ='"+pdo.getName()+"' and userId ='"+pdo.getUserID()+"'"; 
+		System.out.println(queryHeader);
+		ResultSet rsName = DataOperation.getInstance().query(queryHeader);
+		try {
+			if (!rsName.next()) {
+				addHeader(pdo.getUserID(),pdo.getName(),header);
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
 		pst1 = pst2 = pst3 = null;
 		try {
 			pst1 = conn.prepareStatement(sqlkey);
@@ -135,7 +150,7 @@ public class PDOService {
 	//查询pdo，查询所得的数据以为List<Map<String, String>>形式传递,无输入返回所有在maxdate,mindate之间
 	//且在minspend与maxspend之间的所有pdo(可以改成返回"noInput")
 	//没有匹配的pdo,如果根据pdoId查不到相应的Pdo返回null
-	public List<PDOModel> query(int userId, Map<String, String>info) throws SQLException{
+	public Map<String, List<PDOModel>> query(int userId, Map<String, String>info) throws SQLException{
 	    String sqlQuery = "";
 	    String sqlKey = "";
 	    String sqlValue = "";
@@ -196,27 +211,35 @@ public class PDOService {
 	    sqlValue = "select * from " + tableValue + " where"+  pdoIdInfo;
 	    ResultSet rsKey = DataOperation.getInstance().query(sqlKey);
 	    ResultSet rsValue = DataOperation.getInstance().query(sqlValue);
-	    List<PDOModel> queryRes = new ArrayList<PDOModel>();
+	    Map<String, List<PDOModel>> queryRes = new HashMap<String, List<PDOModel>>();
 	    while (rsKey.next() && rsValue.next()) {
-	        PDOModel pdo = new PDOModel();
-	        Map<String, String> map = new HashMap<String, String>();
-	        pdo.setPdoID(rsValue.getInt(1));
-	        pdo.setUserID(rsValue.getInt(2));
-	        map.put("name", rsValue.getString(3));
-	        for (int i = 4;;i++) {
-	            try {
-	                if (rsKey.getString(i) == null) {
-	                    continue;
-	                }
-	                map.put(rsKey.getString(i-1), rsValue.getString(i));
-	            } catch(SQLException e) {
-	            	e.printStackTrace();
-	                break;
-	            }
-	         }
-	         pdo.setInfoMap(map);
-	         queryRes.add(pdo);
-	    }
+    	    PDOModel pdo = new PDOModel();
+    		Map<String, String> map = new HashMap<String, String>();
+    		pdo.setPdoID(rsValue.getInt(1));
+    		pdo.setUserID(rsValue.getInt(2));
+    		pdo.setName(rsValue.getString(3));
+    		for (int i = 4;;i++) {
+    			try {
+    				if (rsKey.getString(i) == null) {
+    					break;
+    				}
+    				map.put(rsKey.getString(i), rsValue.getString(i));
+    			} catch(SQLException e) {
+    				e.printStackTrace();
+    				break;
+    			}
+    		}
+    		pdo.setInfoMap(map);
+    		List<PDOModel> temp = queryRes.get(pdo.getName()) ;
+    		if (temp == null) {
+    			temp = new ArrayList<PDOModel>();
+    			temp.add(pdo);
+    			queryRes.put(pdo.getName(), temp);
+    		}else {
+    			temp.add(pdo);
+    			queryRes.put(pdo.getName(), temp);
+    		}
+    	}
 	    return queryRes;
 	}
 	
