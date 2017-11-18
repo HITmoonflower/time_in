@@ -260,7 +260,6 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                   <s:iterator value="#pdo.infoMap" status="ss" var = "map">
                                   <th><s:property value="%{#map.key}" /></th>
                                   </s:iterator>
-                                  
                                   <!-- generateFrom 按钮 -->
                                   <td rowspan = "2">
                                         <s:form action = "actionForm">
@@ -270,22 +269,6 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                        	
                                         </s:form>
                                         </td>
-                                        
-                                        
-                                   <!-- 从excel导入数据到此pdo -->
-                                   <!-- 思考再三,决定不放在主页面了,我觉得放在pdo界面里面会更合适一点.
-                                  <td rowspan = "2">
-                                        <s:form action = "actionForm">
-                                          <input type="hidden" name="userId" value = '<s:property value="#pdo.userID" />'/>
-                                          <input type="hidden" name="pdoId" value = '<s:property value="#pdo.pdoID" />'/>
-                                          <input type="submit" class="btn btn-primary  hvr-shutter-out-vertical" value="导入excel到此pdo"/> 
-                                       	
-                                        </s:form>
-                                        </td>
-                                       -->  
-                                        
-                                        
-                                        
                                  <td rowspan = "2">
                                         <s:form action = "actionShowDetail">
                                           <input type="hidden" name="pdoId" value = '<s:property value="#pdo.pdoID" />'/>
@@ -302,7 +285,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                   <s:iterator value="#pdo.infoMap" status="ss" var = "map">
                                   <th><s:property value="%{#map.value}" /></th>
                                   </s:iterator>
-                                    <th></th><th></th><th></th>
+                                    <th></th><th></th>
                                 </tr>
                              </tbody>
                              </table>
