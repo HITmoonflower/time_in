@@ -12,6 +12,7 @@ public class DataConn {
 	private static final String username = "root";
 	//private static final String password = "11321x";
 	private static final String password = "123456";
+//	private static final String password = "";
 	public static Connection getConnection() {
 		try {
 			Class.forName(driver);

@@ -27,17 +27,25 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 	private int userId; //use to store the userId now
 	private int pdoId; //use to store the pdoId of the form
 	private Map<String, String> info = new HashMap<String, String>(); //use to store query conditions
-	private List<PDOModel> queryRes; //use to store query result
+	private Map<String, List<PDOModel>> queryRes; //use to store query result
 	private String relateRes; //use to store query relate result
 	private List<String> formHeader; //use to generate form by the pdoId
 	private int pdo1, pdo2; //use to link two pdo
     private File excelFile; 
     private String excelFileName; //use to store the excel's name
     private String importRes;
-	
+    private String tranName;
 
 
-  public String getRelateRes() {
+  public String getTranName() {
+		return tranName;
+	}
+
+	public void setTranName(String tranName) {
+		this.tranName = tranName;
+	}
+
+public String getRelateRes() {
 		return relateRes;
 	}
 
@@ -93,11 +101,11 @@ public int getPdoId() {
     this.userId = userId;
   }
 
-  public List<PDOModel> getQueryRes() {
+  public Map<String, List<PDOModel>> getQueryRes() {
     return queryRes;
   }
 
-  public void setQueryRes(List<PDOModel> queryRes) {
+  public void setQueryRes(Map<String, List<PDOModel>> queryRes) {
     this.queryRes = queryRes;
   }
 
@@ -142,22 +150,41 @@ public int getPdoId() {
 	
  	public String addPdo() {
 		boolean res = pdoService.add(pdo);
+		Map<String, String> map = new HashMap<String,String>();
 		if(res) {
-			return SUCCESS;
+			map.put("result", "pdo数据添加成功");
 		}
-		return "error";
+		else {
+			map.put("result", "pdo数据添加失败");
+		}
+		relateRes = JSONObject.fromObject(map).toString();
+		return SUCCESS;
 	}
 	
-	public String queryPdo() { 
+	public String queryPdo() {
+		Map<String, String> map = new HashMap<String, String>();
 		try{
 			queryRes = pdoService.query(userId, info);
 			if(queryRes == null)
-				return "error";
-			return SUCCESS;
+				map.put("result", "查询数据失败");
+			else
+				map.put("result", "success");
 		} catch(SQLException e) {
 			e.printStackTrace();
-			return "error";
+			map.put("result", "查询数据失败");
 		}
+		relateRes = JSONObject.fromObject(map).toString();
+		return SUCCESS;
+	}
+	
+	public String queryPdoSuccess() {
+		try{
+			queryRes = pdoService.query(userId, info);
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return SUCCESS;
 	}
 	
 	public String addRelatePdo() {
@@ -166,7 +193,7 @@ public int getPdoId() {
 	}
 	
 	public String generateForm() {
-		formHeader = pdoService.showHeader(pdoId);
+		formHeader = pdoService.getHeaderByName(userId, tranName);
 		return SUCCESS;
 	}
 	
@@ -176,6 +203,7 @@ public int getPdoId() {
 	}
 	
 	public String uploadPdo() {
+		String name = this.getTranName();
 		String res = null;
 		try {
 			FileInputStream is = new FileInputStream(excelFile);
@@ -187,30 +215,93 @@ public int getPdoId() {
 				if(header == null) {
 					res = "emptyHeader";
 				}else if(content == null) {
-					res = "emptyContent";
-				}else {
-					pdo.setUserID(userId);
-					for(int i = 0; i < content.length; i++) {
-						int excelColumn = content[i].length;
-						info = new HashMap<String, String>();
-						boolean flag = false;	
-						for(int j = 0; j < header.length; j++) {
-							if(j < excelColumn) {
-							//不允许有空的行???
-								if(header[j].length() == 0 || content[i][j].length() == 0)
-									continue;
-								info.put(header[j], content[i][j]);
-								flag = true;
-							}else {
-								break;
-							}
+					//header = pdoService.getHeaderByName(name);
+					List<String> tmpheader = pdoService.getHeaderByName(userId, name);
+					if (tmpheader == null) {
+						tmpheader = new ArrayList<String>();
+						for (int i = 0; i < header.length; i++) {
+							tmpheader.add(header[i]);
 						}
-						if(flag) {
-							pdo.setInfoMap(info);
-							pdoService.add(pdo);
+						boolean tmpres = pdoService.addHeader(userId, name, tmpheader);
+						if(tmpres == true)
+							res = "addHeaderSuccess";
+						else
+							res = "addHeaderFail";
+					}else {
+						res = "existPdo";
+					}
+				}else {
+					List<String> tmpheader = pdoService.getHeaderByName(userId, name);
+					if(tmpheader == null) {
+						tmpheader = new ArrayList<String>();
+						for (int i = 0; i < header.length; i++) {
+							tmpheader.add(header[i]);
+						}
+						boolean tmpres = pdoService.addHeader(userId, name, tmpheader);
+						if(tmpres == true) {
+							pdo.setUserID(userId);
+							pdo.setName(name);
+							for(int i = 0; i < content.length; i++) {
+								int excelColumn = content[i].length;
+								info = new HashMap<String, String>();
+								boolean flag = false;	
+								for(int j = 0; j < header.length; j++) {
+									if(j < excelColumn) {
+										if(header[j].length() == 0 || content[i][j].length() == 0)
+											continue;
+										info.put(header[j], content[i][j]);
+										flag = true;
+									}else {
+										break;
+									}
+								}
+								if(flag) {
+									pdo.setInfoMap(info);
+									pdoService.add(pdo);
+								}
+							}
+							res = "addPdoSuccess";
+						}else {
+							res = "addHeaderFail";	
+						}
+					}else {
+						if (header.length == tmpheader.size()) {
+							boolean flag = true;
+							for (int i = 0; i < header.length; i++) {
+								if (header[i].equals(tmpheader.get(i)) == false) {
+									res = "notSameHeader";
+									flag = false;
+									break;
+								}
+							}
+							if(flag) {
+								pdo.setUserID(userId);
+								pdo.setName(name);
+								for(int i = 0; i < content.length; i++) {
+									int excelColumn = content[i].length;
+									info = new HashMap<String, String>();
+									flag = false;	
+									for(int j = 0; j < header.length; j++) {
+										if(j < excelColumn) {
+											if(header[j].length() == 0 || content[i][j].length() == 0)
+												continue;
+											info.put(header[j], content[i][j]);
+											flag = true;
+										}else {
+											break;
+										}
+									}
+									if(flag) {
+										pdo.setInfoMap(info);
+										pdoService.add(pdo);
+									}
+								}
+								res = "addPdoSuccess";								
+							}
+						}else {
+							res = "notSameHeader";
 						}
 					}
-					res = "success";
 				}
 
 			}else {
@@ -225,7 +316,7 @@ public int getPdoId() {
 			e.printStackTrace();
 			res = "error";
 		}
-		Map<String, String> jsonMap = new HashMap();
+		Map<String, String> jsonMap = new HashMap<String, String>();
 		jsonMap.put("importRes", res);
 		importRes = JSONObject.fromObject(jsonMap).toString();
 		return SUCCESS;
@@ -240,24 +331,17 @@ public int getPdoId() {
 	
 	public String showRelatePdo() {
 		List<PDOModel> temp = pdoService.getRelate(pdoId);
+		System.out.println(pdoId);
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
 		for (int i=0;i<temp.size();i++) {
 			Map<String,String> pdoTemp = temp.get(i).getInfoMap();
+			pdoTemp.put("name", temp.get(i).getName());
 			pdoTemp.put("pdoId", Integer.toString(temp.get(i).getPdoID()));
 			list.add(pdoTemp);
 		}
 		map.put("datas", list);
 		relateRes = JSONObject.fromObject(map).toString();
-		/**
-		List<Map<String, String>> listNew = (List<Map<String, String>>) map.get("datas");
-		for (int i=0;i<listNew.size();i++) {
-			Map<String,String> mapNew = listNew.get(i);
-			for (Map.Entry<String, String> entry : mapNew.entrySet()) {
-				System.out.println(entry.getKey()+entry.getValue()+"");
-			}
-		}
-		*/
 		return SUCCESS;
 	}
 	
@@ -266,7 +350,6 @@ public int getPdoId() {
 	}
 	@Override
   public Object getModel() {
-    // TODO Auto-generated method stub
     return pdo;
   }
 
