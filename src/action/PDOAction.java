@@ -149,11 +149,21 @@ public int getPdoId() {
 	}
 	
  	public String addPdo() {
+ 		System.out.println(pdo.getName());
+ 		System.out.println(pdo.getUserID());
+ 		for (Map.Entry<String, String> entry:pdo.getInfoMap().entrySet()) {
+ 			System.out.println(entry.getKey()+" "+entry.getValue());
+ 		}
 		boolean res = pdoService.add(pdo);
+		Map<String, String> map = new HashMap<String,String>();
 		if(res) {
-			return SUCCESS;
+			map.put("result", "pdo数据添加成功");
 		}
-		return "error";
+		else {
+			map.put("result", "pdo数据添加失败");
+		}
+		relateRes = JSONObject.fromObject(map).toString();
+		return SUCCESS;
 	}
 	
 	public String queryPdo() {

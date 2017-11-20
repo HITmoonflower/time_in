@@ -25,7 +25,6 @@ public class PDOService {
 			header.add(entry.getKey());
 		}
 		String queryHeader = "SELECT * FROM pdo.tableheader where name ='"+pdo.getName()+"' and userId ='"+pdo.getUserID()+"'"; 
-		System.out.println(queryHeader);
 		ResultSet rsName = DataOperation.getInstance().query(queryHeader);
 		try {
 			if (!rsName.next()) {
@@ -263,7 +262,7 @@ public class PDOService {
 	
 	
 	public List<String> getHeaderByName(int userId, String name) {
-		String sql = "select * from tablekey where userID = ? and name = ?";
+		String sql = "select * from tableheader where userID = ? and name = ?";
 		Connection conn = DataConn.getConnection();
 		PreparedStatement pst = null;
 		List<String> ans = new ArrayList<String>();
@@ -275,7 +274,7 @@ public class PDOService {
 			ResultSet rs = pst.executeQuery();
 			while(rs.next()) {
 				int colNum = 8 + 3;
-				int k = 3;
+				int k = 2;
 				while(k < colNum) {
 					key = rs.getString(k);
 					if(key == null)
