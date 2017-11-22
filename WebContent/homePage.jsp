@@ -44,7 +44,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
     	   }else{
     	    document.getElementById("fileName").value = path.substring(test + 1);
     	   }
-    	}  
+    	}
     //function showAllPdoUrl(userId){
     	//  window.location.href="actionShowAll.action?userId="+userId;
     //}
@@ -63,6 +63,8 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
     <!-- //chart -->
     <!-- js-->
     <script src="js/jquery-1.11.1.min.js"></script>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="layer/layer/layer.js"></script>
     <script src="js/modernizr.custom.js"></script>
     <!--webfonts-->
     <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>
@@ -236,6 +238,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 
                      
                             <s:form action = "actionAddRelatePdo.action" id = "relation">
+                            
                                 <input type="hidden" name="userId" id = "Id" value = '<s:property value = "userId"/>'/>
                                 <input type="hidden" name="pdo1" id="pdoId1"/>
                                 <input type="hidden" name="pdo2" id="pdoId2"/>
@@ -245,6 +248,9 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 
                              
                              <s:iterator value = "queryRes" var = "pdo" status = "sta">
+                             <div class="drawerTotal">
+                             <p class="drawerHead">drawer</p>
+                             <div class="drawer">
                              <table class="table">
                              <thead>
                                 <tr>
@@ -269,6 +275,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                           <input type="submit" class="btn btn-primary  hvr-shutter-out-vertical"  value="Detail"/> 
                                         </s:form>
                                  </td>
+                                 
                                 <tr/>
                              </thead>
                              <tbody>
@@ -282,8 +289,9 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                 </tr>
                              </tbody>
                              </table>
+                             </div>
+                             </div>
                              </s:iterator>
-                             
                             
                         </div>
                     </div>
@@ -298,6 +306,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                
             </div>
         </div>
+        
 
         <!--footer-->
 		 <div class="dev-page">
@@ -324,6 +333,19 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 	<!-- Classie -->
 		<script src="js/classie.js"></script>
 		<script>
+	    $(document).ready(function() {
+	        $("#showLayer").on('click', function () {
+	        	layer.open({
+	        		  type: 1,
+	        		  skin: 'layui-layer-demo',
+	        		  closeBtn: 0,
+	        		  anim: 2,
+	        		  area:['200px','120px'],
+	        		  shadeClose: true,
+	        		  content: 'hello'
+	        		});
+	        });
+	    });
 			var menuLeft = document.getElementById( 'cbp-spmenu-s1' ),
 				showLeftPush = document.getElementById( 'showLeftPush' ),
 				body = document.body;
@@ -354,21 +376,31 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 					contentType : false,
 					processData : false,
 					success : function(data){
+						var msg;
 						var obj = JSON.parse(data);
 						if (obj.importRes == "emptyHeader"){
-							alert("请添加键");
+							msg="请添加键";
 						}else if(obj.importRes == "emptyContent"){
-							alert("请添加值！");
+							msg="请添加值！";
 						}else if(obj.importRes == "typeError"){
-							alert("文件类型只能是xls或者xlsx！");
+							msg="文件类型只能是xls或者xlsx！";
 						}else if(obj.importRes == "fileNotFound"){
-							alert("文件不存在！");
+							msg="文件不存在！";
 						}else if(obj.importRes == "error"){
-							alert("上传失败！");
+							msg="上传失败！";
 						}else{
 							location.reload("true");
-                            alert("导入成功！")
+                            msg="导入成功！"
 						}
+						layer.open({
+			        		  type: 1,
+			        		  skin: 'layui-layer-demo',
+			        		  closeBtn: 0,
+			        		  anim: 2,
+			        		  area:['200px','120px'],
+			        		  shadeClose: true,
+			        		  content: msg
+			        		});
 							
 					},
 					error : function(e){
@@ -376,9 +408,21 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 					}
 				});
 				get();
-				
-				
 			}
+	        $(document).ready(function(){
+	            $(".drawerTotal").each(function(){
+	                $(this).children(".drawer").hide();
+	            });
+	            $(".drawerHead").each(function(){
+	                $(this).click(function(){
+	                    if($(this).parents(".drawerTotal").children(".drawer").css("display") != "none"){
+	                        $(this).parents(".drawerTotal").children(".drawer").slideUp();
+	                    }else{
+	                        $(this).parents(".drawerTotal").children(".drawer").slideDown();
+	                    }
+	                });
+	            });
+	        });
 		</script>
 	<!-- Bootstrap Core JavaScript --> 
 		

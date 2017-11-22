@@ -28,22 +28,24 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 	private int pdoId; //use to store the pdoId of the form
 	private Map<String, String> info = new HashMap<String, String>(); //use to store query conditions
 	private List<PDOModel> queryRes; //use to store query result
-	private List<PDOModel> relateRes; //use to store query relate result
+	private String relateRes; //use to store query relate result
 	private List<String> formHeader; //use to generate form by the pdoId
 	private int pdo1, pdo2; //use to link two pdo
     private File excelFile; 
     private String excelFileName; //use to store the excel's name
     private String importRes;
 	
-	public List<PDOModel> getRelateRes() {
-    return relateRes;
-  }
 
-  public void setRelateRes(List<PDOModel> relateRes) {
-    this.relateRes = relateRes;
-  }
 
-  public int getPdoId() {
+  public String getRelateRes() {
+		return relateRes;
+	}
+
+	public void setRelateRes(String relateRes) {
+		this.relateRes = relateRes;
+	}
+
+public int getPdoId() {
     return pdoId;
   }
 
@@ -237,7 +239,25 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 	}
 	
 	public String showRelatePdo() {
-		setRelateRes(pdoService.getRelate(pdoId));
+		List<PDOModel> temp = pdoService.getRelate(pdoId);
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
+		for (int i=0;i<temp.size();i++) {
+			Map<String,String> pdoTemp = temp.get(i).getInfoMap();
+			pdoTemp.put("pdoId", Integer.toString(temp.get(i).getPdoID()));
+			list.add(pdoTemp);
+		}
+		map.put("datas", list);
+		relateRes = JSONObject.fromObject(map).toString();
+		/**
+		List<Map<String, String>> listNew = (List<Map<String, String>>) map.get("datas");
+		for (int i=0;i<listNew.size();i++) {
+			Map<String,String> mapNew = listNew.get(i);
+			for (Map.Entry<String, String> entry : mapNew.entrySet()) {
+				System.out.println(entry.getKey()+entry.getValue()+"");
+			}
+		}
+		*/
 		return SUCCESS;
 	}
 	

@@ -42,7 +42,12 @@
       <result name = "error">/error.jsp</result>
     </action>
     <action name = "actionShowRelate" class = "action.PDOAction" method = "showRelatePdo">
+      	<result type = "json">
+			<param name = "root">relateRes</param>
+		</result>
+      <!-- 
       <result>/relativePdo.jsp</result>
+      -->
     </action>
 
     <action name = "actionJumpAdd" class = "action.PDOAction" method = "jumpPage">

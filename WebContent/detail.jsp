@@ -33,8 +33,8 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
     <!-- //chart -->
     <!-- js-->
     <script src="js/jquery-1.11.1.min.js"></script>
-    <script src="js/modernizr.custom.js"></script>
-    <!--webfonts-->
+    <script src="js/modernize.custom.js"></script>
+	<!--webfonts-->
 <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>
 
     <!--animate-->
@@ -187,7 +187,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 					
 					
 					
-						<s:form action = "actionShowRelate" class="navbar-form navbar-left" >
+						<s:form id="relateForm" class="navbar-form navbar-left" >
 					
 					<!-- 我觉得pdo的编号还是没有必要让用户知道,所以我把这个属性给隐藏了 -->
 						<div hidden>
@@ -196,7 +196,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 						</div>
 						<div class="col-md-11 column">
 						<center>
-						<input type = "submit" class="btn btn-lg btn-success" value = "RelativaPdo"/>
+						<input type = "button" class="btn btn-lg btn-success" value = "RelativaPdo" onclick="getRelate()"/>
 						</div>
 
 						</s:form>
@@ -211,11 +211,25 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                 
                 </div>
                 <!--//grids-->
+				
 
 
 
-
-               
+			        
+            </div>
+            <br/>
+			<br/>            
+            <br/>   
+            <div id="relateDiv">
+             	<table class="table">
+                    <thead>
+                    <tr class="info">
+                    </thead>
+                    <tbody id="relateTable">
+						<tr class="info">
+						</tr>
+						
+					</tbody>
             </div>
         </div>
         <!--footer-->
@@ -280,6 +294,34 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 		<!--scrolling js-->
 		<script src="js/jquery.nicescroll.js"></script>
 		<script src="js/scripts.js"></script>
+		<script>
+		
+		function getRelate(){
+			var formData = new FormData(document.getElementById("relateForm"));
+			$.ajax({
+				type : "post",
+				url : 'actionShowRelate',
+				data : formData,
+				async : false,
+				cache : false,
+				contentType : false,
+				processData : false,
+				success : function(data){
+					var obj = JSON.parse(data);
+					 $.each(obj.datas,function(n,onedata){
+					        $.each(onedata,function(key,value){
+					        	var str='<tr class="info"><td>'+key+'</td><td>'+value+'</td></tr>';
+					     		$("#relateTable").append(str);
+					          //  $("#relateTable").append(key +'  '+ value);
+					            //$("#relateDiv").append('</br>');
+					        });
+					    });
+					}
+			});
+		}
+		
+		
+		</script>
 		<!--//scrolling js-->
 </body>
 </html>

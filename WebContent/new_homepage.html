@@ -30,26 +30,30 @@
 
     <script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
     <script type="text/javascript">
+    var json=
+    	{
+    		datas:
+    			[
+    				{
+    					pdoId:1,
+    					name:"meal",
+    				}
+    			]
+    	}
         $(document).ready(function(){
             $(".MenuPanel").each(function(){
                 $(this).children(".MenuContent").hide();
             });
-
             $(".MenuTitle").each(function(){
                 $(this).click(function(){
-
                     if($(this).parents(".MenuPanel").children(".MenuContent").css("display") != "none"){
                         $(this).parents(".MenuPanel").children(".MenuContent").slideUp();
                     }else{
                         $(this).parents(".MenuPanel").children(".MenuContent").slideDown();
                     }
                 });
-
             });
-
         });
-
-
     </script>
 </head>
 <body>
@@ -58,40 +62,40 @@
         <div class="MenuPanel">
             <div class="MenuTitle">第一菜单</div>
             <div class="MenuContent">
-                <a href="" target="_blank">子菜单</a></br>
-                <a href="" target="_blank">子菜单</a></br>
-                <a href="" target="_blank">子菜单</a></br>
-                <a href="" target="_blank">子菜单</a>
+                <a href="">子菜单</a></br>
+                <a href="">子菜单</a></br>
+                <a href="">子菜单</a></br>
+                <a href="">子菜单</a>
             </div>
         </div>
         <div class="MenuPanel">
             <div class="MenuTitle">第二菜单</div>
             <div class="MenuContent">
-                <a href="" target="_blank">子菜单</a></br>
-                <a href="" target="_blank">子菜单</a></br>
-                <a href="" target="_blank">子菜单</a></br>
-                <a href="" target="_blank">子菜单</a></br>
-                <a href="" target="_blank">子菜单</a>
+                <a href="">子菜单</a></br>
+                <a href="">子菜单</a></br>
+                <a href="">子菜单</a></br>
+                <a href="">子菜单</a></br>
+                <a href="">子菜单</a>
             </div>
         </div>
         <div class="MenuPanel">
             <div class="MenuTitle">第三菜单</div>
             <div class="MenuContent">
-                <a href="" target="_blank">子菜单</a></br>
-                <a href="" target="_blank">子菜单</a></br>
-                <a href="" target="_blank">子菜单</a></br>
-                <a href="" target="_blank">子菜单</a></br>
-                <a href="" target="_blank">子菜单</a>
+                <a href="">子菜单</a></br>
+                <a href="">子菜单</a></br>
+                <a href="">子菜单</a></br>
+                <a href="">子菜单</a></br>
+                <a href="">子菜单</a>
             </div>
         </div>
         <div class="MenuPanel">
             <div class="MenuTitle">第四菜单</div>
             <div class="MenuContent">
-                <a href="" target="_blank">子菜单</a></br>
-                <a href="" target="_blank">子菜单</a></br>
-                <a href="" target="_blank">子菜单</a></br>
-                <a href="" target="_blank">子菜单</a></br>
-                <a href="" target="_blank">子菜单</a>
+                <a href="">子菜单</a></br>
+                <a href="">子菜单</a></br>
+                <a href="">子菜单</a></br>
+                <a href="">子菜单</a></br>
+                <a href="">子菜单</a>
             </div>
         </div>
     </div>
