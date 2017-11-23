@@ -149,11 +149,6 @@ public int getPdoId() {
 	}
 	
  	public String addPdo() {
- 		System.out.println(pdo.getName());
- 		System.out.println(pdo.getUserID());
- 		for (Map.Entry<String, String> entry:pdo.getInfoMap().entrySet()) {
- 			System.out.println(entry.getKey()+" "+entry.getValue());
- 		}
 		boolean res = pdoService.add(pdo);
 		Map<String, String> map = new HashMap<String,String>();
 		if(res) {
@@ -167,15 +162,29 @@ public int getPdoId() {
 	}
 	
 	public String queryPdo() {
+		Map<String, String> map = new HashMap<String, String>();
 		try{
 			queryRes = pdoService.query(userId, info);
 			if(queryRes == null)
-				return "error";
-			return SUCCESS;
+				map.put("result", "查询数据失败");
+			else
+				map.put("result", "success");
 		} catch(SQLException e) {
 			e.printStackTrace();
-			return "error";
+			map.put("result", "查询数据失败");
 		}
+		relateRes = JSONObject.fromObject(map).toString();
+		return SUCCESS;
+	}
+	
+	public String queryPdoSuccess() {
+		try{
+			queryRes = pdoService.query(userId, info);
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return SUCCESS;
 	}
 	
 	public String addRelatePdo() {
@@ -322,10 +331,12 @@ public int getPdoId() {
 	
 	public String showRelatePdo() {
 		List<PDOModel> temp = pdoService.getRelate(pdoId);
+		System.out.println(pdoId);
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
 		for (int i=0;i<temp.size();i++) {
 			Map<String,String> pdoTemp = temp.get(i).getInfoMap();
+			pdoTemp.put("name", temp.get(i).getName());
 			pdoTemp.put("pdoId", Integer.toString(temp.get(i).getPdoID()));
 			list.add(pdoTemp);
 		}

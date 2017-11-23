@@ -193,6 +193,7 @@ public class PDOService {
 	    }
 	    sqlQuery = "select pdoID from " + tableQuery + " where " + userInfo + dateInfo 
 	        + spendInfo  + otherInfo;
+	    System.out.println(sqlQuery);
 	    ResultSet rs = DataOperation.getInstance().query(sqlQuery);
 	    List <String> pdoList = new ArrayList<String>();
 	    while (rs.next()) {

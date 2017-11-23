@@ -5,15 +5,18 @@
 <struts>
   <package name = "pdo"  extends = "struts-default,json-default" namespace = "/">
     <action name = "actionAddPdo" class = "action.PDOAction" method = "addPdo">
-    	<result type = "json">
-			<param name = "root">relateRes</param>
-		</result>
+      <result type = "json">
+        <param name = "root">relateRes</param>
+      </result>
     </action>
     <action name = "actionQueryPdo" class = "action.PDOAction" method = "queryPdo">
-      <result>/homePage.jsp</result>
-      <result name = "error">/queryFail.jsp</result>
+      <result type="json">
+      	<param name = "root">relateRes</param>
+      </result>
     </action>
-
+    <action name = "actionQueryPdoSuccess" class = "action.PDOAction" method = "queryPdoSuccess">
+      <result>/homePage.jsp</result>
+    </action>
     <action name = "actionAddRelatePdo" class = "action.PDOAction" method = "addRelatePdo">
       <result type = "chain">actionShowAll</result>
     </action>
@@ -44,17 +47,14 @@
       	<result type = "json">
 			<param name = "root">relateRes</param>
 		</result>
-      <!-- 
-      <result>/relativePdo.jsp</result>
-      -->
     </action>
-
+<!-- 
     <action name = "actionJumpAdd" class = "action.PDOAction" method = "jumpPage">
       <result>/addPdo.jsp</result>
     </action>
     <action name = "actionJumpQuery" class = "action.PDOAction" method = "jumpPage">
       <result>/queryPdo.jsp</result>
-    </action>
+    </action> -->
   </package>
   
 </struts>
