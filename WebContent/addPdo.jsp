@@ -71,7 +71,6 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 	  var date = document.getElementById("date");
 	  var spend = document.getElementById("spend");
 	  var place = document.getElementById("place");
-	  var name = document.getElementById("name");
 	  if (date.value.trim() != ""){
 	  	date.name = "infoMap.datetime";
 	  }
@@ -80,9 +79,6 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 	  }
 	  if (place.value.trim() != ""){
 		  place.name = "infoMap.place";
-	  }
-	  if (name.value.trim() != ""){
-		  name.name = "infoMap.name";
 	  }
 	  for (var j = 3; j<window.i;j++){
 		  var key = document.getElementById("key"+String(j));
@@ -109,6 +105,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 
 
 <script src="js/metisMenu.min.js"></script>
+<script src="layer/layer/layer.js"></script>
 <script src="js/custom.js"></script>
 <link href="css/custom.css" rel="stylesheet">
 <!--//Metis Menu -->
@@ -241,7 +238,6 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 
 
 
-
 					<div class="container">
 						<div class="row clearfix">
 						
@@ -267,7 +263,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
               <tr class="form-group">
                     <td class="col-sm-4" >name</td>
                     <td class="col-sm-4">
-                        <input type="text"  maxlength="10" Class="form-control" id = "name"/>
+                        <input type="text"  maxlength="10" Class="form-control" id = "name" name="name"/>
                         <div class="help-block with-errors"></div>
                     </td>
              </tr><br>
@@ -315,7 +311,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 				
 			</div>
 		</div>
-			
+		
 		<!--footer-->
 		 <div class="dev-page">
 	 
@@ -478,7 +474,6 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 
 			$("#footer").prepend("Flot " + $.plot.version + " &ndash; ");
 		});
-
 		</script>
 		<!-- //real-time-updates -->
 

@@ -247,24 +247,37 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                             
 
                              
-                             <s:iterator value = "queryRes" var = "pdo" status = "sta">
+                             <s:iterator value = "queryRes" var = "pdoName" status = "sta">
                              <div class="drawerTotal">
-                             <p class="drawerHead">drawer</p>
+                             <p class="drawerHead">
+                             <s:property value="%{#pdoName.key}" />
+                              	共<s:property value="#pdoName.value.size()"/>条数据
+                             </p>
+                             
                              <div class="drawer">
                              <table class="table">
                              <thead>
+                             <s:iterator value = "#pdoName.value" var = "pdo" status = "s">
+                             <tr>
+                             <td></td>
+                             <s:if test="#s.Count <= 1">
+                             <s:iterator value="#pdo.infoMap" status="ss" var = "map">
+                                  <th><s:property value="%{#map.key}" /></th>
+                             </s:iterator>
+                             </s:if>
+                             </tr>
                                 <tr>
                                     <!-- 复选框  -->
                                   <td rowspan = "2"><input type = "checkbox" name = "pdoItem" value = '<s:property value = "#pdo.pdoID"/>'></td>
-                                  <s:iterator value="#pdo.infoMap" status="ss" var = "map">
-                                  <th><s:property value="%{#map.key}" /></th>
+                                <s:iterator value="#pdo.infoMap" status="ss" var = "map">
+                                  <th><s:property value="%{#map.value}" /></th>
                                   </s:iterator>
-                                  <!-- generateFrom 按钮 -->
+                                	<!-- generateFrom 按钮 -->
                                   <td rowspan = "2">
                                         <s:form action = "actionForm">
-                                          <input type="hidden" name="userId" value = '<s:property value="#pdo.userID" />'/>
-                                          <input type="hidden" name="pdoId" value = '<s:property value="#pdo.pdoID" />'/>
-                                          <input type="submit" class="btn btn-primary  hvr-shutter-out-vertical" value="generateForm"/> 
+                                        	<input type="hidden" name="userId" value = '<s:property value="#pdo.userID" />'/>
+                                         	<input type="hidden" name="tranName" value = '<s:property value="#pdo.name" />'/>
+                                         	<input type="submit" class="btn btn-primary  hvr-shutter-out-vertical" value="generateForm"/> 
                                        	
                                         </s:form>
                                         </td>
@@ -277,20 +290,20 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                  </td>
                                  
                                 <tr/>
+                                </s:iterator>
                              </thead>
                              <tbody>
+                             <!-- 
                                 <tr class="danger">
-                                     <!-- 单元格无内容占位？？？ -->
                                     <th></th>
-                                  <s:iterator value="#pdo.infoMap" status="ss" var = "map">
-                                  <th><s:property value="%{#map.value}" /></th>
-                                  </s:iterator>
+                                  
                                     <th></th><th></th>
                                 </tr>
+                                 -->
                              </tbody>
                              </table>
-                             </div>
-                             </div>
+								 </div>
+								 </div>
                              </s:iterator>
                             
                         </div>
@@ -307,7 +320,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
             </div>
         </div>
         
-
+		<button id="testAddPdoLayer">click</button>
         <!--footer-->
 		 <div class="dev-page">
 	 
@@ -394,17 +407,18 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 						}
 						layer.open({
 			        		  type: 1,
+			        		  title:"ImportMessage",
 			        		  skin: 'layui-layer-demo',
 			        		  closeBtn: 0,
 			        		  anim: 2,
-			        		  area:['200px','120px'],
+			        		  area:['240px','120px'],
 			        		  shadeClose: true,
 			        		  content: msg
 			        		});
 							
 					},
 					error : function(e){
-						alert("上传失败！");
+						msg="上传失败！";
 					}
 				});
 				get();
@@ -423,6 +437,134 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 	                });
 	            });
 	        });
+	       
+	        $(document).ready(function() {
+	            $("#testAddPdoLayer").on('click', function () {
+	                layer.open({
+	                    type:1,
+	                    title:"AddPdo",
+	                    area:['1000px','600px'],
+	                    shadeClose:true,
+	                    content:'<form action="actionAddPdo" Class="form-horizontal" theme="simple" id = "pdoForm" method = "post" data-toggle="validator" role="form">' +
+	                    '            <input type="hidden" name="userID" value = \'<s:property value = "userId"/>\' />' +
+	                    '            <input type="hidden" name="userId" value = \'<s:property value = "userId"/>\' />' +
+	                    '              <table id = "pdo">' +
+	                    '              <tr class="form-group">' +
+	                    '                    <th class="col-sm-2">Key</th>' +
+	                    '                    <th class="col-sm-8">Value</th>' +
+	                    '                    <th class="col-sm-2">Operation</th>' +
+	                    '             </tr><br>' +
+	                    '              <tr class="form-group">' +
+	                    '                    <td class="col-sm-4" >Date</td>' +
+	                    '                    <td class="col-sm-4">' +
+	                    '                        <input type="text"  data-error="请输入形如xxxx-xx-xx的合法日期"' +
+	                    '            pattern="^(?:19|20)[0-9][0-9]-(?:(?:0[1-9])|(?:1[0-2]))-(?:(?:[0-2][1-9])|(?:[1-3][0-1]))"  Class="form-control" ' +
+	                    '            id = "date" />' +
+	                    '         <div class="help-block with-errors"></div>' +
+	                    '                    </td>' +
+	                    '             </tr><br>' +
+	                    '              <tr class="form-group">' +
+	                    '                    <td class="col-sm-4" >name</td>' +
+	                    '                    <td class="col-sm-4">' +
+	                    '                        <input type="text"  maxlength="10" Class="form-control" id = "name"/>' +
+	                    '                        <div class="help-block with-errors"></div>' +
+	                    '                    </td>' +
+	                    '             </tr><br>' +
+	                    '              <tr class="form-group">' +
+	                    '                    <td class="col-sm-4" >Spend</td>' +
+	                    '                    <td class="col-sm-4">' +
+	                    '                        <input type="number" min=0 max=10000000000  Class="form-control" id = "spend"/>' +
+	                    '                        <div class="help-block with-errors"></div>' +
+	                    '                    </td>' +
+	                    '             </tr><br>' +
+	                    '              <tr class="form-group">' +
+	                    '                    <td class="col-sm-4">Place</td>' +
+	                    '                    <td class="col-sm-4">' +
+	                    '                        <input type="text" maxlength="10" Class="form-control" id = "place"/>' +
+	                    '                         <div class="help-block with-errors"></div>' +
+	                    '                    </td>' +
+	                    '             </tr><br>' +
+	                    '             </table>' +
+	                    '             <br><br>  <br><br>' +
+	                    '          <div class="form-group">' +
+	                    '                    <div class="col-sm-offset-2 col-sm-4">' +
+	                    '                    ' +
+	                    '                <button type="submit" class="btn  btn-lg btn-primary  hvr-shutter-out-vertical" onclick = "return getMap()">AddPdo</button>' +
+	                    '</div>' +
+	                    '<div class="col-sm-offset-2 col-sm-4">' +
+	                    '                       <button type="button" class="btn btn-lg btn-primary  hvr-shutter-out-vertical" onclick = "addRow()" >AddRow</button>' +
+	                    '' +
+	                    '              ' +
+	                    '                    </div>' +
+	                    '            </div>' +
+	                    '          </form>'
+	                })
+	            });
+	        });
+	        var i=3
+	        function getObj(id){
+	            return document.getElementById(id);
+	        }
+	        function addRow(){
+	            var tab=getObj("pdo");
+	            var row=tab.insertRow();
+	            row.className = "form-horizontal form-group ";
+	            row.style.thmem = "symple";
+	            var cell0=row.insertCell();
+	            var cell1=row.insertCell();
+	            var cell2=row.insertCell();
+	            temp = String(window.i);
+	            cell0.innerHTML='<input type="text"  id = "key'+temp+'">';
+	            cell0.className ="col-sm-4"; 
+	            cell1.innerHTML='<input type="text" name = "value'+temp+'" id = "value'+temp+'">';
+	            cell1.className ="col-sm-4";
+	            cell2.innerHTML='<input value="删除"type="button" class="btn btn-lg btn-primary  hvr-shutter-out-vertical" onclick="deleteRow(this)"/>';
+	            cell2.className ="col-sm-4"; 
+	            i++;
+	        }
+	        function deleteRow(obj){
+	            var row=obj.parentNode.parentNode;
+	            var tab=row.parentNode;
+	            tab.deleteRow(row.rowIndex);
+	            i--;
+	        }
+	        function getMap(){
+	      	  var date = document.getElementById("date");
+	      	  var spend = document.getElementById("spend");
+	      	  var place = document.getElementById("place");
+	      	  var name = document.getElementById("name");
+	      	  if (date.value.trim() != ""){
+	      	  	date.name = "infoMap.datetime";
+	      	  }
+	      	  if (spend.value.trim() != ""){
+	      		  spend.name = "infoMap.spend";
+	      	  }
+	      	  if (place.value.trim() != ""){
+	      		  place.name = "infoMap.place";
+	      	  }
+	      	  if (name.value.trim() != ""){
+	      		  name.name = "infoMap.name";
+	      	  }
+	      	  for (var j = 3; j<window.i;j++){
+	      		  var key = document.getElementById("key"+String(j));
+	      		  var value = document.getElementById("value"+String(j));
+	      		  value.name = "infoMap."+key.value;
+	      	  }
+	      	  
+	      	  if(data.value.trim() != ""){
+	              var result = date.value.trim().match(/^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2})$/);
+	              if(result == null){
+	                  return false;
+	              }
+	      	  }
+	      	  if(spend.value.trim() != ""){
+	      		 var reg = /^\d+(?=\.{0,1}\d+$|$)/;
+	      		 if(!reg.test(num)){
+	      				return false ;
+	      		 }
+	      	   }
+	      	 return true;
+	        }
 		</script>
 	<!-- Bootstrap Core JavaScript --> 
 		

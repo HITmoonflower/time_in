@@ -227,11 +227,19 @@ function commit(){
                             <input type="hidden" name="userID" value = '<s:property value = "userId"/>'/>
                             <table id = "pdoInfo" class="table">
                             <s:iterator value = "formHeader" var = "header" status = "sta">
-                            <tr  class="info"> 
+                            <tr  class="info">
+                            <s:if test="#sta.Count == 1">
+                            <td> <center>Name</td>
+	                       	<td>	
+	                     	 	<center><input type = "text" name = 'name' value='<s:property value="#header"/>' readonly='readonly'/>
+	                         </td>
+                            </s:if>
+                            <s:if test="#sta.Count > 1">
 	                       	 <td> <center><s:property value="#header"/></td>
 	                       	<td>	
 	                     	 	<center><input type = "text" name = 'infoMap.<s:property value="#header"/>'/>
 	                         </td>
+	                        </s:if>
                             </tr>
                             </s:iterator>
                             </table>
@@ -334,7 +342,8 @@ function commit(){
 
 	<!-- Bootstrap Core JavaScript --> 
 		
-        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+</script>
+        <script src="js/bootstrap.min.js"></script>
 
         <script type="text/javascript" src="js/dev-loaders.js"></script>
         <script type="text/javascript" src="js/dev-layout-default.js"></script>

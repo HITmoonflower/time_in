@@ -30,12 +30,12 @@
 		</result>
     </action>
     <action name = "actionLogin" class = "action.UserAction" method = "loginUser">
-      <result name = "success" type = "chain">actionShowAll</result>
+      <result type = "chain">actionShowAll</result>
       <result name = "error">/loginError.jsp</result>
     </action>
     <action name = "actionRegister" class = "action.UserAction" method = "registerUser">
       <result>/login.jsp</result>
-      <result name = "error">/registerError.jsp</result>
+      <result name = "error">/registerRrror.jsp</result>
     </action>
     <action name = "actionShowDetail" class = "action.PDOAction" method = "showDetailPdo">
       <result>/detail.jsp</result>
