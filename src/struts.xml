@@ -4,6 +4,11 @@
         "http://struts.apache.org/dtds/struts-2.5.dtd">
 <struts>
   <package name = "pdo"  extends = "struts-default,json-default" namespace = "/">
+    <action name = "actionAddPdoData" class = "action.PDOAction" method = "addPdoData">
+      <result type = "json">
+        <param name = "root">relateRes</param>
+      </result>
+    </action>
     <action name = "actionAddPdo" class = "action.PDOAction" method = "addPdo">
       <result type = "json">
         <param name = "root">relateRes</param>

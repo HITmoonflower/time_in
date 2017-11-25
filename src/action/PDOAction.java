@@ -30,6 +30,7 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 	private Map<String, List<PDOModel>> queryRes; //use to store query result
 	private String relateRes; //use to store query relate result
 	private List<String> formHeader; //use to generate form by the pdoId
+	private List<String> header;
 	private int pdo1, pdo2; //use to link two pdo
     private File excelFile; 
     private String excelFileName; //use to store the excel's name
@@ -44,6 +45,8 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 	public void setTranName(String tranName) {
 		this.tranName = tranName;
 	}
+	
+
 
 public String getRelateRes() {
 		return relateRes;
@@ -68,6 +71,14 @@ public int getPdoId() {
   public void setFormHeader(List<String> formHeader) {
     this.formHeader = formHeader;
   }
+  
+      public List<String> getHeader() {
+	    return header;
+	  }
+
+	  public void setHeader(List<String> header) {
+	    this.header = header;
+	  }
 
   public File getExcelFile() {
     return excelFile;
@@ -148,7 +159,7 @@ public int getPdoId() {
 		this.excelFileName = excelFileName;
 	}
 	
- 	public String addPdo() {
+ 	public String addPdoData() {
 		boolean res = pdoService.add(pdo);
 		Map<String, String> map = new HashMap<String,String>();
 		if(res) {
@@ -160,6 +171,19 @@ public int getPdoId() {
 		relateRes = JSONObject.fromObject(map).toString();
 		return SUCCESS;
 	}
+ 	
+ 	public String addPdo() {
+ 		boolean res = pdoService.addHeader(userId, tranName, header);
+		Map<String, String> map = new HashMap<String,String>();
+		if(res) {
+			map.put("result", "pdo模板添加成功");
+		}
+		else {
+			map.put("result", "pdo模板添加失败");
+		}
+		relateRes = JSONObject.fromObject(map).toString();
+ 		return SUCCESS;
+ 	}
 	
 	public String queryPdo() {
 		Map<String, String> map = new HashMap<String, String>();
@@ -349,9 +373,9 @@ public int getPdoId() {
 	  return SUCCESS;
 	}
 	@Override
-  public Object getModel() {
+   public Object getModel() {
     return pdo;
-  }
+   }
 
 	public String getImportRes() {
 		return importRes;

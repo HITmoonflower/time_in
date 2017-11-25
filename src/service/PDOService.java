@@ -19,20 +19,6 @@ public class PDOService {
 		String key, value;
 		Connection conn = DataConn.getConnection();
 		PreparedStatement pst1, pst2, pst3;
-		List<String> header = new ArrayList<String>();
-		Map<String,String> temp=pdo.getInfoMap();
-		for (Map.Entry<String, String> entry:temp.entrySet()) {
-			header.add(entry.getKey());
-		}
-		String queryHeader = "SELECT * FROM pdo.tableheader where name ='"+pdo.getName()+"' and userId ='"+pdo.getUserID()+"'"; 
-		ResultSet rsName = DataOperation.getInstance().query(queryHeader);
-		try {
-			if (!rsName.next()) {
-				addHeader(pdo.getUserID(),pdo.getName(),header);
-			}
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
 		pst1 = pst2 = pst3 = null;
 		try {
 			pst1 = conn.prepareStatement(sqlkey);
