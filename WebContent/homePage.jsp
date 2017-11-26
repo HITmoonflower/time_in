@@ -99,12 +99,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                             </li>
 
                             <li>
-                            <s:form name = "jumpQuery" action = "actionJumpQuery">
-                                    <input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
-                                </s:form>
-                                <a href="javascript:document:jumpQuery.submit();"><i class="fa fa-book nav_icon"></i>查询数据 </a>
-
-                                <!-- /nav-second-level -->
+                                <a href="javascript:queryPdoLayer();"><i class="fa fa-book nav_icon"></i>查询数据 </a>
                             </li>
 
 
@@ -256,7 +251,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                              <!-- 生成表单div -->
                              <div class="showForm">
                              <p>
-                             <input type="submit" class="btn btn-primary  hvr-shutter-out-vertical" value="generateForm"/>
+                             <input class="btn btn-primary  hvr-shutter-out-vertical" value="generateForm"/>
                              </p>
                              </div>
                              <div class="hiddenGenerateForm" style="display:none">
@@ -319,7 +314,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                               
                              </div>
                              <!-- 抽屉折叠div -->
-                             <div class="drawer">
+                             <div class="drawer" style="display:none">
                              <table class="table">
                              <thead>
                              <s:iterator value = "#pdoName.value" var = "pdo" status = "s">
@@ -333,19 +328,23 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                              </tr>
                                 <tr>
                                     <!-- 复选框  -->
-                                  <td rowspan = "2"><input type = "checkbox" name = "pdoItem" value = '<s:property value = "#pdo.pdoID"/>'></td>
+                                  <td><input type = "checkbox" name = "pdoItem" value = '<s:property value = "#pdo.pdoID"/>'></td>
                                 <s:iterator value="#pdo.infoMap" status="ss" var = "map">
                                   <th><s:property value="%{#map.value}" /></th>
                                   </s:iterator>
-                                  
-                                 <td rowspan = "2">
-                                        <s:form action = "actionShowDetail">
-                                          <input type="hidden" name="pdoId" value = '<s:property value="#pdo.pdoID" />'/>
-                                          <input type="hidden" name="userId" value = '<s:property value="userId" />'/>
-                                          <input type="submit" class="btn btn-primary  hvr-shutter-out-vertical"  value="Detail"/>
-                                        </s:form>
-                                 </td>
-
+                                  <td>
+                                  <!-- 关联pdo -->
+                                  <s:form id="relateForm" class="navbar-form navbar-left" >
+									<div style="display:none">
+									<input  type = "text" name = "pdoId"  value ='<s:property value = "#pdo.pdoID" />'/>
+									<input  name = "userId" value = '<s:property value = "userId"/>'/>
+									</div>
+									<div class="col-md-11 column">
+									<center>
+									<input type = "button" class="btn btn-lg btn-success" value = "RelativaPdo" onclick="getRelate()"/>
+									</div>
+									</s:form>
+                                  </td>
                                 <tr/>
                                 </s:iterator>
                              </thead>
@@ -368,33 +367,147 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 
 
                 </div>
+                <!-- 查询页面 -->
                 
-                	<p class="hiddenP" style="display:none;">
-                	hahahahahahahah
-                	</p>
-                </div>
-                <button onclick = "showHidden()">click</button>
-                <script>
-                function showHidden(){
-                	document.getElementByClass('hiddenP').style.display="block";
-                	$(".hiddenP").style.display="block";
-                	var a = document.createElement("p"); 
-                	a=$(".hiddenP")
-                	layer.open({
-    	        		type:1,
-                        title:"AddPdo",
-                        area:['1000px','600px'],
-                        shadeClose:true,
-                        content:a
-    	        	})
-                }
-                </script>
-                 
+                
+<div id="queryPdoLayer" style="display:none">
+			<div class="main-page">
+				<!--grids-->
+				<div class="grids">
+					<div class="progressbar-heading grids-heading">
+						<h2>查询pdo数据</h2>
+					</div>
+					<div class="container">
+						<div class="row clearfix">
+							<div class="col-md-2 column"></div>
+							<div class="col-md-8 column">
+								<s:form Class="form-horizontal" id="queryForm" action=""
+									theme="simple" data-toggle="validator"
+									role="form">
+									<input type="hidden" name="userId"
+										value='<s:property value = "userId"/>' />
+									<div class="form-group">
+										<label for="inputPassword" class="control-label">Date</label>
+										<div class="form-inline row">
+											<div class="form-group col-sm-6">
+
+												<input type="text" name="info.startDate"
+													class="form-control" data-error="请输入形如xxxx-xx-xx的合法日期"
+													pattern="^(?:19|20)[0-9][0-9]-(?:(?:0[1-9])|(?:1[0-2]))-(?:(?:[0-2][1-9])|(?:[1-3][0-1]))"
+													date() id="startDate" />
+												<div class="help-block">请输入形如xxxx-xx-xx的合法日期</div>
+											</div>
+											<div class="form-group col-sm-6">
+												<input type="text" name="info.endDate" class="form-control"
+													data-error="请输入形如xxxx-xx-xx的合法日期"
+													pattern="^(?:19|20)[0-9][0-9]-(?:(?:0[1-9])|(?:1[0-2]))-(?:(?:[0-2][1-9])|(?:[1-3][0-1]))"
+													date() id="endDate" />
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="inputPassword" class="control-label">Spend</label>
+										<div class="form-inline row">
+											<div class="form-group col-sm-6">
+												<input type="number" min=0 max=100000000000000
+													name="info.minSpend" Class="form-control" id="minSpend" />
+												<div class="help-block">必须是正整数!</div>
+											</div>
+											<div class="form-group col-sm-6">
+												<input type="number" min=0 max=100000000000000
+													name="info.maxSpend" Class="form-control" id="maxSpend" />
+												<div class="help-block with-errors"></div>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="inputEmail" class="control-label">place</label> <input
+											type="text" maxlength="20" name="info.place"
+											Class="form-control" id="place" />
+										<div class="help-block with-errors"></div>
+										<div class="help-block">最大长度是20!</div>
+									</div>
+									<div class="form-group">
+										<center>
+											<button type="button" class="btn  btn-lg btn-primary  hvr-shutter-out-vertical" onclick="jsonQueryPdo()">queryPdo</button>
+										</center>
+									</div>
+								</s:form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+<div id="addPdoLayer" style="display:none">
+<form Class="form-horizontal" theme="simple" method="post" id = "pdoForm" data-toggle="validator" role="form" onchange = "getMap()">
+            <input type="hidden" name="userID" value = '<s:property value = "userId"/>' />
+            <input type="hidden" name="userId" value = '<s:property value = "userId"/>' />
+              <table id = "pdo">
+              <tr class="form-group">
+                    <th class="col-sm-2">Key</th>
+                    <th class="col-sm-8">Value</th>
+                    <th class="col-sm-2">Operation</th>
+             </tr><br>
+              <tr class="form-group">
+                    <td class="col-sm-4" >Date</td>
+                    <td class="col-sm-4">
+                        <input type="text"  data-error="请输入形如xxxx-xx-xx的合法日期"
+				            pattern="^(?:19|20)[0-9][0-9]-(?:(?:0[1-9])|(?:1[0-2]))-(?:(?:[0-2][1-9])|(?:[1-3][0-1]))"  Class="form-control" 
+				            id = "date"/>
+				         <div class="help-block with-errors"></div>
+                    </td>
+             </tr><br>
+              <tr class="form-group">
+                    <td class="col-sm-4" >name</td>
+                    <td class="col-sm-4">
+                        <input type="text"  maxlength="10" Class="form-control" name = "name"/>
+                        <div class="help-block with-errors"></div>
+                    </td>
+             </tr><br>
+              <tr class="form-group">
+                    <td class="col-sm-4" >Spend</td>
+                    <td class="col-sm-4">
+                        <input type="number" min=0 max=10000000000  Class="form-control" id = "spend"/>
+                        <div class="help-block with-errors"></div>
+                    </td>
+             </tr><br>
+              <tr class="form-group">
+                    <td class="col-sm-4">Place</td>
+                    <td class="col-sm-4">
+                        <input type="text" maxlength="10" Class="form-control" id = "place"/>
+                         <div class="help-block with-errors"></div>
+                    </td>
+             </tr><br>
+             </table>
+             <br><br>  <br><br>
+		          <div class="form-group">
+		                    <div class="col-sm-offset-2 col-sm-4">
+		                    
+		                <button type="button" class="btn  btn-lg btn-primary  hvr-shutter-out-vertical" onclick="jsonAddPdo()">AddPdo</button>
+							</div>
+							<div class="col-sm-offset-2 col-sm-4">
+		                       <button type="button" class="btn btn-lg btn-primary  hvr-shutter-out-vertical" onclick = "addRow()" >AddRow</button>
+
+		              
+		                    </div>
+          		  </div>
+          </form>
+
+
+
+</div>                
+<div id="relatePdoLayer" style="display:none">
+   <table class="table">
+       	<thead>
+         	
+        </thead>
+        <tbody id="relateTable">
+			
+		</tbody>
+	</table>
+</div>                 
                 <!--//grids-->
-
-
-
-
 
             </div>
         </div>
@@ -491,9 +604,9 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 			}
 			//抽屉效果
 	        $(document).ready(function(){
-	            $(".drawerTotal").each(function(){
-	                $(this).children(".drawer").hide();
-	            });
+	            //$(".drawerTotal").each(function(){
+	                //$(this).children(".drawer").hide();
+	            //});
 	            $(".drawerHead").each(function(){
 	                $(this).click(function(){
 	                    if($(this).parents(".drawerTotal").children(".drawer").css("display") != "none"){
@@ -519,66 +632,24 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 	        		})
 	        	})
 	        })
-	        
+	        //查找pdo抽屉
+	        function queryPdoLayer(){
+	        	layer.open({
+	        		type:1,
+	        		title:"queryPdo",
+	        		area:['1000px','600px'],
+                    shadeClose:true,
+                    content:$("#queryPdoLayer")
+	        	})
+	        }
+	        //添加pdo抽屉
 	        function addPdoLayer(){
 	                layer.open({
 	                    type:1,
 	                    title:"AddPdo",
 	                    area:['1000px','600px'],
 	                    shadeClose:true,
-	                    content:'<form Class="form-horizontal" theme="simple" id = "pdoForm" method = "post" data-toggle="validator" role="form" onchange = "getMap()">' +
-	                    '            <input type="hidden" name="userID" value = \'<s:property value = "userId"/>\' />' +
-	                    '            <input type="hidden" name="userId" value = \'<s:property value = "userId"/>\' />' +
-	                    '              <table id = "pdo">' +
-	                    '              <tr class="form-group">' +
-	                    '                    <th class="col-sm-2">Key</th>' +
-	                    '                    <th class="col-sm-8">Value</th>' +
-	                    '                    <th class="col-sm-2">Operation</th>' +
-	                    '             </tr><br>' +
-	                    '              <tr class="form-group">' +
-	                    '                    <td class="col-sm-4" >Date</td>' +
-	                    '                    <td class="col-sm-4">' +
-	                    '                        <input type="text"  data-error="请输入形如xxxx-xx-xx的合法日期"' +
-	                    '            pattern="^(?:19|20)[0-9][0-9]-(?:(?:0[1-9])|(?:1[0-2]))-(?:(?:[0-2][1-9])|(?:[1-3][0-1]))"  Class="form-control" ' +
-	                    '            id = "date" />' +
-	                    '         <div class="help-block with-errors"></div>' +
-	                    '                    </td>' +
-	                    '             </tr><br>' +
-	                    '              <tr class="form-group">' +
-	                    '                    <td class="col-sm-4" >name</td>' +
-	                    '                    <td class="col-sm-4">' +
-	                    '                        <input type="text"  maxlength="10" Class="form-control" name = "name"/>' +
-	                    '                        <div class="help-block with-errors"></div>' +
-	                    '                    </td>' +
-	                    '             </tr><br>' +
-	                    '              <tr class="form-group">' +
-	                    '                    <td class="col-sm-4" >Spend</td>' +
-	                    '                    <td class="col-sm-4">' +
-	                    '                        <input type="number" min=0 max=10000000000  Class="form-control" id = "spend"/>' +
-	                    '                        <div class="help-block with-errors"></div>' +
-	                    '                    </td>' +
-	                    '             </tr><br>' +
-	                    '              <tr class="form-group">' +
-	                    '                    <td class="col-sm-4">Place</td>' +
-	                    '                    <td class="col-sm-4">' +
-	                    '                        <input type="text" maxlength="10" Class="form-control" id = "place"/>' +
-	                    '                         <div class="help-block with-errors"></div>' +
-	                    '                    </td>' +
-	                    '             </tr><br>' +
-	                    '             </table>' +
-	                    '             <br><br>  <br><br>' +
-	                    '          <div class="form-group">' +
-	                    '                    <div class="col-sm-offset-2 col-sm-4">' +
-	                    '                    ' +
-	                    '                <button class="btn  btn-lg btn-primary  hvr-shutter-out-vertical" onclick="jsonAddPdo()">AddPdo</button>' +
-	                    '</div>' +
-	                    '<div class="col-sm-offset-2 col-sm-4">' +
-	                    '                       <button type="button" class="btn btn-lg btn-primary  hvr-shutter-out-vertical" onclick = "addRow()" >AddRow</button>' +
-	                    '' +
-	                    '              ' +
-	                    '                    </div>' +
-	                    '            </div>' +
-	                    '          </form>'
+	                    content:$("#addPdoLayer")
 	                })
 	            }
 	        var i=3
@@ -609,7 +680,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 	            i--;
 	        }
 	        function getMap(){
-	      	  var date = document.getElementById("date");
+	        	var date = document.getElementById("date");
 	      	  var spend = document.getElementById("spend");
 	      	  var place = document.getElementById("place");
 	      	  if (date.value.trim() != ""){
@@ -662,7 +733,10 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 	        		  anim: 2,
 	        		  area:['240px','120px'],
 	        		  shadeClose: true,
-	        		  content: obj.result
+	        		  content: obj.result,
+	        		  end:function (){
+	        			  location.reload();
+	        		  }
 	        		});
 
 			},
@@ -707,6 +781,73 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 		get();
 		
 	}
+	      
+	      //json获取关联数据
+	   function getRelate(){
+			$("#relateTable").empty();
+			var formData = new FormData(document.getElementById("relateForm"));
+			$.ajax({
+				type : "post",
+				url : 'actionShowRelate',
+				data : formData,
+				async : false,
+				cache : false,
+				contentType : false,
+				processData : false,
+				success : function(data){
+					var obj = JSON.parse(data);
+					 $.each(obj.datas,function(n,onedata){
+						 	//var nameInfo = '<tr class="info"><td>name</td><td>'+onedata.name+'</td></tr>';
+							$("#relateTable").append(onedata.name);
+							$.each(onedata,function(key,value){
+					       	var str='<tr class="info"><td>'+key+'</td><td>'+value+'</td></tr>';
+					     	if (key != "name"){
+					       		$("#relateTable").append(str);
+					     	}
+					      });
+					    });
+					 layer.open({
+			        		type:1,
+			        		title:"relatePdo",
+			        		area:['1000px','600px'],
+		                    shadeClose:true,
+		                    content:$("#relatePdoLayer")
+			        	})
+				}
+			});
+		}
+	      
+	    //json查询pdo
+	   function jsonQueryPdo() {
+			var formData = new FormData(document.getElementById("queryForm"));
+			$.ajax({
+				type : "post",
+				url : 'actionQueryPdo',
+				data : formData,
+				async : false,
+				cache : false,
+				contentType : false,
+				processData : false,
+				success : function(data){
+					var obj = JSON.parse(data);
+					if (obj.result == "success"){
+						document.getElementById("queryForm").action="actionQueryPdoSuccess.action";
+						document.getElementById("queryForm").submit();
+					}
+					else{
+						layer.open({
+			        		type:1,
+			        		title:"Error Message",
+			        		area:['240px','120px'],
+		                    shadeClose:true,
+		                    content:'没有查询到符合属性的数据'
+			        	})
+					}
+					
+				}
+			});
+			get();
+		}
 		</script>
 	<!-- Bootstrap Core JavaScript -->
 

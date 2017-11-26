@@ -188,8 +188,6 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 					
 					
 						<s:form id="relateForm" class="navbar-form navbar-left" >
-					
-					<!-- 我觉得pdo的编号还是没有必要让用户知道,所以我把这个属性给隐藏了 -->
 						<div hidden>
 						<input  type = "text" name = "pdoId"  readonly  unselectable="on" value ='<s:property value = "pdo.pdoID" />'/>
 						<input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>

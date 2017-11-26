@@ -52,65 +52,29 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 <link href="css/custom.css" rel="stylesheet">
 
 <script>
-	function queryPdoUrl() {
-		var startDate = document.getElementById("startDate");
-		var endDate = document.getElementById("endDate");
-		var maxSpend = document.getElementById("maxSpend");
-		var minSpend = document.getElementById("minSpend");
-		var placeIn = document.getElementById("place");
-// 		IF (STARTDATE.VALUE != "")
-// 		{
-// 			 VAR RESULT = STARTDATE.VALUE.TRIM().MATCH(/^(?:19|20)[0-9][0-9]-(?:(?:0[1-9])|(?:1[0-2]))-(?:(?:[0-2][1-9])|(?:[1-3][0-1]))$/);
-// 		        IF(RESULT == NULL){
-// 		            RETURN FALSE;
-			
-			
-// 		}
-// 		IF (ENDDATE.VALUE != "")
-// 		{
-// 			 VAR RESULT = ENDDATE.VALUE.TRIM().MATCH(/^(?:19|20)[0-9][0-9]-(?:(?:0[1-9])|(?:1[0-2]))-(?:(?:[0-2][1-9])|(?:[1-3][0-1]))$/);
-// 		        IF(RESULT == NULL){
-// 		            RETURN FALSE;
-			
-			
-			
-// 		}
-// 		IF (MAXSPEND.VALUE != "")
-// 		{
-// 			 VAR RESULT = MAXSPEND.VALUE>=0 && MAXSPEND.VALUE<=100000000000  ;
-// 		        IF(RESULT == NULL){
-// 		            RETURN FALSE;
-			
-			
-			
-// 		}
-// 		IF (MINSPEND.VALUE != "")
-// 		{
-// 			 VAR RESULT = MAXSPEND.VALUE>=0 && MAXSPEND.VALUE<=100000000000  ;
-// 		        IF(RESULT == NULL){
-// 		            RETURN FALSE;
-// 		}
-		
-		
-		
-		
-		if (startDate.value == "") {
-			startDate.value = "0000-00-00";
-		}
-		if (endDate.value == "") {
-			endDate.value = "3000-00-00";
-		}
-		if (minSpend.value == "") {
-			minSpend.value = "0";
-		}
-		if (maxSpend.value == "") {
-			maxSpend.value = "100000";
-		}
-		if (placeIn.value == "") {
-			placeIn.value = "noPlaceInput";
-		}
-		document.getElementById("queryForm").submit();
-		return true;
+	function jsonQueryPdo() {
+		var formData = new FormData(document.getElementById("queryForm"));
+		$.ajax({
+			type : "post",
+			url : 'actionQueryPdo',
+			data : formData,
+			async : false,
+			cache : false,
+			contentType : false,
+			processData : false,
+			success : function(data){
+				var obj = JSON.parse(data);
+				if (obj.result == "success"){
+					document.getElementById("queryForm").action="actionQueryPdoSuccess.action";
+					document.getElementById("queryForm").submit();
+				}
+				else{
+					alert(obj.result);
+				}
+				
+			}
+		});
+		get();
 	}
 </script>
 
@@ -232,20 +196,12 @@ $.validator.addMethod("isPositive",date()
 					<div class="progressbar-heading grids-heading">
 						<h2>查询pdo数据</h2>
 					</div>
-
-
-
-
-
-
-
-
 					<div class="container">
 						<div class="row clearfix">
 							<div class="col-md-2 column"></div>
 							<div class="col-md-8 column">
-								<s:form action="actionQueryPdo" Class="form-horizontal"
-									theme="simple" id="queryForm" data-toggle="validator"
+								<s:form Class="form-horizontal" id="queryForm" action=""
+									theme="simple" data-toggle="validator"
 									role="form">
 
 									<input type="hidden" name="userId"
@@ -308,9 +264,7 @@ $.validator.addMethod("isPositive",date()
 									<div class="form-group">
 
 										<center>
-											<button type="submit"
-												class="btn  btn-lg btn-primary  hvr-shutter-out-vertical"
-												onsubmit="  queryPdoUrl()">queryPdo</button>
+											<button class="btn  btn-lg btn-primary  hvr-shutter-out-vertical" onclick="jsonQueryPdo()">queryPdo</button>
 										</center>
 										
 										<!--onsubmit 显示正常,但是存在的问题是无法查询数据
