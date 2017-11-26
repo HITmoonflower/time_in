@@ -252,15 +252,7 @@ function commit(){
                           <!-- 我觉得用户向一个模板里面添加pdo的时候不应该有addrow的按钮 -->
                           <div hidden>  <input type ="button"  class="btn btn-lg btn-primary" value = "AddRow"onclick = "addRow()"/>
                             </div>
-                           
                             </s:form>
-
-                            
-
-                             
-                            
-                             
-                            
                         </div>
                     </div>
                    

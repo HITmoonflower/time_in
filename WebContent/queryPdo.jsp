@@ -13,7 +13,6 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 <script type="application/x-javascript">
 	
 	 addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } 
-
 </script>
 <!-- Bootstrap Core CSS -->
 <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
@@ -54,9 +53,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 
 <script>
 	function queryPdoUrl() {
-
 		var startDate = document.getElementById("startDate");
-
 		var endDate = document.getElementById("endDate");
 		var maxSpend = document.getElementById("maxSpend");
 		var minSpend = document.getElementById("minSpend");
@@ -92,12 +89,14 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 // 			 VAR RESULT = MAXSPEND.VALUE>=0 && MAXSPEND.VALUE<=100000000000  ;
 // 		        IF(RESULT == NULL){
 // 		            RETURN FALSE;
-
 // 		}
+		
+		
+		
+		
 		if (startDate.value == "") {
 			startDate.value = "0000-00-00";
 		}
-
 		if (endDate.value == "") {
 			endDate.value = "3000-00-00";
 		}
@@ -311,7 +310,7 @@ $.validator.addMethod("isPositive",date()
 										<center>
 											<button type="submit"
 												class="btn  btn-lg btn-primary  hvr-shutter-out-vertical"
-												onclick=" queryPdoUrl()">queryPdo</button>
+												onsubmit="  queryPdoUrl()">queryPdo</button>
 										</center>
 										
 										<!--onsubmit 显示正常,但是存在的问题是无法查询数据
@@ -355,14 +354,12 @@ $.validator.addMethod("isPositive",date()
 		<script>
 			var menuLeft = document.getElementById('cbp-spmenu-s1'), showLeftPush = document
 					.getElementById('showLeftPush'), body = document.body;
-
 			showLeftPush.onclick = function() {
 				classie.toggle(this, 'active');
 				classie.toggle(body, 'cbp-spmenu-push-toright');
 				classie.toggle(menuLeft, 'cbp-spmenu-open');
 				disableOther('showLeftPush');
 			};
-
 			function disableOther(button) {
 				if (button !== 'showLeftPush') {
 					classie.toggle(showLeftPush, 'disabled');

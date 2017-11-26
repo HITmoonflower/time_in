@@ -24,6 +24,8 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 <!-- //chart -->
  <!-- js-->
 <script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="layer/layer/layer.js"></script>
 <script src="js/modernizr.custom.js"></script>
 <!--webfonts-->
 <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>
@@ -100,12 +102,39 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 	   }
 	 return true;
   }
+//json添加pdo
+	function jsonAddPdo(){
+		var formData = new FormData(document.getElementById("pdoForm"));
+		$.ajax({
+			type : "post",
+			url : 'actionAddPdo',
+			data : formData,
+			async : false,
+			cache : false,
+			contentType : false,
+			processData : false,
+			success : function(data){
+				var obj = JSON.parse(data);
+				layer.open({ 
+	        		  type: 1,
+	        		  title:"AddPdo Message",
+	        		  skin: 'layui-layer-demo',
+	        		  closeBtn: 0,
+	        		  anim: 2,
+	        		  area:['240px','120px'],
+	        		  shadeClose: true,
+	        		  content: obj.result
+	        		});
+
+			}
+		});
+		get();
+	}
   </script>
 
 
 
 <script src="js/metisMenu.min.js"></script>
-<script src="layer/layer/layer.js"></script>
 <script src="js/custom.js"></script>
 <link href="css/custom.css" rel="stylesheet">
 <!--//Metis Menu -->
@@ -238,11 +267,12 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 
 
 
+
 					<div class="container">
 						<div class="row clearfix">
 						
 
-		<center><form action="actionAddPdo" Class="form-horizontal" theme="simple" id = "pdoForm" method = "post" data-toggle="validator" role="form">
+		<center><form Class="form-horizontal" theme="simple" id = "pdoForm" method = "post" data-toggle="validator" role="form" onchange = "getMap()">
             <input type="hidden" name="userID" value = '<s:property value = "userId"/>' />
             <input type="hidden" name="userId" value = '<s:property value = "userId"/>' />
               <table id = "pdo">
@@ -263,7 +293,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
               <tr class="form-group">
                     <td class="col-sm-4" >name</td>
                     <td class="col-sm-4">
-                        <input type="text"  maxlength="10" Class="form-control" id = "name" name="name"/>
+                        <input type="text"  maxlength="10" Class="form-control" name = "name"/>
                         <div class="help-block with-errors"></div>
                     </td>
              </tr><br>
@@ -286,7 +316,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 		          <div class="form-group">
 		                    <div class="col-sm-offset-2 col-sm-4">
 		                    
-		                <button type="submit" class="btn  btn-lg btn-primary  hvr-shutter-out-vertical" onclick = "return getMap()">AddPdo</button>
+		                <button class="btn  btn-lg btn-primary  hvr-shutter-out-vertical" onclick="jsonAddPdo()">AddPdo</button>
 							</div>
 							<div class="col-sm-offset-2 col-sm-4">
 		                       <button type="button" class="btn btn-lg btn-primary  hvr-shutter-out-vertical" onclick = "addRow()" >AddRow</button>
@@ -311,7 +341,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 				
 			</div>
 		</div>
-		
+			
 		<!--footer-->
 		 <div class="dev-page">
 	 
@@ -347,7 +377,6 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 				disableOther( 'showLeftPush' );
 			};
 			
-
 			function disableOther( button ) {
 				if( button !== 'showLeftPush' ) {
 					classie.toggle( showLeftPush, 'disabled' );
@@ -391,46 +420,32 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 		
 	
 		$(function() {
-
 			// We use an inline data source in the example, usually data would
 			// be fetched from a server
-
 			var data = [],
 				totalPoints = 300;
-
 			function getRandomData() {
-
 				if (data.length > 0)
 					data = data.slice(1);
-
 				// Do a random walk
-
 				while (data.length < totalPoints) {
-
 					var prev = data.length > 0 ? data[data.length - 1] : 50,
 						y = prev + Math.random() * 10 - 5;
-
 					if (y < 0) {
 						y = 0;
 					} else if (y > 100) {
 						y = 100;
 					}
-
 					data.push(y);
 				}
-
 				// Zip the generated y values with the x values
-
 				var res = [];
 				for (var i = 0; i < data.length; ++i) {
 					res.push([i, data[i]])
 				}
-
 				return res;
 			}
-
 			// Set up the control widget
-
 			var updateInterval = 30;
 			$("#updateInterval").val(updateInterval).change(function () {
 				var v = $(this).val();
@@ -444,7 +459,6 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 					$(this).val("" + updateInterval);
 				}
 			});
-
 			var plot = $.plot("#placeholder", [ getRandomData() ], {
 				series: {
 					shadowSize: 0	// Drawing is faster without shadows
@@ -457,23 +471,17 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 					show: false
 				}
 			});
-
 			function update() {
-
 				plot.setData([getRandomData()]);
-
 				// Since the axes don't change, we don't need to call plot.setupGrid()
-
 				plot.draw();
 				setTimeout(update, updateInterval);
 			}
-
 			update();
-
 			// Add the Flot version string to the footer
-
 			$("#footer").prepend("Flot " + $.plot.version + " &ndash; ");
 		});
+		
 		</script>
 		<!-- //real-time-updates -->
 
@@ -481,4 +489,3 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 		
 </body>
 </html>
-

@@ -5,13 +5,12 @@
 <struts>
   <package name = "pdo"  extends = "struts-default,json-default" namespace = "/">
     <action name = "actionAddPdo" class = "action.PDOAction" method = "addPdo">
-      <result>/addSuccess.jsp</result>
-    <!-- <result type="redirect">/addSuccess.jsp?userId=${pdo.userID}</result>
-     -->  
-      <result name = "error">/addFail.jsp</result>
+    	<result type = "json">
+			<param name = "root">relateRes</param>
+		</result>
     </action>
     <action name = "actionQueryPdo" class = "action.PDOAction" method = "queryPdo">
-      <result>/queryResult.jsp</result>
+      <result>/homePage.jsp</result>
       <result name = "error">/queryFail.jsp</result>
     </action>
 

@@ -7,13 +7,13 @@
     <title>Homepage</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="keywords" content="Baxster Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
+    <meta name="keywords" content="Baxster Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
 SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
     <script type="application/x-javascript">
     addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
 
     function hideURLbar() { window.scrollTo(0, 1); }
-    
+
 
     function addRelation(){
 	var checkBox = document.getElementsByName("pdoItem");
@@ -35,11 +35,11 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 		alert("请选择两个pdo")
 	}
 }
-    function insertTitle(path){  
+    function insertTitle(path){
     	   var test1 = path.lastIndexOf("/");
     	   var test2 = path.lastIndexOf("\\");
     	   var test= Math.max(test1, test2)
-    	   if(test<0){  
+    	   if(test<0){
     	     document.getElementById("fileName").value = path;
     	   }else{
     	    document.getElementById("fileName").value = path.substring(test + 1);
@@ -97,7 +97,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                 </s:form>
                                 <a href="javascript:document:backToHomepage.submit();"><i class="fa fa-home nav_icon"></i>个人主页</a>
                             </li>
-                           
+
                             <li>
                             <s:form name = "jumpQuery" action = "actionJumpQuery">
                                     <input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
@@ -106,55 +106,52 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 
                                 <!-- /nav-second-level -->
                             </li>
-                            
-                           
+
+
                             <li>
-                                <s:form name = "jumpAdd" action = "actionJumpAdd">
-                                    <input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
-                                </s:form>
-                                <a href="javascript:document:jumpAdd.submit();"><i class="fa fa-th-large nav_icon"></i>添加pdo对象</a>
+                                <a href="javascript:addPdoLayer();"><i class="fa fa-th-large nav_icon"></i>添加pdo对象</a>
                             </li>
                             <li>
                                 <a  onclick = 'addRelation()' ><i class="fa fa-th-large nav_icon"></i>添加数据关联</a>
                             </li>
-							
-							
-							
+
+
+
 							 <li>
-							   
-									 
-								
+
+
+
                                 <a href="javascript:document:jumpAdd.submit();"><i class="fa fa-th-large nav_icon"></i>添加文件<span class="fa arrow"></span></a>
-                            		
+
                             		<ul class="nav nav-second-level collapse">
                                      <s:form id = "fileForm">
 									<input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
 									<input type = "hidden" name = "excelFileName" id = "fileName"/>
-									
+
                                     <li class="btn btn-default">
-								
+
 									  <center><input type = "file" name = "excelFile"
 									  onChange="if(this.value)insertTitle(this.value);"  />
 									  </center>
                                     </li>
                                     <br/>
                                     <li class="btn btn-default">
-                                     
+
                                        <center><input type = "button" class="btn  btn-default"
                                        value = "submit" onclick="importExcel();" />
                                    </li>
                                    </s:form>
                                 </ul>
-                                
+
                             </li>
-                            
-                            
-                            
+
+
+
                             <li>
                                 <a href="login.jsp"><i class="fa fa-th-large nav_icon"></i>logout</a>
                             </li>
-                            
-                            
+
+
                             <li>
                                 <a href="#" class="chart-nav"><i class="fa fa-bar-chart nav_icon"></i>Extras<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level collapse">
@@ -189,7 +186,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                     </a>
                 </div>
                 <!--//logo-->
-                
+
             </div>
 
             <div class="header-right">
@@ -204,7 +201,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                 </div>
                             </a>
                             <ul class="dropdown-menu drp-mnu">
-                                
+
                                 <li> <a href="login.jsp"><i class="fa fa-sign-out"></i> Logout</a> </li>
                             </ul>
                         </li>
@@ -225,10 +222,10 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
         <div id="page-wrapper">
             <div class="main-page">
                 <!--grids-->
-                
-              
 
-					
+
+
+
                 <div class="grids">
                     <div class="progressbar-heading grids-heading">
                         <h2>Tables</h2>
@@ -236,24 +233,92 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                     <div class="panel panel-widget">
                         <div class="tables">
 
-                     
+
                             <s:form action = "actionAddRelatePdo.action" id = "relation">
-                            
+
                                 <input type="hidden" name="userId" id = "Id" value = '<s:property value = "userId"/>'/>
                                 <input type="hidden" name="pdo1" id="pdoId1"/>
                                 <input type="hidden" name="pdo2" id="pdoId2"/>
                                 </s:form>
 
-                            
 
-                             
+
+
                              <s:iterator value = "queryRes" var = "pdoName" status = "sta">
+                             <!-- 抽屉div class不可改变，通过改变div范围改变效果应用范围-->
                              <div class="drawerTotal">
-                             <p class="drawerHead">
+                             <!-- 抽屉头部div -->
+                             <div class="drawerHead">
+                             <p>
                              <s:property value="%{#pdoName.key}" />
                               	共<s:property value="#pdoName.value.size()"/>条数据
                              </p>
+                             <!-- 生成表单div -->
+                             <div class="showForm">
+                             <p>
+                             <input type="submit" class="btn btn-primary  hvr-shutter-out-vertical" value="generateForm"/>
+                             </p>
+                             </div>
+                             <div class="hiddenGenerateForm" style="display:none">
+                             <s:iterator value = "#pdoName.value" var = "pdo" status = "pdos">
+                             	<s:if test="#pdos.Count <= 1">
+                             		<div class="panel panel-widget">
+                        	 		<div class="tables">
+                            			<s:form id = "generateAddForm">
+                            			<input type="hidden" name="userID" value = '<s:property value = "userId"/>'/>
+                            			
+                            			<table id = "pdoInfo" class="table">
+                            				<tr  class="info">
+                            				<td> <center>Name</center></td>
+	                       					<td>	
+	                     	 					<center>
+	                     	 					 <input type = "text" name = 'name' value='<s:property value="#pdo.name"/>' readonly='readonly'/>
+	                         					</center>
+	                         				</td>
+	                         				</tr>
+	                         				<s:iterator value="#pdo.infoMap" var="map">
+	                         					<tr>
+	                       	 					<td><center><s:property value="#map.key"/></center></td>
+	                       						<td>
+	                       						<center>	
+	                     	 					<input type = "text" name = 'infoMap.<s:property value="#map.key"/>'/>
+	                         					</center>
+	                         					</td>
+                            					</tr>
+                            				</s:iterator>
+                            			</table>
+			                            <div class="col-md-10 column">
+			                            <center>
+			                            <input type = "button" class="btn btn-lg btn-primary" onclick = "jsonGenerateAddPdo(this)" value = "addPdo"/>
+			                          	</center>
+			                          	</div>
+                          			 	</s:form>
+                          			</div>
+                            
+                        			</div>
+                         		</s:if>
+                         	</s:iterator>
+                         	</div> 
                              
+                             <!-- 
+                             <s:iterator value = "#pdoName.value" var = "pdo" status = "s">
+                             <tr>
+                             <td></td>
+                             <s:if test="#s.Count <= 1">
+                             <s:iterator value="#pdo.infoMap" status="ss" var = "map">
+                                  <th><s:property value="%{#map.key}" /></th>
+                             </s:iterator>
+                             </s:if>
+                             </tr></s:iterator>
+                                 <s:form action = "actionForm">
+                                     <input type="hidden" name="userId" value = '<s:property value = "userId"/>'/>
+                                     <input type="hidden" name="tranName" value = '<s:property value="#pdoName.key" />'/>
+                                     <input type="submit" class="btn btn-primary  hvr-shutter-out-vertical" value="generateForm"/>
+						 		</s:form>
+						 		 -->
+                              
+                             </div>
+                             <!-- 抽屉折叠div -->
                              <div class="drawer">
                              <table class="table">
                              <thead>
@@ -272,31 +337,23 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                 <s:iterator value="#pdo.infoMap" status="ss" var = "map">
                                   <th><s:property value="%{#map.value}" /></th>
                                   </s:iterator>
-                                	<!-- generateFrom 按钮 -->
-                                  <td rowspan = "2">
-                                        <s:form action = "actionForm">
-                                        	<input type="hidden" name="userId" value = '<s:property value="#pdo.userID" />'/>
-                                         	<input type="hidden" name="tranName" value = '<s:property value="#pdo.name" />'/>
-                                         	<input type="submit" class="btn btn-primary  hvr-shutter-out-vertical" value="generateForm"/> 
-                                       	
-                                        </s:form>
-                                        </td>
+                                  
                                  <td rowspan = "2">
                                         <s:form action = "actionShowDetail">
                                           <input type="hidden" name="pdoId" value = '<s:property value="#pdo.pdoID" />'/>
                                           <input type="hidden" name="userId" value = '<s:property value="userId" />'/>
-                                          <input type="submit" class="btn btn-primary  hvr-shutter-out-vertical"  value="Detail"/> 
+                                          <input type="submit" class="btn btn-primary  hvr-shutter-out-vertical"  value="Detail"/>
                                         </s:form>
                                  </td>
-                                 
+
                                 <tr/>
                                 </s:iterator>
                              </thead>
                              <tbody>
-                             <!-- 
+                             <!--
                                 <tr class="danger">
                                     <th></th>
-                                  
+
                                     <th></th><th></th>
                                 </tr>
                                  -->
@@ -305,36 +362,57 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 								 </div>
 								 </div>
                              </s:iterator>
-                            
+
                         </div>
                     </div>
-                   
-                                
+
+
                 </div>
+                
+                	<p class="hiddenP" style="display:none;">
+                	hahahahahahahah
+                	</p>
+                </div>
+                <button onclick = "showHidden()">click</button>
+                <script>
+                function showHidden(){
+                	document.getElementByClass('hiddenP').style.display="block";
+                	$(".hiddenP").style.display="block";
+                	var a = document.createElement("p"); 
+                	a=$(".hiddenP")
+                	layer.open({
+    	        		type:1,
+                        title:"AddPdo",
+                        area:['1000px','600px'],
+                        shadeClose:true,
+                        content:a
+    	        	})
+                }
+                </script>
+                 
                 <!--//grids-->
 
 
-					
 
-               
+
+
             </div>
         </div>
-        
-		<button id="testAddPdoLayer">click</button>
+
         <!--footer-->
 		 <div class="dev-page">
-	 
-			<!-- page footer -->   
+
+			<!-- page footer -->
 			<!-- dev-page-footer-closed dev-page-footer-fixed -->
-            <div class="dev-page-footer dev-page-footer-fixed"> 
+            <div class="dev-page-footer dev-page-footer-fixed">
 				<!-- container -->
 				<div class="container">
 					<div class="copyright">
-						<p>Copyright &copy; 2017.HITmoonflower All rights reserved.</p> 
+						<p>Copyright &copy; 2017.HITmoonflower All rights reserved.</p>
 					</div>
 					<!-- page footer buttons -->
-					
-                
+
+
                 </div>
 				<!-- //container -->
             </div>
@@ -346,37 +424,25 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 	<!-- Classie -->
 		<script src="js/classie.js"></script>
 		<script>
-	    $(document).ready(function() {
-	        $("#showLayer").on('click', function () {
-	        	layer.open({
-	        		  type: 1,
-	        		  skin: 'layui-layer-demo',
-	        		  closeBtn: 0,
-	        		  anim: 2,
-	        		  area:['200px','120px'],
-	        		  shadeClose: true,
-	        		  content: 'hello'
-	        		});
-	        });
-	    });
+
 			var menuLeft = document.getElementById( 'cbp-spmenu-s1' ),
 				showLeftPush = document.getElementById( 'showLeftPush' ),
 				body = document.body;
-				
+
 			showLeftPush.onclick = function() {
 				classie.toggle( this, 'active' );
 				classie.toggle( body, 'cbp-spmenu-push-toright' );
 				classie.toggle( menuLeft, 'cbp-spmenu-open' );
 				disableOther( 'showLeftPush' );
 			};
-			
+
 
 			function disableOther( button ) {
 				if( button !== 'showLeftPush' ) {
 					classie.toggle( showLeftPush, 'disabled' );
 				}
 			}
-			
+
 			//ajax请求导入excel
 			function importExcel(){
 				var formData = new FormData(document.getElementById("fileForm"));
@@ -415,7 +481,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 			        		  shadeClose: true,
 			        		  content: msg
 			        		});
-							
+
 					},
 					error : function(e){
 						msg="上传失败！";
@@ -423,6 +489,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 				});
 				get();
 			}
+			//抽屉效果
 	        $(document).ready(function(){
 	            $(".drawerTotal").each(function(){
 	                $(this).children(".drawer").hide();
@@ -437,15 +504,29 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 	                });
 	            });
 	        });
-	       
-	        $(document).ready(function() {
-	            $("#testAddPdoLayer").on('click', function () {
+	        //生成表单
+	        $(document).ready(function(){
+	        	$('.showForm').each(function(){
+	        		$(this).click(function(){
+	        			layer.open({
+		                    type:1,
+		                    title:"AddPdo",
+		                    area:['1000px','600px'],
+		                    shadeClose:true,
+		                    content:$(this).parents('.drawerHead').children('.hiddenGenerateForm')
+		                })
+	        			$(this).parents('.drawerHead').children('.hiddenGenerateForm').style.display="block";
+	        		})
+	        	})
+	        })
+	        
+	        function addPdoLayer(){
 	                layer.open({
 	                    type:1,
 	                    title:"AddPdo",
 	                    area:['1000px','600px'],
 	                    shadeClose:true,
-	                    content:'<form action="actionAddPdo" Class="form-horizontal" theme="simple" id = "pdoForm" method = "post" data-toggle="validator" role="form">' +
+	                    content:'<form Class="form-horizontal" theme="simple" id = "pdoForm" method = "post" data-toggle="validator" role="form" onchange = "getMap()">' +
 	                    '            <input type="hidden" name="userID" value = \'<s:property value = "userId"/>\' />' +
 	                    '            <input type="hidden" name="userId" value = \'<s:property value = "userId"/>\' />' +
 	                    '              <table id = "pdo">' +
@@ -466,7 +547,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 	                    '              <tr class="form-group">' +
 	                    '                    <td class="col-sm-4" >name</td>' +
 	                    '                    <td class="col-sm-4">' +
-	                    '                        <input type="text"  maxlength="10" Class="form-control" id = "name"/>' +
+	                    '                        <input type="text"  maxlength="10" Class="form-control" name = "name"/>' +
 	                    '                        <div class="help-block with-errors"></div>' +
 	                    '                    </td>' +
 	                    '             </tr><br>' +
@@ -489,7 +570,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 	                    '          <div class="form-group">' +
 	                    '                    <div class="col-sm-offset-2 col-sm-4">' +
 	                    '                    ' +
-	                    '                <button type="submit" class="btn  btn-lg btn-primary  hvr-shutter-out-vertical" onclick = "return getMap()">AddPdo</button>' +
+	                    '                <button class="btn  btn-lg btn-primary  hvr-shutter-out-vertical" onclick="jsonAddPdo()">AddPdo</button>' +
 	                    '</div>' +
 	                    '<div class="col-sm-offset-2 col-sm-4">' +
 	                    '                       <button type="button" class="btn btn-lg btn-primary  hvr-shutter-out-vertical" onclick = "addRow()" >AddRow</button>' +
@@ -499,8 +580,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 	                    '            </div>' +
 	                    '          </form>'
 	                })
-	            });
-	        });
+	            }
 	        var i=3
 	        function getObj(id){
 	            return document.getElementById(id);
@@ -515,11 +595,11 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 	            var cell2=row.insertCell();
 	            temp = String(window.i);
 	            cell0.innerHTML='<input type="text"  id = "key'+temp+'">';
-	            cell0.className ="col-sm-4"; 
+	            cell0.className ="col-sm-4";
 	            cell1.innerHTML='<input type="text" name = "value'+temp+'" id = "value'+temp+'">';
 	            cell1.className ="col-sm-4";
 	            cell2.innerHTML='<input value="删除"type="button" class="btn btn-lg btn-primary  hvr-shutter-out-vertical" onclick="deleteRow(this)"/>';
-	            cell2.className ="col-sm-4"; 
+	            cell2.className ="col-sm-4";
 	            i++;
 	        }
 	        function deleteRow(obj){
@@ -532,7 +612,6 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 	      	  var date = document.getElementById("date");
 	      	  var spend = document.getElementById("spend");
 	      	  var place = document.getElementById("place");
-	      	  var name = document.getElementById("name");
 	      	  if (date.value.trim() != ""){
 	      	  	date.name = "infoMap.datetime";
 	      	  }
@@ -541,9 +620,6 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 	      	  }
 	      	  if (place.value.trim() != ""){
 	      		  place.name = "infoMap.place";
-	      	  }
-	      	  if (name.value.trim() != ""){
-	      		  name.name = "infoMap.name";
 	      	  }
 	      	  for (var j = 3; j<window.i;j++){
 	      		  var key = document.getElementById("key"+String(j));
@@ -565,9 +641,75 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 	      	   }
 	      	 return true;
 	        }
-		</script>
-	<!-- Bootstrap Core JavaScript --> 
+	      //json添加pdo
+	function jsonAddPdo(){
+		var formData = new FormData(document.getElementById("pdoForm"));
+		$.ajax({
+			type : "post",
+			url : 'actionAddPdo',
+			data : formData,
+			async : false,
+			cache : false,
+			contentType : false,
+			processData : false,
+			success : function(data){
+				var obj = JSON.parse(data);
+				layer.open({
+	        		  type: 1,
+	        		  title:"AddPdo Message",
+	        		  skin: 'layui-layer-demo',
+	        		  closeBtn: 0,
+	        		  anim: 2,
+	        		  area:['240px','120px'],
+	        		  shadeClose: true,
+	        		  content: obj.result
+	        		});
+
+			},
+			error : function(e){
+				msg="上传失败！";
+			}
+		});
+		get();
+	}
+	      //生成表单添加数据
+	   function jsonGenerateAddPdo(){
+		var formData = new FormData(document.getElementById("generateAddForm"));
+		$.ajax({
+			type : "post",
+			url : 'actionAddPdo',
+			data : formData,
+			async : false,
+			cache : false,
+			contentType : false,
+			processData : false,
+			success : function(data){
+				var obj = JSON.parse(data);
+				layer.open({
+	        		  type: 1,
+	        		  title:"AddPdo Message",
+	        		  skin: 'layui-layer-demo',
+	        		  closeBtn: 0,
+	        		  anim: 2,
+	        		  area:['240px','120px'],
+	        		  shadeClose: true,
+	        		  content: obj.result,
+	        		  end: function () {
+	                      location.reload();
+	                  }
+	        		});
+
+			},
+			error : function(e){
+				msg="上传失败！";
+			}
+		});
+		get();
 		
+	}
+		</script>
+	<!-- Bootstrap Core JavaScript -->
+
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
 
         <script type="text/javascript" src="js/dev-loaders.js"></script>
@@ -577,11 +719,11 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 
 		<script type="text/javascript" src="js/jquery.jqcandlestick.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="css/jqcandlestick.css" />
-		
+
 		<!--max-plugin-->
 		<script type="text/javascript" src="js/plugins.js"></script>
 		<!--//max-plugin-->
-		
+
 		<!--scrolling js-->
 		<script src="js/jquery.nicescroll.js"></script>
 		<script src="js/scripts.js"></script>
