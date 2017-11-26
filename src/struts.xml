@@ -18,9 +18,7 @@
       <result>/homePage.jsp</result>
     </action>
     <action name = "actionAddRelatePdo" class = "action.PDOAction" method = "addRelatePdo">
-    <!-- 
       <result type = "chain">actionShowAll</result>
-       -->
     </action>
     <action name = "actionForm" class = "action.PDOAction" method = "generateForm">
       <result>/form.jsp</result>

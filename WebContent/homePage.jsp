@@ -334,16 +334,21 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                   </s:iterator>
                                   <td>
                                   <!-- 关联pdo -->
-                                  <s:form id="relateForm" class="navbar-form navbar-left" >
-									<div style="display:none">
-									<input  type = "text" name = "pdoId"  value ='<s:property value = "#pdo.pdoID" />'/>
-									<input  name = "userId" value = '<s:property value = "userId"/>'/>
-									</div>
-									<div class="col-md-11 column">
-									<center>
-									<input type = "button" class="btn btn-lg btn-success" value = "RelativaPdo" onclick="getRelate()"/>
-									</div>
-									</s:form>
+                                  <div class = "relateForm">
+                                  <form id="relateForm" class="navbar-form navbar-left" >
+									                <div style="display:none">
+									                 <input  type = "text" name = "pdoId"  value ='<s:property value = "#pdo.pdoID" />'/>
+									                 <input  name = "userId" value = '<s:property value = "userId"/>'/>
+									                 </div>
+									                 <div class="col-md-11 column">
+									                 <div class="getRealteButton">
+									                 <center>
+									                 <input type = "button" class="btn btn-lg btn-success" value = "RelativaPdo" onclick="getRelate()"/>
+									                 </div>
+									                 </div>
+									                 </form>
+									                 </div>
+									                 
                                   </td>
                                 <tr/>
                                 </s:iterator>
@@ -454,7 +459,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                     <td class="col-sm-4">
                         <input type="text"  data-error="请输入形如xxxx-xx-xx的合法日期"
 				            pattern="^(?:19|20)[0-9][0-9]-(?:(?:0[1-9])|(?:1[0-2]))-(?:(?:[0-2][1-9])|(?:[1-3][0-1]))"  Class="form-control" 
-				            id = "date"/>
+				            id = "addDate"/>
 				         <div class="help-block with-errors"></div>
                     </td>
              </tr><br>
@@ -468,14 +473,14 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
               <tr class="form-group">
                     <td class="col-sm-4" >Spend</td>
                     <td class="col-sm-4">
-                        <input type="number" min=0 max=10000000000  Class="form-control" id = "spend"/>
+                        <input type="number" min=0 max=10000000000  Class="form-control" id = "addSpend"/>
                         <div class="help-block with-errors"></div>
                     </td>
              </tr><br>
               <tr class="form-group">
                     <td class="col-sm-4">Place</td>
                     <td class="col-sm-4">
-                        <input type="text" maxlength="10" Class="form-control" id = "place"/>
+                        <input type="text" maxlength="10" Class="form-control"id="addPlace" name="infoMap.place"/>
                          <div class="help-block with-errors"></div>
                     </td>
              </tr><br>
@@ -600,7 +605,6 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 						msg="上传失败！";
 					}
 				});
-				get();
 			}
 			//抽屉效果
 	        $(document).ready(function(){
@@ -680,18 +684,18 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 	            i--;
 	        }
 	        function getMap(){
-	        	var date = document.getElementById("date");
-	      	  var spend = document.getElementById("spend");
-	      	  var place = document.getElementById("place");
+	        	var date = document.getElementById("addDate");
+	      	  var spend = document.getElementById("addSpend");
+	      	  var place = document.getElementById("addPlace");
 	      	  if (date.value.trim() != ""){
 	      	  	date.name = "infoMap.datetime";
 	      	  }
 	      	  if (spend.value.trim() != ""){
 	      		  spend.name = "infoMap.spend";
 	      	  }
-	      	  if (place.value.trim() != ""){
-	      		  place.name = "infoMap.place";
-	      	  }
+	      	if (place.value.trim() != ""){
+	              place.name = "infoMap.place";
+	            }
 	      	  for (var j = 3; j<window.i;j++){
 	      		  var key = document.getElementById("key"+String(j));
 	      		  var value = document.getElementById("value"+String(j));
@@ -782,40 +786,53 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 		
 	}
 	      
-	      //json获取关联数据
-	   function getRelate(){
-			$("#relateTable").empty();
-			var formData = new FormData(document.getElementById("relateForm"));
-			$.ajax({
-				type : "post",
-				url : 'actionShowRelate',
-				data : formData,
-				async : false,
-				cache : false,
-				contentType : false,
-				processData : false,
-				success : function(data){
-					var obj = JSON.parse(data);
-					 $.each(obj.datas,function(n,onedata){
-						 	//var nameInfo = '<tr class="info"><td>name</td><td>'+onedata.name+'</td></tr>';
-							$("#relateTable").append(onedata.name);
-							$.each(onedata,function(key,value){
-					       	var str='<tr class="info"><td>'+key+'</td><td>'+value+'</td></tr>';
-					     	if (key != "name"){
-					       		$("#relateTable").append(str);
-					     	}
-					      });
-					    });
-					 layer.open({
-			        		type:1,
-			        		title:"relatePdo",
-			        		area:['1000px','600px'],
-		                    shadeClose:true,
-		                    content:$("#relatePdoLayer")
-			        	})
-				}
-			});
-		}
+	   //json获取关联数据
+	   $(document).ready(function(){
+           $('.getRealteButton').each(function(){
+             $(this).click(function(){
+            	 $("#relateTable").empty();
+            	 var formData=$(this).parents('.relateForm').children('form').serializeArray();
+            	 //console.log(formData);
+            	 var uploadData = new FormData();
+            	 //var jsonData={};
+            	 for (var i=0;i<2;i++){
+            		 var str=formData[i].name;
+            		 uploadData.append(str,formData[i].value);
+            		 //jsonData[str]=formData[i].value;
+            	 }
+            	 //console.log(jsonData);
+            	 $.ajax({
+            	        type : "post",
+            	        url : 'actionShowRelate',
+            	        data : uploadData,
+            	        async : false,
+            	        cache : false,
+            	        contentType : false,
+            	        processData : false,
+            	        success : function(data){
+            	          var obj = JSON.parse(data);
+            	           $.each(obj.datas,function(n,onedata){
+            	              //var nameInfo = '<tr class="info"><td>name</td><td>'+onedata.name+'</td></tr>';
+            	              $("#relateTable").append(onedata.name);
+            	              $.each(onedata,function(key,value){
+            	                  var str='<tr class="info"><td>'+key+'</td><td>'+value+'</td></tr>';
+            	                if (key != "name"){
+            	                    $("#relateTable").append(str);
+            	                }
+            	                });
+            	              });
+            	           layer.open({
+            	                  type:1,
+            	                  title:"relatePdo",
+            	                  area:['1000px','600px'],
+            	                        shadeClose:true,
+            	                        content:$("#relatePdoLayer")
+            	                })
+            	        }
+            	      });
+             })
+           })
+         })
 	      
 	    //json查询pdo
 	   function jsonQueryPdo() {
