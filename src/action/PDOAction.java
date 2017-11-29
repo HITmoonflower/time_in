@@ -201,6 +201,22 @@ public int getPdoId() {
 		return SUCCESS;
 	}
 	
+	public String queryPdoTime() {
+		Map<String, String> map = new HashMap<String, String>();
+		try{
+			queryRes = pdoService.queryTime(userId, info);
+			if(queryRes == null)
+				map.put("result", "查询数据失败");
+			else
+				map.put("result", "success");
+		} catch(SQLException e) {
+			e.printStackTrace();
+			map.put("result", "查询数据失败");
+		}
+		relateRes = JSONObject.fromObject(map).toString();
+		return SUCCESS;
+	}
+	
 	public String queryPdoSuccess() {
 		try{
 			queryRes = pdoService.query(userId, info);

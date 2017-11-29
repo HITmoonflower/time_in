@@ -19,6 +19,13 @@
       	<param name = "root">relateRes</param>
       </result>
     </action>
+    
+    <action name = "actionQueryPdoTime" class = "action.PDOAction" method = "queryPdoTime">
+      <result type="json">
+      	<param name = "root">relateRes</param>
+      </result>
+    </action>
+    
     <action name = "actionQueryPdoSuccess" class = "action.PDOAction" method = "queryPdoSuccess">
       <result>/homePage.jsp</result>
     </action>
