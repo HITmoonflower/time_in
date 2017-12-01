@@ -9,6 +9,13 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="Baxster Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
 SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+        <style type="text/css">
+        #MapAddPdo{
+            height: 400px;
+            width: 500px;
+            margin: 0px
+        }
+    </style>
     <script type="application/x-javascript">
     addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
 
@@ -259,7 +266,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                              	<s:if test="#pdos.Count <= 1">
                              		<div class="panel panel-widget">
                         	 		<div class="tables">
-                            			<s:form id = "generateAddForm">
+                            			<s:form class = "generateAddForm">
                             			<input type="hidden" name="userID" value = '<s:property value = "userId"/>'/>
                             			
                             			<table id = "pdoInfo" class="table">
@@ -282,10 +289,12 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                             					</tr>
                             				</s:iterator>
                             			</table>
+                            			<div class = "addPdoByGeneButton">
 			                            <div class="col-md-10 column">
 			                            <center>
 			                            <input type = "button" class="btn btn-lg btn-primary" onclick = "jsonGenerateAddPdo(this)" value = "addPdo"/>
 			                          	</center>
+			                          	</div>
 			                          	</div>
                           			 	</s:form>
                           			</div>
@@ -373,7 +382,9 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 
                 </div>
                 <!-- 查询页面 -->
-                
+<div id="mapmap" onclick="addMapFunction()">
+<p>i am here</p>
+</div>                
                 
 <div id="queryPdoLayer" style="display:none">
 			<div class="main-page">
@@ -459,32 +470,40 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                     <td class="col-sm-4">
                         <input type="text"  data-error="请输入形如xxxx-xx-xx的合法日期"
 				            pattern="^(?:19|20)[0-9][0-9]-(?:(?:0[1-9])|(?:1[0-2]))-(?:(?:[0-2][1-9])|(?:[1-3][0-1]))"  Class="form-control" 
-				            id = "addDate"/>
+				            id = "addDate" name="infoMap.datetime"/>
 				         <div class="help-block with-errors"></div>
                     </td>
-             </tr><br>
+             </tr><br/>
               <tr class="form-group">
                     <td class="col-sm-4" >name</td>
                     <td class="col-sm-4">
                         <input type="text"  maxlength="10" Class="form-control" name = "name"/>
                         <div class="help-block with-errors"></div>
                     </td>
-             </tr><br>
+             </tr><br/>
               <tr class="form-group">
                     <td class="col-sm-4" >Spend</td>
                     <td class="col-sm-4">
-                        <input type="number" min=0 max=10000000000  Class="form-control" id = "addSpend"/>
+                        <input type="number" min=0 max=10000000000  Class="form-control" id = "addSpend" name="infoMap.spend"/>
                         <div class="help-block with-errors"></div>
                     </td>
-             </tr><br>
+             </tr><br/>
               <tr class="form-group">
                     <td class="col-sm-4">Place</td>
                     <td class="col-sm-4">
-                        <input type="text" maxlength="10" Class="form-control"id="addPlace" name="infoMap.place"/>
+                        <input type="text" maxlength="10" Class="form-control"id="addPlace" name="infoMap.place" value = '点击地图显示地址/输入地址显示位置'/>
                          <div class="help-block with-errors"></div>
                     </td>
-             </tr><br>
+             </tr>
+             <br/>
              </table>
+             
+             <div id="MapAddPdo" tabindex="0"></div>
+                  <div class ='panel'>
+                        <input id = 'input' value = '点击地图显示地址/输入地址显示位置' onfocus = 'this.value=""'></input>
+                <div id = 'message'></div>
+            </div>
+            
              <br><br>  <br><br>
 		          <div class="form-group">
 		                    <div class="col-sm-offset-2 col-sm-4">
@@ -517,6 +536,8 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
             </div>
         </div>
 
+
+
         <!--footer-->
 		 <div class="dev-page">
 
@@ -541,8 +562,52 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 	</div>
 	<!-- Classie -->
 		<script src="js/classie.js"></script>
-		<script>
+		<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.2&key=b58724f1cb6b3589a9f864c179ede219"></script>
+<script type="text/javascript">
+    var map = new AMap.Map('MapAddPdo',{
+        resizeEnable: true,
+        zoom: 13,
+        center: [116.39,39.9]
+    });
+    AMap.plugin('AMap.Geocoder',function(){
+        var geocoder = new AMap.Geocoder({
+        });
+        var marker = new AMap.Marker({
+            map:map,
+            bubble:true
+        })
+        var input = document.getElementById('addPlace');
+        var message = document.getElementById('message');
+        map.on('click',function(e){
+            marker.setPosition(e.lnglat);
+            geocoder.getAddress(e.lnglat,function(status,result){
+                if(status=='complete'){
+                    input.value = result.regeocode.formattedAddress
+                    message.innerHTML = ''
+                }else{
+                    message.innerHTML = '无法获取地址'
+                }
+            })
+        })
 
+        input.onchange = function(e){
+            var address = input.value;
+            geocoder.getLocation(address,function(status,result){
+                if(status=='complete'&&result.geocodes.length){
+                    marker.setPosition(result.geocodes[0].location);
+                    map.setCenter(marker.getPosition())
+                    message.innerHTML = ''
+                }else{
+                    message.innerHTML = '无法获取位置'
+                }
+            })
+        }
+    }
+    }
+    });
+</script>
+<script type="text/javascript" src="https://webapi.amap.com/demos/js/liteToolbar.js"></script>
+		<script>
 			var menuLeft = document.getElementById( 'cbp-spmenu-s1' ),
 				showLeftPush = document.getElementById( 'showLeftPush' ),
 				body = document.body;
@@ -751,41 +816,45 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 		get();
 	}
 	      //生成表单添加数据
-	   function jsonGenerateAddPdo(){
-		var formData = new FormData(document.getElementById("generateAddForm"));
-		$.ajax({
-			type : "post",
-			url : 'actionAddPdo',
-			data : formData,
-			async : false,
-			cache : false,
-			contentType : false,
-			processData : false,
-			success : function(data){
-				var obj = JSON.parse(data);
-				layer.open({
-	        		  type: 1,
-	        		  title:"AddPdo Message",
-	        		  skin: 'layui-layer-demo',
-	        		  closeBtn: 0,
-	        		  anim: 2,
-	        		  area:['240px','120px'],
-	        		  shadeClose: true,
-	        		  content: obj.result,
-	        		  end: function () {
-	                      location.reload();
-	                  }
-	        		});
+	   
+	    $(document).ready(function(){
+	    	  $('.addPdoByGeneButton').each(function(){
+	    		  $(this).click(function(){
+	    			  var geneAddData=$(this).parents('.generateAddForm')[0];
+	    			  var formData = new FormData(geneAddData);
+	    		       $.ajax({
+	    		       type : "post",
+	    		      url : 'actionAddPdo',
+	    		      data : formData,
+	    		      async : false,
+	    		      cache : false,
+	    		      contentType : false,
+	    		      processData : false,
+	    		      success : function(data){
+	    		        var obj = JSON.parse(data);
+	    		        layer.open({
+	    		                type: 1,
+	    		                title:"AddPdo Message",
+	    		                skin: 'layui-layer-demo',
+	    		                closeBtn: 0,
+	    		                anim: 2,
+	    		                area:['240px','120px'],
+	    		                shadeClose: true,
+	    		                content: obj.result,
+	    		                end: function () {
+	    		                        location.reload();
+	    		                    }
+	    		              });
 
-			},
-			error : function(e){
-				msg="上传失败！";
-			}
-		});
-		get();
-		
-	}
-	      
+	    		      },
+	    		      error : function(e){
+	    		        msg="上传失败！";
+	    		      }
+	    		    });
+	    		    get();
+	    		  })
+	    	  })
+	    })
 	   //json获取关联数据
 	   $(document).ready(function(){
            $('.getRealteButton').each(function(){
