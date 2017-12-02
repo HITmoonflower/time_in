@@ -44,13 +44,13 @@ public class PDOService {
 				pst1.setString(k, key);
 				pst2.setString(k, value);
 				k = k + 1;
-				if(key.equals("datetime")) {
+				if(key.equals("datetime") && value.length() != 0) {
 					pst3.setString(3, value);
 					flag1 = true;
-				}else if(key.equals("spend")) {
+				}else if(key.equals("spend") && value.length() != 0) {
 					pst3.setString(4, value);
 					flag2 = true;
-				}else if(key.equals("place")) {
+				}else if(key.equals("place") && value.length() != 0) {
 					pst3.setString(5, value);
 					flag3 = true;
 				}

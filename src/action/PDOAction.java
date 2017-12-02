@@ -28,6 +28,7 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 	private int pdoId; //use to store the pdoId of the form
 	private Map<String, String> info = new HashMap<String, String>(); //use to store query conditions
 	private Map<String, List<PDOModel>> queryRes; //use to store query result
+	private Map<String, List<PDOModel>> queryT;
 	private String relateRes; //use to store query relate result
 	private List<String> formHeader; //use to generate form by the pdoId
 	private List<String> header;
@@ -189,6 +190,7 @@ public int getPdoId() {
 		Map<String, String> map = new HashMap<String, String>();
 		try{
 			queryRes = pdoService.query(userId, info);
+			setQueryT(pdoService.queryTime(userId, info));
 			if(queryRes == null)
 				map.put("result", "查询数据失败");
 			else
@@ -200,22 +202,7 @@ public int getPdoId() {
 		relateRes = JSONObject.fromObject(map).toString();
 		return SUCCESS;
 	}
-	
-	public String queryPdoTime() {
-		Map<String, String> map = new HashMap<String, String>();
-		try{
-			queryRes = pdoService.queryTime(userId, info);
-			if(queryRes == null)
-				map.put("result", "查询数据失败");
-			else
-				map.put("result", "success");
-		} catch(SQLException e) {
-			e.printStackTrace();
-			map.put("result", "查询数据失败");
-		}
-		relateRes = JSONObject.fromObject(map).toString();
-		return SUCCESS;
-	}
+
 	
 	public String queryPdoSuccess() {
 		try{
@@ -234,6 +221,9 @@ public int getPdoId() {
 	
 	public String generateForm() {
 		formHeader = pdoService.getHeaderByName(userId, tranName);
+		Map<String,List<String>> map = new HashMap<String,List<String>>();
+		map.put("header", formHeader);
+		importRes = JSONObject.fromObject(map).toString();
 		return SUCCESS;
 	}
 	
@@ -243,6 +233,7 @@ public int getPdoId() {
 	}
 	
 	public String uploadPdo() {
+	  System.out.println(this.getTranName());
 		String name = this.getTranName();
 		String res = null;
 		try {
@@ -400,5 +391,13 @@ public int getPdoId() {
 	public void setImportRes(String importRes) {
 		this.importRes = importRes;
 	}
+
+  public Map<String, List<PDOModel>> getQueryT() {
+    return queryT;
+  }
+
+  public void setQueryT(Map<String, List<PDOModel>> queryT) {
+    this.queryT = queryT;
+  }
 
 }

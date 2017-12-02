@@ -33,7 +33,9 @@
       <result type = "chain">actionShowAll</result>
     </action>
     <action name = "actionForm" class = "action.PDOAction" method = "generateForm">
-      <result>/form.jsp</result>
+      <result type = "json">
+        <param name = "root">importRes</param>
+      </result>
     </action>
     <action name = "actionShowAll" class = "action.PDOAction" method = "showAllPdo">
       <result>/homePage.jsp</result>
@@ -60,13 +62,6 @@
 			<param name = "root">relateRes</param>
 		</result>
     </action>
-<!-- 
-    <action name = "actionJumpAdd" class = "action.PDOAction" method = "jumpPage">
-      <result>/addPdo.jsp</result>
-    </action>
-    <action name = "actionJumpQuery" class = "action.PDOAction" method = "jumpPage">
-      <result>/queryPdo.jsp</result>
-    </action> -->
   </package>
   
 </struts>
