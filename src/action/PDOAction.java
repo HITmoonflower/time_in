@@ -190,7 +190,6 @@ public int getPdoId() {
 		Map<String, String> map = new HashMap<String, String>();
 		try{
 			queryRes = pdoService.query(userId, info);
-			setQueryT(pdoService.queryTime(userId, info));
 			if(queryRes == null)
 				map.put("result", "查询数据失败");
 			else
@@ -207,7 +206,7 @@ public int getPdoId() {
 	public String queryPdoSuccess() {
 		try{
 			queryRes = pdoService.query(userId, info);
-			
+			setQueryT(pdoService.queryTime(userId, info));
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -228,7 +227,17 @@ public int getPdoId() {
 	}
 	
 	public String showAllPdo() {
+	  info.put("startDate", "2000-01-01");
+	  info.put("endDate", "2500-01-01");
+	  info.put("minSpend", "");
+	  info.put("maxSpend", "");
+	  info.put("place", "");
 		queryRes = pdoService.showAll(userId);
+		try {
+      setQueryT(pdoService.queryTime(userId, info));
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
 		return SUCCESS;
 	}
 	

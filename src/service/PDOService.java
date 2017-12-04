@@ -278,6 +278,8 @@ public class PDOService {
 	    List <String> pdoList = new ArrayList<String>();
 	    List<String> timeList = new ArrayList<String>();
 	    while (rs.next()) {
+	      if (rs.getString(2)==null)
+	        continue;
 	        pdoList.add(rs.getString(1));
 	        timeList.add(rs.getString(2));
 	    }
