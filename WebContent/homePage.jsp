@@ -571,7 +571,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 		          success : function(data){
 		            var obj = JSON.parse(data);
 		            if (obj.importRes == "emptyHeader"){
-		              alert("请添加键");
+		              layer.alert("请添加键");
 		            }else if(obj.importRes == "addHeaderSuccess"){
 		              alert("导入模板成功");
 		            }else if(obj.importRes == "addHeaderFail"){
