@@ -80,9 +80,9 @@ public class ExcelService {
         	return null;
         row = sheet.getRow(0);
         int colNum = row.getPhysicalNumberOfCells();
-        String[][] content = new String[rowNum][colNum];
+        String[][] content = new String[rowNum - 1][colNum];
         // 正文内容应该从第二行开始,第一行为表头的标题
-        for (int i = 1; i <= rowNum; i++) {
+        for (int i = 1; i < rowNum; i++) {
             row = sheet.getRow(i);
             int j = 0;
             while (j < colNum) {
