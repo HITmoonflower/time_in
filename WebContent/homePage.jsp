@@ -253,57 +253,24 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                              <div class="drawerHead">
                              <p>
                              <s:property value="%{#pdoName.key}" />
-                              	共<s:property value="#pdoName.value.size()"/>条数据
+                              	共<s:property value="#pdoName.value.size()"/>
+                              	<s:if test="#pdoName.value==null">
+                              	0
+                              	</s:if>条数据
                              </p>
                              <!-- 生成表单div -->
-                             <div class="showForm">
-                             <p>
-                             <input class="btn btn-primary  hvr-shutter-out-vertical" value="generateForm"/>
-                             </p>
-                             </div>
-                             <div class="hiddenGenerateForm" style="display:none">
-                             <s:iterator value = "#pdoName.value" var = "pdo" status = "pdos">
-                             	<s:if test="#pdos.Count <= 1">
-                             		<div class="panel panel-widget">
-                        	 		<div class="tables">
-                            			<s:form class = "generateAddForm">
-                            			<input type="hidden" name="userID" value = '<s:property value = "userId"/>'/>
-                            			
-                            			<table id = "pdoInfo" class="table">
-                            				<tr  class="info">
-                            				<td> <center>Name</center></td>
-	                       					<td>	
-	                     	 					<center>
-	                     	 					 <input type = "text" name = 'name' value='<s:property value="#pdo.name"/>' readonly='readonly'/>
-	                         					</center>
-	                         				</td>
-	                         				</tr>
-	                         				<s:iterator value="#pdo.infoMap" var="map">
-	                         					<tr>
-	                       	 					<td><center><s:property value="#map.key"/></center></td>
-	                       						<td>
-	                       						<center>	
-	                     	 					<input type = "text" name = 'infoMap.<s:property value="#map.key"/>'/>
-	                         					</center>
-	                         					</td>
-                            					</tr>
-                            				</s:iterator>
-                            			</table>
-                            			<div class = "addPdoByGeneButton">
-			                            <div class="col-md-10 column">
-			                            <center>
-			                            <input type = "button" class="btn btn-lg btn-primary" onclick = "jsonGenerateAddPdo(this)" value = "addPdo"/>
-			                          	</center>
-			                          	</div>
-			                          	</div>
-                          			 	</s:form>
-                          			</div>
-                            
-                        			</div>
-                         		</s:if>
-                         	</s:iterator>
-                         	</div> 
                              
+                             <div class="showForm">
+                             <s:form class="genePdoForm">
+                             <input type="hidden" name = "userId" value = '<s:property value = "userId"/>'/>
+                             <input type="hidden" name = "userID" value = '<s:property value = "userId"/>'/>
+                             <input type="hidden" class="getName" name = "tranName" value ='<s:property value="%{#pdoName.key}" />'  />
+                             <input class="btn btn-primary  hvr-shutter-out-vertical" value="generateForm"/>
+                             </s:form>
+                             </div>
+                             <!-- 
+                             
+                              -->
                              <!-- 
                              <s:iterator value = "#pdoName.value" var = "pdo" status = "s">
                              <tr>
@@ -381,10 +348,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 
 
                 </div>
-                <!-- 查询页面 -->
-<div id="mapmap" onclick="addMapFunction()">
-<p>i am here</p>
-</div>                
+                <!-- 查询页面 -->     
                 
 <div id="queryPdoLayer" style="display:none">
 			<div class="main-page">
@@ -456,54 +420,43 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 			</div>
 		</div>
 <div id="addPdoLayer" style="display:none">
-<form Class="form-horizontal" theme="simple" method="post" id = "pdoForm" data-toggle="validator" role="form" onchange = "getMap()">
+<form Class="form-horizontal" theme="simple" method="post" id = "pdoForm" data-toggle="validator" role="form">
             <input type="hidden" name="userID" value = '<s:property value = "userId"/>' />
             <input type="hidden" name="userId" value = '<s:property value = "userId"/>' />
               <table id = "pdo">
               <tr class="form-group">
-                    <th class="col-sm-2">Key</th>
-                    <th class="col-sm-8">Value</th>
+                    <th class="col-sm-2">属性</th>
+                    <th class="col-sm-2">Value</th>
                     <th class="col-sm-2">Operation</th>
              </tr><br>
               <tr class="form-group">
-                    <td class="col-sm-4" >Date</td>
-                    <td class="col-sm-4">
-                        <input type="text"  data-error="请输入形如xxxx-xx-xx的合法日期"
-				            pattern="^(?:19|20)[0-9][0-9]-(?:(?:0[1-9])|(?:1[0-2]))-(?:(?:[0-2][1-9])|(?:[1-3][0-1]))"  Class="form-control" 
-				            id = "addDate" name="infoMap.datetime"/>
-				         <div class="help-block with-errors"></div>
-                    </td>
-             </tr><br/>
-              <tr class="form-group">
                     <td class="col-sm-4" >name</td>
                     <td class="col-sm-4">
-                        <input type="text"  maxlength="10" Class="form-control" name = "name"/>
-                        <div class="help-block with-errors"></div>
+                        <input type="text" Class="form-control" name = "tranName"/>
+                        
+                    </td>
+              <tr class="form-group">
+                    <td class="col-sm-4" >属性1</td>
+                    <td class="col-sm-4">
+                        <input type="text" Class="form-control" name="header[0]" value="datetime"/>
+                    </td>
+             </tr><br/>
+             </tr><br/>
+              <tr class="form-group">
+                    <td class="col-sm-4" >属性2</td>
+                    <td class="col-sm-4">
+                        <input type="text" Class="form-control" name="header[1]" value="spend"/>
+                        
                     </td>
              </tr><br/>
               <tr class="form-group">
-                    <td class="col-sm-4" >Spend</td>
+                    <td class="col-sm-4">属性3</td>
                     <td class="col-sm-4">
-                        <input type="number" min=0 max=10000000000  Class="form-control" id = "addSpend" name="infoMap.spend"/>
-                        <div class="help-block with-errors"></div>
-                    </td>
-             </tr><br/>
-              <tr class="form-group">
-                    <td class="col-sm-4">Place</td>
-                    <td class="col-sm-4">
-                        <input type="text" maxlength="10" Class="form-control"id="addPlace" name="infoMap.place" value = '点击地图显示地址/输入地址显示位置'/>
-                         <div class="help-block with-errors"></div>
+                        <input type="text" maxlength="10" Class="form-control" name="header[2]" value = 'place'/>
                     </td>
              </tr>
              <br/>
              </table>
-             
-             <div id="MapAddPdo" tabindex="0"></div>
-                  <div class ='panel'>
-                        <input id = 'input' value = '点击地图显示地址/输入地址显示位置' onfocus = 'this.value=""'></input>
-                <div id = 'message'></div>
-            </div>
-            
              <br><br>  <br><br>
 		          <div class="form-group">
 		                    <div class="col-sm-offset-2 col-sm-4">
@@ -531,6 +484,24 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 		</tbody>
 	</table>
 </div>                 
+<div id="gnenrateFormLayer" style="display:none">
+         <div class="panel panel-widget">
+              <div class="tables">
+                  <s:form class = "generateAddForm">
+                       <input type="hidden" name="userID" value = '<s:property value = "userId"/>'/>
+                           <table id = "genePdoFormInfo" class="table">
+                                  </table>
+                                  <div class = "addPdoByGeneButton">
+                                  <div class="col-md-10 column">
+                                  <center>
+                                  <input type = "button" class="btn btn-lg btn-primary" onclick = "jsonGenerateAddPdo(this)" value = "addPdo"/>
+                                  </center>
+                                  </div>
+                                  </div>
+                                  </s:form>
+                                </div>
+                              </div>
+            </div> 
                 <!--//grids-->
 
             </div>
@@ -564,47 +535,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 		<script src="js/classie.js"></script>
 		<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.2&key=b58724f1cb6b3589a9f864c179ede219"></script>
 <script type="text/javascript">
-    var map = new AMap.Map('MapAddPdo',{
-        resizeEnable: true,
-        zoom: 13,
-        center: [116.39,39.9]
-    });
-    AMap.plugin('AMap.Geocoder',function(){
-        var geocoder = new AMap.Geocoder({
-        });
-        var marker = new AMap.Marker({
-            map:map,
-            bubble:true
-        })
-        var input = document.getElementById('addPlace');
-        var message = document.getElementById('message');
-        map.on('click',function(e){
-            marker.setPosition(e.lnglat);
-            geocoder.getAddress(e.lnglat,function(status,result){
-                if(status=='complete'){
-                    input.value = result.regeocode.formattedAddress
-                    message.innerHTML = ''
-                }else{
-                    message.innerHTML = '无法获取地址'
-                }
-            })
-        })
 
-        input.onchange = function(e){
-            var address = input.value;
-            geocoder.getLocation(address,function(status,result){
-                if(status=='complete'&&result.geocodes.length){
-                    marker.setPosition(result.geocodes[0].location);
-                    map.setCenter(marker.getPosition())
-                    message.innerHTML = ''
-                }else{
-                    message.innerHTML = '无法获取位置'
-                }
-            })
-        }
-    }
-    }
-    });
 </script>
 <script type="text/javascript" src="https://webapi.amap.com/demos/js/liteToolbar.js"></script>
 		<script>
@@ -626,51 +557,48 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 				}
 			}
 
-			//ajax请求导入excel
-			function importExcel(){
-				var formData = new FormData(document.getElementById("fileForm"));
-				$.ajax({
-					type : "post",
-					url : 'actionImport',
-					data : formData,
-					async : false,
-					cache : false,
-					contentType : false,
-					processData : false,
-					success : function(data){
-						var msg;
-						var obj = JSON.parse(data);
-						if (obj.importRes == "emptyHeader"){
-							msg="请添加键";
-						}else if(obj.importRes == "emptyContent"){
-							msg="请添加值！";
-						}else if(obj.importRes == "typeError"){
-							msg="文件类型只能是xls或者xlsx！";
-						}else if(obj.importRes == "fileNotFound"){
-							msg="文件不存在！";
-						}else if(obj.importRes == "error"){
-							msg="上传失败！";
-						}else{
-							location.reload("true");
-                            msg="导入成功！"
-						}
-						layer.open({
-			        		  type: 1,
-			        		  title:"ImportMessage",
-			        		  skin: 'layui-layer-demo',
-			        		  closeBtn: 0,
-			        		  anim: 2,
-			        		  area:['240px','120px'],
-			        		  shadeClose: true,
-			        		  content: msg
-			        		});
-
-					},
-					error : function(e){
-						msg="上传失败！";
-					}
-				});
-			}
+		     //ajax请求导入excel
+		      function importExcel(){
+		        var formData = new FormData(document.getElementById("fileForm"));
+		        $.ajax({
+		          type : "post",
+		          url : 'actionImport',
+		          data : formData,
+		          async : false,
+		          cache : false,
+		          contentType : false,
+		          processData : false,
+		          success : function(data){
+		            var obj = JSON.parse(data);
+		            if (obj.importRes == "emptyHeader"){
+		              alert("请添加键");
+		            }else if(obj.importRes == "addHeaderSuccess"){
+		              alert("导入模板成功");
+		            }else if(obj.importRes == "addHeaderFail"){
+		              alert("导入模板失败");
+		            }else if(obj.importRes == "existPdo"){
+		              alert("当前pdo模板已存在")
+		            }else if(obj.importRes == "addPdoSuccess"){
+		              alert("导入成功")
+		            }else if(obj.importRes == "notSameHeader"){
+		              alert("当前模板和已有模板冲突!")
+		            }else if(obj.importRes == "typeError"){
+		              layer.alert("文件类型只能是xls或者xlsx！");
+		            }else if(obj.importRes == "fileNotFound"){
+		              alert("文件不存在！");
+		            }else if(obj.importRes == "error"){
+		              alert("上传失败！");
+		            }else{
+		              
+		            }
+		              
+		          },
+		          error : function(e){
+		            alert("上传失败！");
+		          }
+		        });
+		        get();
+		      }
 			//抽屉效果
 	        $(document).ready(function(){
 	            //$(".drawerTotal").each(function(){
@@ -690,6 +618,40 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 	        $(document).ready(function(){
 	        	$('.showForm').each(function(){
 	        		$(this).click(function(){
+	        			  $("#genePdoFormInfo").empty();
+	        			  var geneAddData=$(this).children('.genePdoForm');
+	        			  var formData = new FormData(geneAddData[0]);
+	                $.ajax({
+	        		        type : "post",
+	        		        url : 'actionForm',
+	        		        data : formData,
+	        		        async : false,
+	        		        cache : false,
+	        		        contentType : false,
+	        		        processData : false,
+	        		        success : function(data){
+	        		          var obj = JSON.parse(data);
+	        		          $.each(obj.header,function(n,key){
+	        		        	  if (n==0){
+	        		        		  var name="<tr  class='info'><td> <center>Name</center></td><td><center><input type = 'text' name = 'name' value='"+key+"' readonly='readonly'/></center></td></tr>";
+	        		        		  $("#genePdoFormInfo").append(name);
+	        		        	  }
+	        		        	  else{
+	        		        		  var info="<tr><td><center>"+key+"</center></td><td><center><input type = 'text' name = 'infoMap."+key+"'/></center></td></tr>";
+	        		        		  $("#genePdoFormInfo").append(info);
+	        		        	  }
+	        		          })
+	        		          layer.open({
+                                type:1,
+                                title:"AddPdo",
+                                area:['1000px','600px'],
+                                      shadeClose:true,
+                                      content:$("#gnenrateFormLayer")
+                              })
+	        		        }
+	        			});
+	        			
+	        			/*
 	        			layer.open({
 		                    type:1,
 		                    title:"AddPdo",
@@ -698,6 +660,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 		                    content:$(this).parents('.drawerHead').children('.hiddenGenerateForm')
 		                })
 	        			$(this).parents('.drawerHead').children('.hiddenGenerateForm').style.display="block";
+	        		*/
 	        		})
 	        	})
 	        })
@@ -734,12 +697,12 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 	            var cell1=row.insertCell();
 	            var cell2=row.insertCell();
 	            temp = String(window.i);
-	            cell0.innerHTML='<input type="text"  id = "key'+temp+'">';
+	            cell0.innerHTML="属性"+temp;
 	            cell0.className ="col-sm-4";
-	            cell1.innerHTML='<input type="text" name = "value'+temp+'" id = "value'+temp+'">';
+	            cell1.innerHTML='<input type="text" name = "header'+temp+'" value = "header'+temp+'">';
 	            cell1.className ="col-sm-4";
-	            cell2.innerHTML='<input value="删除"type="button" class="btn btn-lg btn-primary  hvr-shutter-out-vertical" onclick="deleteRow(this)"/>';
-	            cell2.className ="col-sm-4";
+	            //cell2.innerHTML='<input value="删除"type="button" class="btn btn-lg btn-primary  hvr-shutter-out-vertical" onclick="deleteRow(this)"/>';
+	           // cell2.className ="col-sm-4";
 	            i++;
 	        }
 	        function deleteRow(obj){
@@ -824,7 +787,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 	    			  var formData = new FormData(geneAddData);
 	    		       $.ajax({
 	    		       type : "post",
-	    		      url : 'actionAddPdo',
+	    		      url : 'actionAddPdoData',
 	    		      data : formData,
 	    		      async : false,
 	    		      cache : false,
