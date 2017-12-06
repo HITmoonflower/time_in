@@ -60,6 +60,9 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
     //}
     
 </script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<link rel="stylesheet" href="css/timeline1.css">
 <!-- Bootstrap Core CSS -->
 <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
 <!-- Custom CSS -->
@@ -135,18 +138,29 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 
                             		<ul class="nav nav-second-level collapse">
                                      <s:form id = "fileForm">
-									<input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
-									<input type = "hidden" name = "excelFileName" id = "fileName"/>
-
-                                    <li class="btn btn-default">
-
-									  <center><input type = "file" name = "excelFile"
-									  onChange="if(this.value)insertTitle(this.value);"  />
-									  </center>
+																			<input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
+																			<input type = "hidden" name = "excelFileName" id = "fileName"/>
+																		  <center><input type = "file" name = "excelFile"
+																		  onChange="if(this.value)insertTitle(this.value);"  />
+																		  </center>
                                     </li>
                                     <br/>
                                     <li class="btn btn-default">
-
+                                    <input type="text" list="name_list" name="tranName" />
+                                    <datalist id="name_list">
+                                     <s:iterator value = "queryRes" var = "pdoName" status = "sta">
+                                     <option label='<s:property value="%{#pdoName.key}" />' value='<s:property value="%{#pdoName.key}" />' />
+                                     </s:iterator>
+                                    </datalist>
+                                    <!-- 
+                                      <select name="tranName">
+                                      <s:iterator value = "queryRes" var = "pdoName" status = "sta"> 
+                                      <option value='<s:property value="%{#pdoName.key}" />'><s:property value="%{#pdoName.key}" /></option> 
+                                      </s:iterator> 
+                                      </select> 
+                                       -->
+                                      </li>
+                                    <li class="btn btn-default">
                                        <center><input type = "button" class="btn  btn-default"
                                        value = "submit" onclick="importExcel();" />
                                    </li>
@@ -166,7 +180,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                 <a href="#" class="chart-nav"><i class="fa fa-bar-chart nav_icon"></i>Extras<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level collapse">
                                     <li>
-									 <a href="" class="chart-nav"><i class="fa fa-bar-chart nav_icon"></i>统计个人数据信息</a>
+									                   <a href="" class="chart-nav"><i class="fa fa-bar-chart nav_icon"></i>统计个人数据信息</a>
                                     </li>
                                     <li>
                                       <a href="" class="chart-nav"><i class="fa fa-location-arrow nav_icon"></i>地图选点</a>
@@ -241,6 +255,21 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                         <h2>Tables</h2>
                     </div>
                     <div class="panel panel-widget">
+                    <div class="tabbable" id="tabs-391969">
+                    
+        <ul class="nav nav-tabs">
+          <li>
+             <a href="#panel-474133" data-toggle="tab">分类显示</a>
+          </li>
+          <li class="active">
+             <a href="#panel-805073" data-toggle="tab">按时间线展示</a>
+          </li>
+        </ul>
+        
+      
+      <div class="tab-content">
+          <div class="tab-pane" id="panel-474133">
+      
                         <div class="tables">
 
 
@@ -353,23 +382,64 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 
 
                 </div>
-                <!-- 查询页面 -->     
+                </div>
                 
-<div id="queryPdoLayer" style="display:none">
-			<div class="main-page">
-				<!--grids-->
-				<div class="grids">
-					<div class="progressbar-heading grids-heading">
-						<h2>查询pdo数据</h2>
+<div class="tab-pane active" id="panel-805073">                
+<div class="container-fluid">
+        <div class="col-md-12">
+            <div class="row">
+                <h1>时间线</h1>
+            </div>
 
-					</div>
+            <div class="row">
+                <div class="timeline timeline-single-column">
+                    <s:iterator value = "queryT" var = "pdoName" status = "sta">
 
+                    <span class="timeline-label">
+                        <span class="label label-info"><s:property value="%{#pdoName.key}" /></span>
+                    </span>
+                    <s:iterator value="#pdoName.value" var="pdo" status="s">
+                    <div class="timeline-item">
+                        <div class="timeline-point timeline-point-success">
+                            <i class="fa fa-star"></i>
+                        </div>
+                        <div class="timeline-event timeline-event-success">
+                            <div class="timeline-heading">
+                                <h4> <s:property value="%{#pdo.name}" /></h4>
+                            </div>
+                          
+                            <div class="timeline-body">
+                            <table class="table table-striped table-hover">
+                                <tr><s:iterator value="#pdo.infoMap" status="ss" var="map">
+                                    <th><s:property value="%{#map.key}" /></th>
+                                    </s:iterator>
+                                </tr>
+                                <tr><s:iterator value="#pdo.infoMap" status="ss" var="map">
+                                    <td><s:property value="%{#map.value}" /></td>
+                                    </s:iterator>
+                                </tr>
+                                
+                            </table>
+                     
+                            </div>
+                            <div class="timeline-footer">
+                                <p class="text-right"><s:property value="%{#pdoName.key}" /></p>
+                            </div>
+                        </div>
+                    </div>
 
-				</div>
+                   </s:iterator>
+                    </s:iterator>
+                </div>
+            </div>
+        </div>
+    </div>
+				</div></div></div>
+			
 				<!-- 查询页面 -->
 
 
-				<div id="queryPdoLayer" style="display: none">
+<div id="queryPdoLayer" style="display: none">
 					<div class="main-page">
 						<!--grids-->
 						<div class="grids">
@@ -439,9 +509,6 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 						</div>
 					</div>
 				</div>
-
-			</div>
-		</div>
 <div id="addPdoLayer" style="display:none">
 <form Class="form-horizontal" theme="simple" method="post" id = "pdoForm" data-toggle="validator" role="form">
             <input type="hidden" name="userID" value = '<s:property value = "userId"/>' />
@@ -508,7 +575,6 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 					</form>
 
 
-<<<<<<< HEAD
 </div>                
 <div id="relatePdoLayer" style="display:none">
    <table class="table">
@@ -539,7 +605,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                               </div>
             </div> 
 				</div>
-				<div id="relatePdoLayer" style="display: none">
+<div id="relatePdoLayer" style="display: none">
 					<div class="container">
 						<div class="row clearfix">
 							<div class="col-md-12 column">
@@ -765,7 +831,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 	            var cell1=row.insertCell();
 	            var cell2=row.insertCell();
 	            temp = String(window.i);
-	            cell0.innerHTML="属性"+temp;
+	            cell0.innerHTML="属性"+String(window.i+1);
 	            cell0.className ="col-sm-4";
 	            cell1.innerHTML='<input type="text" name = "header'+temp+'" value = "header'+temp+'">';
 	            cell1.className ="col-sm-4";
