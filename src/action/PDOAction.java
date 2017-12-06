@@ -27,6 +27,8 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 	private int userId; //use to store the userId now
 	private int pdoId; //use to store the pdoId of the form
 	private Map<String, String> info = new HashMap<String, String>(); //use to store query conditions
+	private List<String> infokey;
+	private List<String> infovalue;
 	private Map<String, List<PDOModel>> queryRes; //use to store query result
 	private Map<String, List<PDOModel>> queryT;
 	private String relateRes; //use to store query relate result
@@ -161,6 +163,11 @@ public int getPdoId() {
 	}
 	
  	public String addPdoData() {
+ 		Map<String, String> mp = new HashMap<String, String>();
+ 		for(int i = 0; i < infokey.size(); i++) {
+ 			mp.put(infokey.get(i), infovalue.get(i));
+ 		}
+ 		pdo.setInfoMap(mp);
 		boolean res = pdoService.add(pdo);
 		Map<String, String> map = new HashMap<String,String>();
 		if(res) {
@@ -408,5 +415,21 @@ public int getPdoId() {
   public void setQueryT(Map<String, List<PDOModel>> queryT) {
     this.queryT = queryT;
   }
+
+public List<String> getInfokey() {
+	return infokey;
+}
+
+public void setInfokey(List<String> infokey) {
+	this.infokey = infokey;
+}
+
+public List<String> getInfovalue() {
+	return infovalue;
+}
+
+public void setInfovalue(List<String> infovalue) {
+	this.infovalue = infovalue;
+}
 
 }

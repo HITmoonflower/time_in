@@ -16,14 +16,16 @@ public class PDOService {
 		String sqlkey = "insert into tablekey values(null,?,?,?,?,?,?,?,?,?,?)" ;
 		String sqlvalue = "insert into tablevalue values(null,?,?,?,?,?,?,?,?,?,?)";
 		String sqlquery = "insert into tablequery values(?,?,?,?,?)";
+		String sqlid = "select max(pdoID) from tablevalue";
 		String key, value;
 		Connection conn = DataConn.getConnection();
-		PreparedStatement pst1, pst2, pst3;
-		pst1 = pst2 = pst3 = null;
+		PreparedStatement pst1, pst2, pst3, pst4;
+		pst1 = pst2 = pst3 = pst4 = null;
 		try {
 			pst1 = conn.prepareStatement(sqlkey);
 			pst2 = conn.prepareStatement(sqlvalue,Statement.RETURN_GENERATED_KEYS);
 			pst3 = conn.prepareStatement(sqlquery);
+			pst4 = conn.prepareStatement(sqlid);
 			pst1.setInt(1, pdo.getUserID());
 			pst1.setString(2, pdo.getName());
 			
@@ -44,7 +46,7 @@ public class PDOService {
 				pst1.setString(k, key);
 				pst2.setString(k, value);
 				k = k + 1;
-				if(key.equals("datetime") && value.length() != 0) {
+				if(key.equals("datetime") && value.length() != 0) {	
 					pst3.setString(3, value);
 					flag1 = true;
 				}else if(key.equals("spend") && value.length() != 0) {
@@ -70,23 +72,26 @@ public class PDOService {
 			if(!flag3) {
 				pst3.setNull(5, Types.BLOB);
 			}
+			ResultSet rsid = pst4.executeQuery();
+			int bid = 0;
+			while(rsid.next()) {
+				bid = rsid.getInt(1);
+			}
+			bid ++;
+			if(flag1 || flag2 || flag3) {
+				pst3.setInt(1, bid);
+				pst3.executeUpdate();
+			}
 			pst1.executeUpdate();
 			pst2.executeUpdate();
-			if(flag1 || flag2 || flag3) {
-				ResultSet rs = pst2.getGeneratedKeys();
-				rs.next();
-				pst3.setInt(1, rs.getInt(1));
-				pst3.executeUpdate();
-				if(rs != null) {
-					rs.close();
-				}
-			}
 			if(pst1 != null)
 				pst1.close();
 			if(pst2 != null)
 				pst2.close();
 			if(pst3 != null)
 				pst3.close();
+			if(pst4 != null)
+				pst4.close();
 			if(conn != null)
 				conn.close();
 			return true;
