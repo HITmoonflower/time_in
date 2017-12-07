@@ -384,6 +384,8 @@ public class PDOService {
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
+		if(ans.size() == 0)
+			return null;
 		return ans;
 	}
 

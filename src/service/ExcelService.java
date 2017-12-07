@@ -52,8 +52,6 @@ public class ExcelService {
      */
     public String[] readExcelTitle() {
         sheet = wb.getSheetAt(0);
-        if(sheet.getLastRowNum() == 0)
-        	return null;
         row = sheet.getRow(0);
         // 标题总列数
         if(row == null)
@@ -76,13 +74,13 @@ public class ExcelService {
         sheet = wb.getSheetAt(0);
         // 得到总行数
         int rowNum = sheet.getLastRowNum();
-        if(rowNum <= 1)
+        if(rowNum < 1)
         	return null;
         row = sheet.getRow(0);
         int colNum = row.getPhysicalNumberOfCells();
-        String[][] content = new String[rowNum - 1][colNum];
+        String[][] content = new String[rowNum][colNum];
         // 正文内容应该从第二行开始,第一行为表头的标题
-        for (int i = 1; i < rowNum; i++) {
+        for (int i = 1; i <= rowNum; i++) {
             row = sheet.getRow(i);
             int j = 0;
             while (j < colNum) {
@@ -92,6 +90,7 @@ public class ExcelService {
                 // "-";
                 content[i - 1][j] = getCellFormatValue(row.getCell((short) j)).trim();
                 j++;
+                //System.out.println(content[i - 1][j - 1]);
             }
         }
         return content;

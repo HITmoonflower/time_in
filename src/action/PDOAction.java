@@ -249,20 +249,23 @@ public int getPdoId() {
 	}
 	
 	public String uploadPdo() {
-	  System.out.println(this.getTranName());
 		String name = this.getTranName();
 		String res = null;
+		int successimp = 0;
+		int failimp = 0;
 		try {
 			FileInputStream is = new FileInputStream(excelFile);
 			excelService.setFis(is);
 			excelService.setFileName(excelFileName);
 			if(excelService.createWB()) {
 				String[] header = excelService.readExcelTitle();
-				String[][] content = excelService.readExcelContent();
+				String[][] content = excelService.readExcelContent();			
 				if(header == null) {
 					res = "emptyHeader";
+					System.out.println("header empty");
 				}else if(content == null) {
 					//header = pdoService.getHeaderByName(name);
+					System.out.println("content empty");
 					List<String> tmpheader = pdoService.getHeaderByName(userId, name);
 					if (tmpheader == null) {
 						tmpheader = new ArrayList<String>();
@@ -279,7 +282,9 @@ public int getPdoId() {
 					}
 				}else {
 					List<String> tmpheader = pdoService.getHeaderByName(userId, name);
+					
 					if(tmpheader == null) {
+						System.out.println("no header");
 						tmpheader = new ArrayList<String>();
 						for (int i = 0; i < header.length; i++) {
 							tmpheader.add(header[i]);
@@ -289,22 +294,19 @@ public int getPdoId() {
 							pdo.setUserID(userId);
 							pdo.setName(name);
 							for(int i = 0; i < content.length; i++) {
-								int excelColumn = content[i].length;
 								info = new HashMap<String, String>();
 								boolean flag = false;	
 								for(int j = 0; j < header.length; j++) {
-									if(j < excelColumn) {
-										if(header[j].length() == 0 || content[i][j].length() == 0)
-											continue;
-										info.put(header[j], content[i][j]);
+									info.put(header[j], content[i][j]);
+									if(content[i][j].length() != 0)
 										flag = true;
-									}else {
-										break;
-									}
 								}
 								if(flag) {
 									pdo.setInfoMap(info);
-									pdoService.add(pdo);
+									if(pdoService.add(pdo)) {
+										successimp ++;
+									}else
+										failimp++;
 								}
 							}
 							res = "addPdoSuccess";
@@ -312,6 +314,7 @@ public int getPdoId() {
 							res = "addHeaderFail";	
 						}
 					}else {
+						System.out.println(tmpheader.size());
 						if (header.length == tmpheader.size()) {
 							boolean flag = true;
 							for (int i = 0; i < header.length; i++) {
@@ -327,20 +330,18 @@ public int getPdoId() {
 								for(int i = 0; i < content.length; i++) {
 									int excelColumn = content[i].length;
 									info = new HashMap<String, String>();
-									flag = false;	
+									boolean flag1 = false;	
 									for(int j = 0; j < header.length; j++) {
-										if(j < excelColumn) {
-											if(header[j].length() == 0 || content[i][j].length() == 0)
-												continue;
-											info.put(header[j], content[i][j]);
-											flag = true;
-										}else {
-											break;
-										}
+										info.put(header[j], content[i][j]);
+										if(content[i][j].length() != 0)
+											flag1 = true;	
 									}
-									if(flag) {
+									if(flag1) {
 										pdo.setInfoMap(info);
-										pdoService.add(pdo);
+										if(pdoService.add(pdo))
+											successimp ++;
+										else
+											failimp++;
 									}
 								}
 								res = "addPdoSuccess";								
@@ -365,6 +366,8 @@ public int getPdoId() {
 		}
 		Map<String, String> jsonMap = new HashMap<String, String>();
 		jsonMap.put("importRes", res);
+		jsonMap.put("successimp", successimp+"");
+		jsonMap.put("failimp", failimp+"");
 		importRes = JSONObject.fromObject(jsonMap).toString();
 		return SUCCESS;
 	}
