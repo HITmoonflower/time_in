@@ -2,6 +2,7 @@ package service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -202,10 +203,10 @@ public class PDOService {
 	    sqlValue = "select * from " + tableValue + " where"+  pdoIdInfo;
 	    ResultSet rsKey = DataOperation.getInstance().query(sqlKey);
 	    ResultSet rsValue = DataOperation.getInstance().query(sqlValue);
-	    Map<String, List<PDOModel>> queryRes = new HashMap<String, List<PDOModel>>();
+	    Map<String, List<PDOModel>> queryRes = new LinkedHashMap<String, List<PDOModel>>();
 	    while (rsKey.next() && rsValue.next()) {
     	    PDOModel pdo = new PDOModel();
-    		Map<String, String> map = new HashMap<String, String>();
+    		Map<String, String> map = new LinkedHashMap<String, String>();
     		pdo.setPdoID(rsValue.getInt(1));
     		pdo.setUserID(rsValue.getInt(2));
     		pdo.setName(rsValue.getString(3));
@@ -300,11 +301,11 @@ public class PDOService {
 	    sqlValue = "select * from " + tableValue + " where"+  pdoIdInfo;
 	    ResultSet rsKey = DataOperation.getInstance().query(sqlKey);
 	    ResultSet rsValue = DataOperation.getInstance().query(sqlValue);
-	    Map<String, List<PDOModel>> queryRes = new HashMap<String, List<PDOModel>>();
+	    Map<String, List<PDOModel>> queryRes = new LinkedHashMap<String, List<PDOModel>>();
 	    int pdoindex = 0;
 	    while (rsKey.next() && rsValue.next()) {
     	    PDOModel pdo = new PDOModel();
-    		Map<String, String> map = new HashMap<String, String>();
+    		Map<String, String> map = new LinkedHashMap<String, String>();
     		pdo.setPdoID(rsValue.getInt(1));
     		pdo.setUserID(rsValue.getInt(2));
     		pdo.setName(rsValue.getString(3));
@@ -394,7 +395,7 @@ public class PDOService {
         String sqlKey = "select * from tablekey where userId = " + "\'" + userId + "\'";
         String sqlValue = "select * from tablevalue where userId = " + "\'" + userId + "\'";
         String sqlheader = "select * from tableheader where userId = " + "\'" + userId + "\'";
-	    Map<String, List<PDOModel>> queryRes = new HashMap<String, List<PDOModel>>();
+	    Map<String, List<PDOModel>> queryRes = new LinkedHashMap<String, List<PDOModel>>();
 	    try {
 	    	ResultSet rsKey = DataOperation.getInstance().query(sqlKey);
 	    	ResultSet rsValue = DataOperation.getInstance().query(sqlValue);
@@ -404,7 +405,7 @@ public class PDOService {
 	    	}
 	    	while (rsKey.next() && rsValue.next()) {
 	    	    PDOModel pdo = new PDOModel();
-	    		Map<String, String> map = new HashMap<String, String>();
+	    		Map<String, String> map = new LinkedHashMap<String, String>();
 	    		pdo.setPdoID(rsValue.getInt(1));
 	    		pdo.setUserID(rsValue.getInt(2));
 	    		pdo.setName(rsValue.getString(3));
@@ -440,7 +441,7 @@ public class PDOService {
 	      String sqlKey = "select * from tablekey where pdoId = " + "\'" + pdoId + "\'";
 	      String sqlValue = "select * from tablevalue where pdoId = " + "\'" + pdoId + "\'";	
 		  PDOModel pdo = new PDOModel();
-		  Map<String, String> map = new HashMap<String, String>();
+		  Map<String, String> map = new LinkedHashMap<String, String>();
 	      try {
 		    	ResultSet rsKey = DataOperation.getInstance().query(sqlKey);
 		    	ResultSet rsValue = DataOperation.getInstance().query(sqlValue);

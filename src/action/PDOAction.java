@@ -1,6 +1,7 @@
 package action;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -26,7 +27,7 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 	private ExcelService excelService = new ExcelService();
 	private int userId; //use to store the userId now
 	private int pdoId; //use to store the pdoId of the form
-	private Map<String, String> info = new HashMap<String, String>(); //use to store query conditions
+	private Map<String, String> info = new LinkedHashMap<String, String>(); //use to store query conditions
 	private List<String> infokey;
 	private List<String> infovalue;
 	private Map<String, List<PDOModel>> queryRes; //use to store query result
@@ -163,7 +164,7 @@ public int getPdoId() {
 	}
 	
  	public String addPdoData() {
- 		Map<String, String> mp = new HashMap<String, String>();
+ 		Map<String, String> mp = new LinkedHashMap<String, String>();
  		for(int i = 0; i < infokey.size(); i++) {
  			mp.put(infokey.get(i), infovalue.get(i));
  		}
@@ -227,7 +228,7 @@ public int getPdoId() {
 	
 	public String generateForm() {
 		formHeader = pdoService.getHeaderByName(userId, tranName);
-		Map<String,List<String>> map = new HashMap<String,List<String>>();
+		Map<String,List<String>> map = new LinkedHashMap<String,List<String>>();
 		map.put("header", formHeader);
 		importRes = JSONObject.fromObject(map).toString();
 		return SUCCESS;
@@ -294,7 +295,7 @@ public int getPdoId() {
 							pdo.setUserID(userId);
 							pdo.setName(name);
 							for(int i = 0; i < content.length; i++) {
-								info = new HashMap<String, String>();
+								info = new LinkedHashMap<String, String>();
 								boolean flag = false;	
 								for(int j = 0; j < header.length; j++) {
 									info.put(header[j], content[i][j]);
@@ -329,7 +330,7 @@ public int getPdoId() {
 								pdo.setName(name);
 								for(int i = 0; i < content.length; i++) {
 									int excelColumn = content[i].length;
-									info = new HashMap<String, String>();
+									info = new LinkedHashMap<String, String>();
 									boolean flag1 = false;	
 									for(int j = 0; j < header.length; j++) {
 										info.put(header[j], content[i][j]);
