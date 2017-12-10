@@ -334,7 +334,107 @@ public class PDOService {
     	}
 	    return queryRes;
 	}
+
 	
+	public Map<String, List<PDOModel>> queryPlace(int userId, Map<String, String>info) throws SQLException{
+	    String sqlQuery = "";
+	    String sqlKey = "";
+	    String sqlValue = "";
+	    String tableValue = "tablevalue"; //the names of relative tables
+	    String tableKey = "tablekey";   //
+	    String tableQuery = "tablequery"; //
+	    String userInfo = "userID = \'" + userId + "\'"; 
+	    String dateInfo = "";
+	    String spendInfo = "";
+	    String otherInfo = "";
+	   if (info.get("startDate").equals("")) {
+	      if (info.get("endDate").equals("")) {
+	        dateInfo = "";
+	      } else {
+	        dateInfo = " and datetime between '2000-01-01' and '" + info.get("endDate") + "'";
+	      }
+	    } else {
+	      if (info.get("endDate").equals("")) {
+	        dateInfo = " and datetime between '" + info.get("startDate") + "' and '2500-01-01'";
+	      } else {
+	        dateInfo = " and datetime between '" + info.get("startDate") + "' and '" + info.get("endDate") + "'";
+	      }
+	    }
+	    if (info.get("minSpend").equals("")) {
+	      if (info.get("maxSpend").equals("")) {
+	        spendInfo = "";
+	      } else {
+	        spendInfo = " and spend between '0' and '" + info.get("maxSpend") + "'";
+	      }
+	    } else {
+	      if (info.get("maxSpend").equals("")) {
+	        spendInfo = " and spend between '" + info.get("minSpend") + "' and '1000000'";
+	      } else {
+	        spendInfo = " and spend between '" + info.get("minSpend") + "' and '" + info.get("maxSpend") + "'";
+	      }
+	    }
+	    if(info.get("place").equals("")) {
+	      otherInfo = "";
+	    } else {
+	      otherInfo = otherInfo +" and place " +" like \'%" + info.get("place") + "%\'";
+	    }
+	    sqlQuery = "select pdoID,place from " + tableQuery + " where " + userInfo + dateInfo 
+	        + spendInfo  + otherInfo + "order by datetime DESC, spend ASC";
+	    System.out.println(sqlQuery);
+	    ResultSet rs = DataOperation.getInstance().query(sqlQuery);
+	    List <String> pdoList = new ArrayList<String>();
+	    List<String> placeList = new ArrayList<String>();
+	    while (rs.next()) {
+	      if (rs.getString(2)==null)
+	        continue;
+	        pdoList.add(rs.getString(1));
+	        placeList.add(rs.getString(2));
+	    }
+	    if (pdoList.size() == 0) {
+	      return null;
+	    }
+	    String pdoIdInfo = "";
+	    for (int i = 0; i<pdoList.size()-1;i++) {
+	        pdoIdInfo = pdoIdInfo +" pdoID = '" +  pdoList.get(i) + "'or";
+	    }
+	    pdoIdInfo = pdoIdInfo +" pdoID = '" +pdoList.get(pdoList.size()-1) + "'";
+	    sqlKey = "select * from " + tableKey + " where"+ pdoIdInfo;
+	    sqlValue = "select * from " + tableValue + " where"+  pdoIdInfo;
+	    ResultSet rsKey = DataOperation.getInstance().query(sqlKey);
+	    ResultSet rsValue = DataOperation.getInstance().query(sqlValue);
+	    Map<String, List<PDOModel>> queryRes = new LinkedHashMap<String, List<PDOModel>>();
+	    int pdoindex = 0;
+	    while (rsKey.next() && rsValue.next()) {
+    	    PDOModel pdo = new PDOModel();
+    		Map<String, String> map = new LinkedHashMap<String, String>();
+    		pdo.setPdoID(rsValue.getInt(1));
+    		pdo.setUserID(rsValue.getInt(2));
+    		pdo.setName(rsValue.getString(3));
+    		for (int i = 4;;i++) {
+    			try {
+    				if (rsKey.getString(i) == null) {
+    					break;
+    				}
+    				map.put(rsKey.getString(i), rsValue.getString(i));
+    			} catch(SQLException e) {
+    				e.printStackTrace();
+    				break;
+    			}
+    		}
+    		pdo.setInfoMap(map);
+    		List<PDOModel> temp = queryRes.get(placeList.get(pdoindex)) ;
+    		if (temp == null) {
+    			temp = new ArrayList<PDOModel>();
+    			temp.add(pdo);
+    			queryRes.put(placeList.get(pdoindex), temp);
+    		}else {
+    			temp.add(pdo);
+    			queryRes.put(placeList.get(pdoindex), temp);
+    		}
+    		pdoindex ++;
+    	}
+	    return queryRes;
+	}
 	//建立两个pdo之间的关系 main key auto incre col1 pdo1 col2 pdo2 pdo1 < pdo2
 	public void addrelate(int pdo1, int pdo2){
 		int tmp = pdo1;

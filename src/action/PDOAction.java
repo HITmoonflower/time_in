@@ -32,6 +32,7 @@ public class PDOAction extends ActionSupport implements ModelDriven<Object>{
 	private List<String> infovalue;
 	private Map<String, List<PDOModel>> queryRes; //use to store query result
 	private Map<String, List<PDOModel>> queryT;
+	private Map<String, List<PDOModel>> queryP;
 	private String relateRes; //use to store query relate result
 	private List<String> formHeader; //use to generate form by the pdoId
 	private List<String> header;
@@ -240,12 +241,13 @@ public int getPdoId() {
 	  info.put("minSpend", "");
 	  info.put("maxSpend", "");
 	  info.put("place", "");
-		queryRes = pdoService.showAll(userId);
-		try {
-      setQueryT(pdoService.queryTime(userId, info));
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
+	  queryRes = pdoService.showAll(userId);
+	  try {
+		  setQueryT(pdoService.queryTime(userId, info));
+		  setQueryP(pdoService.queryPlace(userId, info));
+      } catch (SQLException e) {
+          e.printStackTrace();
+      }
 		return SUCCESS;
 	}
 	
@@ -440,6 +442,14 @@ public List<String> getInfovalue() {
 
 public void setInfovalue(List<String> infovalue) {
 	this.infovalue = infovalue;
+}
+
+public Map<String, List<PDOModel>> getQueryP() {
+	return queryP;
+}
+
+public void setQueryP(Map<String, List<PDOModel>> queryP) {
+	this.queryP = queryP;
 }
 
 }
