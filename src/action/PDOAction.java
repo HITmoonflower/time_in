@@ -316,6 +316,12 @@ public int getPdoId() {
 						}
 					}else {
 						System.out.println(tmpheader.size());
+						for(int i = 0; i < tmpheader.size(); i++)
+							System.out.println(tmpheader.get(i));
+						System.out.println(header.length);
+						for(int i = 0; i < header.length; i++)
+							System.out.println(header[i]);
+						
 						if (header.length == tmpheader.size()) {
 							boolean flag = true;
 							for (int i = 0; i < header.length; i++) {

@@ -367,7 +367,7 @@ public class PDOService {
 			ResultSet rs = pst.executeQuery();
 			while(rs.next()) {
 				int colNum = 8 + 3;
-				int k = 2;
+				int k = 3;
 				while(k < colNum) {
 					key = rs.getString(k);
 					if(key == null)
