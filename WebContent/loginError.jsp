@@ -1,9 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>404</title>
+<title>登陆失败</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="Baxster Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
@@ -25,13 +25,37 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 <script src="js/jquery-1.11.1.min.js"></script>
 <!-- //js -->
 </head> 
+
+<!--
+<style type="text/css">
+body { background-image: url("images/loginerror.jpg");}
+
+</style>
+-->
 <body class="cbp-spmenu-push">
 		<div class="error-page-body">
-			<div class="error-page">
-				<img src="images/404s_gothkid.jpg" alt="" />
+			<div class="row clearfix">
+				<div class="col-md-3 column"></div>
+				
+				<div class="col-md-6 column">
+					<div class="alert alert-success alert-dismissable">
+						 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+						<center><h2>
+							登陆失败!
+						</h2> <center><strong>请输入正确的用户名和密码!</strong>
+					</div>
+				</div>
+				<div class="col-md-6 column"></div>
 			</div>
+		
+		
+			<div class="error-page">
+				<img src="images/loginerror.jpg" alt="" />
+			</div>
+
+			
 			<div class="go-back">
-				<a href="login.jsp">login
+				<a href="login.jsp">loginagain
 				</a>
 			</div>
 		</div>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test_layer</title>
+</head>
+<body>
+<script src = "js/jquery-3.2.1.min.js"></script>
+<script src = "js/layer-v3.1.0/layer/layer.js"></script>
+<script>
+    $(document).ready(function() {
+        $("#test1").on('click', function () {
+            layer.open({
+                type:1,
+                area:['600px','360px'],
+                shadeClose:true,
+                content:'<h1>Hello</h1></br><h2>Hello</h2>'
+            })
+        });
+    });
+</script>
+<button type="button" id="test1">Click me</button>
+</body>
+</html>

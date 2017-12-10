@@ -196,6 +196,29 @@ public int getPdoId() {
  	}
 	
 	public String queryPdo() {
+	String el = "^((\\d{2}(([02468][048])|([13579][26]))[\\-\\-\\s]?((((0?" +
+    "[13578])|(1[02]))[\\-\\-\\s]?((0?[1-9])|([1-2][0-9])|(3[01])))" +
+        "|(((0?[469])|(11))[\\-\\-\\s]?((0?[1-9])|([1-2][0-9])|(30)))|" +
+    "(0?2[\\-\\-\\s]?((0?[1-9])|([1-2][0-9])))))|(\\d{2}(([02468][12" +
+        "35679])|([13579][01345789]))[\\-\\-\\s]?((((0?[13578])|(1[02]))" +
+    "[\\-\\-\\s]?((0?[1-9])|([1-2][0-9])|(3[01])))|(((0?[469])|(11))" +
+        "[\\-\\-\\s]?((0?[1-9])|([1-2][0-9])|(30)))|(0?2[\\-\\-\\s]?((0?[" +
+    "1-9])|(1[0-9])|(2[0-8]))))))";
+    Pattern pattern = Pattern.compile(el);
+    Matcher matcher1 = pattern.matcher(info.get("startDate"));
+    boolean rst1=!matcher1.matches();
+    Matcher matcher2 = pattern.matcher(info.get("endDate"));
+    boolean rst2=!matcher2.matches();
+    if(rst1&&!info.get("startDate").equals("")) {
+      map.put("result","时间格式不符");
+      relateRes = JSONObject.fromObject(map).toString();
+      return SUCCESS;
+    }
+    if(rst2&&!info.get("endDate").equals("")) {
+      map.put("result","时间格式不符");
+      relateRes = JSONObject.fromObject(map).toString();
+      return SUCCESS;
+    }
 		Map<String, String> map = new HashMap<String, String>();
 		try{
 			queryRes = pdoService.query(userId, info);

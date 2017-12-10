@@ -19,6 +19,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 <!--webfonts-->
 <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>
 <!-- js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
 <script src="js/jquery-1.11.1.min.js"></script>
 <!-- //js -->
 </head> 
@@ -28,13 +29,21 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 				<h1>Sign up</h1>
 			</div>
 			<div class="login-info">
-				<form action = "actionRegister.action">
+			
+				<form id = "setupForm" action = "actionRegister.action" data-toggle="validator" role="form" method = "post">
 
-
-					UserName:<input type="text" class="user" name="user.userId"  required="">
-					
-					Password:<input type="password" name="user.password" class="lock" >
-					
+					<div class="form-group">
+					  <label for="inputUserID" class="control-label">UserID</label>
+					  
+					  
+					   <input type="number" maxlength="10" class="form-control" id="inputUserID" name="user.userId" required>
+					     <div class="help-block with-errors" ></div>
+					   </div>		   
+					  <div class="form-group">
+					  <label for="inputPassword" class="control-label">Password</label>
+					   <input type="password"  maxlength="10"  class="form-control" id="inputUserID" name="user.password" required>
+					     <div class="help-block with-errors" ></div>
+					   </div>
 
 
 
@@ -43,7 +52,9 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 					<div class="signup-text">
 						<a href="login.jsp">Already have an account? Login here.</a>
 					</div>
+				
 				</form>
+				
 			</div>
 		</div>
 		<div class="go-back login-go-back">
@@ -52,5 +63,18 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 		<div class="copyright login-copyright error-copyright">
            <p>Copyright &copy; 2017.HITmoonflower All rights reserved.</p>    
 		</div>
+	    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>		
+       
+       
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script>
+        $.validate({
+        	form : '#setupForm',
+        	modules : 'security,html5'
+        });
+        </script>
 </body>
 </html>

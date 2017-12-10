@@ -1,82 +1,47 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML>
 <html>
 <head>
-    <title>Homepage</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="keywords" content="Baxster Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
+<title>添加失败</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Baxster Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
 SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
-    <script type="application/x-javascript">
-    addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
-
-    function hideURLbar() { window.scrollTo(0, 1); }
-    
-
-    function addPdoUrl(userId){
-    	window.location.href="addPdo.jsp?userId="+userId;
-    }
-    function queryPdoUrl(userId){
-    	window.location.href="queryPdo.jsp?userId="+userId;
-    }
-    function addRelation(){
-	var checkBox = document.getElementsByName("pdoItem");
-	var t = 0,num = 0;
-	var pdoId = new Array();
-	for (var i=0;i<checkBox.length;i++){
-		if (checkBox[i].checked){
-			pdoId[num] = checkBox[i].value;
-			num++;
-			t++;
-		}
-	}
-	if (t == 2){
-		document.getElementById("pdoId1").value = pdoId[0];
-		document.getElementById("pdoId2").value = pdoId[1];
-		document.getElementById("relation").submit();
-	}
-	else{
-		alert("请选择两个pdo")
-	}
-}
-    //function showAllPdoUrl(userId){
-    	//  window.location.href="actionShowAll.action?userId="+userId;
-    //}
-    </script>
-    <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
-    <!-- Custom CSS -->
-    <link href="css/style.css" rel='stylesheet' type='text/css' />
-    <!-- font CSS -->
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <!-- font-awesome icons -->
-    <link href="css/font-awesome.css" rel="stylesheet">
-    <!-- //font-awesome icons -->
-    <!-- chart -->
-    <script src="js/Chart.js"></script>
-    <!-- //chart -->
-    <!-- js-->
-    <script src="js/jquery-1.11.1.min.js"></script>
-    <script src="js/modernizr.custom.js"></script>
-    <!--webfonts-->
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- Bootstrap Core CSS -->
+<link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
+<!-- Custom CSS -->
+<link href="css/style.css" rel='stylesheet' type='text/css' />
+<!-- font CSS -->
+<link rel="icon" href="favicon.ico" type="image/x-icon" >
+<!-- font-awesome icons -->
+<link href="css/font-awesome.css" rel="stylesheet"> 
+<!-- //font-awesome icons -->
+<!-- chart -->
+<script src="js/Chart.js"></script>
+<!-- //chart -->
+ <!-- js-->
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/modernizr.custom.js"></script>
+<!--webfonts-->
 <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>
+<!--//webfonts--> 
+<!--animate-->
+<link href="css/animate.css" rel="stylesheet" type="text/css" media="all">
+<script src="js/wow.min.js"></script>
+	<script>
+		 new WOW().init();
+	</script>
+<!--//end-animate-->
+<!-- Metis Menu -->
+<script src="js/metisMenu.min.js"></script>
+<script src="js/custom.js"></script>
+<link href="css/custom.css" rel="stylesheet">
 
-    <!--animate-->
-    <link href="css/animate.css" rel="stylesheet" type="text/css" media="all">
-    <script src="js/wow.min.js"></script>
-    <script>
-    new WOW().init();
-    </script>
-    <!--//end-animate-->
-    <!-- Metis Menu -->
-    <script src="js/metisMenu.min.js"></script>
-    <script src="js/custom.js"></script>
-    <link href="css/custom.css" rel="stylesheet">
-    <!--//Metis Menu -->
-</head>
-
+<!--//Metis Menu -->
+</head> 
 <body class="cbp-spmenu-push">
     <div class="main-content">
         <!--left-fixed -navigation-->
@@ -141,7 +106,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
             <div class="header-left">
                 <!--logo -->
                 <div class="logo">
-                    <a href="https://github.com/HITmoonflower/time_in">
+                    <a href="index.html">
                         <ul>
                             <li><img src="images/logo1.png" alt="" /></li>
                             <li>
@@ -182,102 +147,50 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
         <!-- //header-ends -->
         <!-- main content start-->
 
+		<div id="page-wrapper">
+			<div class="main-page">
+				<!--grids-->
+				<div class="grids">
+				
+					
 
 
-        <div id="page-wrapper">
-            <div class="main-page">
-                <!--grids-->
-                
-              
-                <div class="grids">
-                    <div class="progressbar-heading grids-heading">
-                        <h2>相关pdo</h2>
-                    </div>
-                    <div class="panel panel-widget">
-                        <div class="tables">
 
-                     
-                            <s:form action = "actionAddRelatePdo.action" id = "relation">
-                                <input type="hidden" name="userId" id = "Id" value = '<s:property value = "userId"/>'/>
-                                <input type="hidden" name="pdo1" id="pdoId1"/>
-                                <input type="hidden" name="pdo2" id="pdoId2"/>
-                                </s:form>
 
-                            
- 
-                             <s:iterator value = "relateRes" var = "pdo" status = "sta">
 
-								
-									<table class="table table-hover table-striped">
-									<thead>
-									<tr class="info">
-									<td>
-										pdo编号
-									</td>
-									<td>
-									<s:property value = "#pdo.pdoId"/>
-									</td>
 
-									
-									</tr>
-									</thead>
-									<tbody>
-									<s:iterator value="#pdo.infoMap" status="ss" var = "map">
-									<tr class="info">
-									
-									
-									<td><s:property value="%{#map.key}" /></td>
-									<td><s:property value="%{#map.value}" /></td>
-									</tr>
-									</s:iterator>
-									</tbody>
-									</table>
-									
-									<!-- 我觉得pdo的编号还是没有必要让用户知道,所以我把这个属性给隐藏了 -->
-									<s:form action = "actionShowRelate">
-
-									<div hidden>
-									<input type = "text" name = "pdoId" value ='<s:property value = "#pdo.pdoID"/>'/>
-									</div>
-									<div class="col-md-11 column">
-									<center>
-									<input type = "submit"  class="btn btn-lg btn-success" value = "RelativaPdo"/>
-									<input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
-									</div>
+					<div class="container">
+						<div class="row clearfix">
+							<div class="col-md-12 column">
+								<div class="alert alert-success alert-dismissable">
+									 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+									<center><h1>
+										添加失败!
+									</h1> 
+									</center>
 									</br></br></br>
-
-									</s:form>
-							</s:iterator>
-                            
-                        </div>
-                    </div>
-                   
-                                
-                </div>
-                <!--//grids-->
-
-<!--                
-
-				     <div class="row clearfix">
-				    <div class="col-md-4 column">
-               <center><button type="button" class="btn btn-default btn-primary"  onclick = 'addRelation()'>addRelation</button>
-            </div> 
-						<div class="col-md-6 column">
-							 <center><button type="button" class="btn btn-default btn-primary"  onclick = 'addPdoUrl("<s:property value = 'user.userId'/>")'>addPdo</button>
-						</div>
-						<div class="col-md-6 column">
-							<center> <button type="button" class="btn btn-default btn-primary"  onclick = 'queryPdoUrl("<s:property value = 'user.userId'/>")'>queryPdo</button>
+									<center>
+									<h3>
+									<strong>用户<s:property value= "pdo.userID" />,你输入的pdo数据存在问题.</strong></br>
+									</h3>
+								</div>
+								
+								<div class="col-md-12 column">
+									 <center><button type="button" onclick="javascript:document:backToHomepage.submit();" class="btn btn-primary btn-lg">回到主页</button>
+								</div>
+													 
+							</div>
 						</div>
 					</div>
 
-                -->
-	
 
-
-               
-            </div>
-        </div>
-        <!--footer-->
+			
+				</div>
+				<!--//grids-->
+				
+			</div>
+		</div>
+ <!--footer-->
 		 <div class="dev-page">
 	 
 			<!-- page footer -->   
@@ -295,9 +208,6 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 				<!-- //container -->
             </div>
             <!-- /page footer -->
-		</div>
-
-
 	</div>
 	<!-- Classie -->
 		<script src="js/classie.js"></script>

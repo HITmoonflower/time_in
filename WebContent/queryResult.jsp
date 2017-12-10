@@ -62,21 +62,21 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 
 <body class="cbp-spmenu-push">
     <div class="main-content">
-        <!--left-fixed -navigation-->
+         <!--left-fixed -navigation-->
         <div class="sidebar" role="navigation">
             <div class="navbar-collapse">
                 <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right dev-page-sidebar mCustomScrollbar _mCS_1 mCS-autoHide mCS_no_scrollbar" id="cbp-spmenu-s1">
                     <div class="scrollbar scrollbar1">
                         <ul class="nav" id="side-menu">
                             <li>
-                                 <s:form name = "backToHomepage" action = "actionShowAll">
+                             <s:form name = "backToHomepage" action = "actionShowAll">
                                     <input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
                                 </s:form>
                                 <a href="javascript:document:backToHomepage.submit();"><i class="fa fa-home nav_icon"></i>个人主页</a>
                             </li>
                            
-                             <li>
-                            <s:form name = "jumpQuery" action = "actionQueryPdo">
+                            <li>
+                            <s:form name = "jumpQuery" action = "actionJumpQuery">
                                     <input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
                                 </s:form>
                                 <a href="javascript:document:jumpQuery.submit();"><i class="fa fa-book nav_icon"></i>查询数据 </a>
@@ -86,12 +86,15 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                             
                            
                             <li>
-                                <s:form name = "jumpAdd" action = "actionAddPdo">
+                                <s:form name = "jumpAdd" action = "actionJumpAdd">
                                     <input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
                                 </s:form>
                                 <a href="javascript:document:jumpAdd.submit();"><i class="fa fa-th-large nav_icon"></i>添加pdo对象</a>
                             </li>
-                            
+                            <li>
+                                <a  onclick = 'addRelation()' ><i class="fa fa-th-large nav_icon"></i>添加数据关联</a>
+                            </li>
+
                             <li>
                                 <a href="login.jsp"><i class="fa fa-th-large nav_icon"></i>logout</a>
                             </li>
@@ -101,10 +104,10 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                 <a href="#" class="chart-nav"><i class="fa fa-bar-chart nav_icon"></i>Extras<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level collapse">
                                     <li>
-									 <a href="#" class="chart-nav"><i class="fa fa-bar-chart nav_icon"></i>统计个人数据信息</a>
+									 <a href="" class="chart-nav"><i class="fa fa-bar-chart nav_icon"></i>统计个人数据信息</a>
                                     </li>
                                     <li>
-                                      <a href="#" class="chart-nav"><i class="fa fa-location-arrow nav_icon"></i>地图选点</a>
+                                      <a href="" class="chart-nav"><i class="fa fa-location-arrow nav_icon"></i>地图选点</a>
                                    </li>
                                 </ul>
                                 <!-- //nav-second-level -->

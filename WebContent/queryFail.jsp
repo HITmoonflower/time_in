@@ -4,7 +4,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <title>添加数据</title>
+    <title>queryFail</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="Baxster Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
@@ -15,29 +15,19 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
     function hideURLbar() { window.scrollTo(0, 1); }
     
 
-
-}
-
+    function addPdoUrl(userId){
+    	window.location.href="addPdo.jsp?userId="+userId;
+    }
+    function queryPdoUrl(userId){
+    	window.location.href="queryPdo.jsp?userId="+userId;
+    }
     //function showAllPdoUrl(userId){
     	//  window.location.href="actionShowAll.action?userId="+userId;
     //}
 
-
+    
+    
     </script>
-
-    <script>var i=3</script>
-<script>
-function commit(){
-    for (var j = 3; j<window.i;j++){
-          var key = document.getElementById("key"+String(j));
-          var value = document.getElementById("value"+String(j));
-          value.name = "infoMap."+key.value;
-     }
-    document.getElementById("addPdoForm").submit();
-}
-</script>
-
-
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
     <!-- Custom CSS -->
@@ -54,8 +44,8 @@ function commit(){
     <script src="js/jquery-1.11.1.min.js"></script>
     <script src="js/modernizr.custom.js"></script>
     <!--webfonts-->
-    <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>
-    <!--//webfonts-->
+<link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>
+
     <!--animate-->
     <link href="css/animate.css" rel="stylesheet" type="text/css" media="all">
     <script src="js/wow.min.js"></script>
@@ -72,7 +62,7 @@ function commit(){
 
 <body class="cbp-spmenu-push">
     <div class="main-content">
-        <!--left-fixed -navigation-->
+         <!--left-fixed -navigation-->
         <div class="sidebar" role="navigation">
             <div class="navbar-collapse">
                 <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right dev-page-sidebar mCustomScrollbar _mCS_1 mCS-autoHide mCS_no_scrollbar" id="cbp-spmenu-s1">
@@ -104,39 +94,7 @@ function commit(){
                             <li>
                                 <a  onclick = 'addRelation()' ><i class="fa fa-th-large nav_icon"></i>添加数据关联</a>
                             </li>
-							
-							
-							
-							 <li>
-							   
-									 
-								
-                                <a href="javascript:document:jumpAdd.submit();"><i class="fa fa-th-large nav_icon"></i>添加文件<span class="fa arrow"></span></a>
-                            		
-                            		<ul class="nav nav-second-level collapse">
-                                     <s:form id = "fileForm">
-									<input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
-									<input type = "hidden" name = "excelFileName" id = "fileName"/>
-									
-                                    <li>
-								
-									  <center><input type = "file" name = "excelFile"
-									  onChange="if(this.value)insertTitle(this.value);" />
-									  </center>
-                                    </li>
-                                    <br/>
-                                    <li>
-                                     
-                                       <center><input type = "button" class="btn btn-primary btn-default"
-                                       value = "submit" onclick="importExcel();" />
-                                   </li>
-                                   </s:form>
-                                </ul>
-                                
-                            </li>
-                            
-                            
-                            
+
                             <li>
                                 <a href="login.jsp"><i class="fa fa-th-large nav_icon"></i>logout</a>
                             </li>
@@ -166,7 +124,7 @@ function commit(){
             <div class="header-left">
                 <!--logo -->
                 <div class="logo">
-                    <a href="https://github.com/HITmoonflower/time_in">
+                    <a href="index.html">
                         <ul>
                             <li><img src="images/logo1.png" alt="" /></li>
                             <li>
@@ -210,84 +168,55 @@ function commit(){
 
 
 
+
         <div id="page-wrapper">
             <div class="main-page">
                 <!--grids-->
                 
               
                 <div class="grids">
-                    <div class="progressbar-heading grids-heading">
-                        <h2>Tables</h2>
-                    </div>
-                    <div class="panel panel-widget">
-                        <div class="tables">
+                
+                
+				 
+					<div class="row clearfix">
+						<div class="col-md-12 column">
+							<div class="alert alert-dismissable alert-warning">
+								 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+								<center><h2>
+									查询失败!
+								</h2> 
+								<center><strong>你创建的数据之中没符合条件的</strong>
+							</div>
+						</div>
+					</div>
 
-                     
-                            <s:form id = "addPdoForm" action = "actionAddPdo">
-                            <input type="hidden" name="userID" value = '<s:property value = "userId"/>'/>
-                            <table id = "pdoInfo" class="table">
-                            <s:iterator value = "formHeader" var = "header" status = "sta">
-                            <tr  class="info">
-                            <s:if test="#sta.Count == 1">
-                            <td> <center>Name</td>
-	                       	<td>	
-	                     	 	<center><input type = "text" name = 'name' value='<s:property value="#header"/>' readonly='readonly'/>
-	                         </td>
-                            </s:if>
-                            <s:if test="#sta.Count > 1">
-	                       	 <td> <center><s:property value="#header"/></td>
-	                       	<td>	
-	                     	 	<center><input type = "text" name = 'infoMap.<s:property value="#header"/>'/>
-	                         </td>
-	                        </s:if>
-                            </tr>
-                            </s:iterator>
-                            </table>
-                            </br>
-                            <div class="col-md-10 column">
-                           <center>
-                            <input type = "button" class="btn btn-lg btn-primary" onclick = "commit()" value = "addPdo"/>
-                          </div>
-                           </br></br></br>
-                          <!-- 我觉得用户向一个模板里面添加pdo的时候不应该有addrow的按钮 -->
-                          <div hidden>  <input type ="button"  class="btn btn-lg btn-primary" value = "AddRow"onclick = "addRow()"/>
-                            </div>
-                            </s:form>
-                        </div>
-                    </div>
+
+
+
+             <div class="error-page">
+				<img src="images/loginerror.jpg" alt="" />
+			</div>
                    
                                 
                 </div>
                 <!--//grids-->
-
-<!--                
-<<<<<<< HEAD
-				     <div class="row clearfix">
-				    <div class="col-md-4 column">
-               <center><button type="button" class="btn btn-default btn-primary"  onclick = 'addRelation()'>addRelation</button>
-            </div> 
+                
+                
+				  <!--   <div class="row clearfix">
 						<div class="col-md-6 column">
-							 <center><button type="button" class="btn btn-default btn-primary"  onclick = 'addPdoUrl("<s:property value = 'user.userId'/>")'>addPdo</button>
+							 <center><button type="button" class="btn btn-default btn-primary"  onclick = 'addPdoUrl("<s:property value = 'userId'/>")'>addPdo</button>
 						</div>
 						<div class="col-md-6 column">
-							<center> <button type="button" class="btn btn-default btn-primary"  onclick = 'queryPdoUrl("<s:property value = 'user.userId'/>")'>queryPdo</button>
+							<center> <button type="button" class="btn btn-default btn-primary"  onclick = 'queryPdoUrl("<s:property value = 'userId'/>")'>queryPdo</button>
 						</div>
 					</div>
-<<<<<<< HEAD
-<!--  			
-					<s:form action = "actionImport" enctype="multipart/form-data" method="post">
-					<input type = "hidden" name = "userId" value = '<s:property value = "user.userId"/>'/>
-					<input type = "hidden" name = "excelFileName" id = "fileName"/>
-					<input type = "file" name = "excelFile" onChange="if(this.value)insertTitle(this.value);">
-					<input type = "submit"/> 
-					</s:form>
--->					
+				--> 
+	
 
 
                
             </div>
         </div>
-
         <!--footer-->
 		 <div class="dev-page">
 	 
@@ -330,12 +259,10 @@ function commit(){
 					classie.toggle( showLeftPush, 'disabled' );
 				}
 			}
-			
-
+		</script>
 	<!-- Bootstrap Core JavaScript --> 
 		
-</script>
-        <script src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
 
         <script type="text/javascript" src="js/dev-loaders.js"></script>
         <script type="text/javascript" src="js/dev-layout-default.js"></script>
