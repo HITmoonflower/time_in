@@ -483,5 +483,4 @@ public void setQueryP(String queryP) {
   this.queryP = queryP;
 }
 
-
 }

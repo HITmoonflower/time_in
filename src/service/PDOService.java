@@ -389,7 +389,6 @@ public class PDOService {
 	        continue;
 	        pdoList.add(rs.getString(1));
 	        placeList.add(rs.getString(2));
-	        //System.out.println(rs.getString(2));
 	    }
 	    if (pdoList.size() == 0) {
 	      return null;
