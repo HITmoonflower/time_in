@@ -17,7 +17,7 @@ create table tablekey
 )character set = utf8;
 create table tableheader(
 	userID int unsigned not null,
-	name char(200) not null,
+	name char(200) not null primary key,
 	key0 char(200) not null,
 	key1 char(200) null,
 	key2 char(200) null,

@@ -2,6 +2,7 @@ package service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -16,28 +17,16 @@ public class PDOService {
 		String sqlkey = "insert into tablekey values(null,?,?,?,?,?,?,?,?,?,?)" ;
 		String sqlvalue = "insert into tablevalue values(null,?,?,?,?,?,?,?,?,?,?)";
 		String sqlquery = "insert into tablequery values(?,?,?,?,?)";
+		String sqlid = "select max(pdoID) from tablevalue";
 		String key, value;
 		Connection conn = DataConn.getConnection();
-		PreparedStatement pst1, pst2, pst3;
-		List<String> header = new ArrayList<String>();
-		Map<String,String> temp=pdo.getInfoMap();
-		for (Map.Entry<String, String> entry:temp.entrySet()) {
-			header.add(entry.getKey());
-		}
-		String queryHeader = "SELECT * FROM pdo.tableheader where name ='"+pdo.getName()+"' and userId ='"+pdo.getUserID()+"'"; 
-		ResultSet rsName = DataOperation.getInstance().query(queryHeader);
-		try {
-			if (!rsName.next()) {
-				addHeader(pdo.getUserID(),pdo.getName(),header);
-			}
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		pst1 = pst2 = pst3 = null;
+		PreparedStatement pst1, pst2, pst3, pst4;
+		pst1 = pst2 = pst3 = pst4 = null;
 		try {
 			pst1 = conn.prepareStatement(sqlkey);
 			pst2 = conn.prepareStatement(sqlvalue,Statement.RETURN_GENERATED_KEYS);
 			pst3 = conn.prepareStatement(sqlquery);
+			pst4 = conn.prepareStatement(sqlid);
 			pst1.setInt(1, pdo.getUserID());
 			pst1.setString(2, pdo.getName());
 			
@@ -58,13 +47,13 @@ public class PDOService {
 				pst1.setString(k, key);
 				pst2.setString(k, value);
 				k = k + 1;
-				if(key.equals("datetime")) {
+				if(key.equals("datetime") && value.length() != 0) {	
 					pst3.setString(3, value);
 					flag1 = true;
-				}else if(key.equals("spend")) {
+				}else if(key.equals("spend") && value.length() != 0) {
 					pst3.setString(4, value);
 					flag2 = true;
-				}else if(key.equals("place")) {
+				}else if(key.equals("place") && value.length() != 0) {
 					pst3.setString(5, value);
 					flag3 = true;
 				}
@@ -84,23 +73,26 @@ public class PDOService {
 			if(!flag3) {
 				pst3.setNull(5, Types.BLOB);
 			}
+			ResultSet rsid = pst4.executeQuery();
+			int bid = 0;
+			while(rsid.next()) {
+				bid = rsid.getInt(1);
+			}
+			bid ++;
+			if(flag1 || flag2 || flag3) {
+				pst3.setInt(1, bid);
+				pst3.executeUpdate();
+			}
 			pst1.executeUpdate();
 			pst2.executeUpdate();
-			if(flag1 || flag2 || flag3) {
-				ResultSet rs = pst2.getGeneratedKeys();
-				rs.next();
-				pst3.setInt(1, rs.getInt(1));
-				pst3.executeUpdate();
-				if(rs != null) {
-					rs.close();
-				}
-			}
 			if(pst1 != null)
 				pst1.close();
 			if(pst2 != null)
 				pst2.close();
 			if(pst3 != null)
 				pst3.close();
+			if(pst4 != null)
+				pst4.close();
 			if(conn != null)
 				conn.close();
 			return true;
@@ -192,7 +184,7 @@ public class PDOService {
 	      otherInfo = otherInfo +" and place " +" like \'%" + info.get("place") + "%\'";
 	    }
 	    sqlQuery = "select pdoID from " + tableQuery + " where " + userInfo + dateInfo 
-	        + spendInfo  + otherInfo;
+	        + spendInfo  + otherInfo + "order by datetime DESC, spend ASC";
 	    System.out.println(sqlQuery);
 	    ResultSet rs = DataOperation.getInstance().query(sqlQuery);
 	    List <String> pdoList = new ArrayList<String>();
@@ -211,10 +203,10 @@ public class PDOService {
 	    sqlValue = "select * from " + tableValue + " where"+  pdoIdInfo;
 	    ResultSet rsKey = DataOperation.getInstance().query(sqlKey);
 	    ResultSet rsValue = DataOperation.getInstance().query(sqlValue);
-	    Map<String, List<PDOModel>> queryRes = new HashMap<String, List<PDOModel>>();
+	    Map<String, List<PDOModel>> queryRes = new LinkedHashMap<String, List<PDOModel>>();
 	    while (rsKey.next() && rsValue.next()) {
     	    PDOModel pdo = new PDOModel();
-    		Map<String, String> map = new HashMap<String, String>();
+    		Map<String, String> map = new LinkedHashMap<String, String>();
     		pdo.setPdoID(rsValue.getInt(1));
     		pdo.setUserID(rsValue.getInt(2));
     		pdo.setName(rsValue.getString(3));
@@ -242,7 +234,208 @@ public class PDOService {
     	}
 	    return queryRes;
 	}
+
+	public Map<String, List<PDOModel>> queryTime(int userId, Map<String, String>info) throws SQLException{
+	    String sqlQuery = "";
+	    String sqlKey = "";
+	    String sqlValue = "";
+	    String tableValue = "tablevalue"; //the names of relative tables
+	    String tableKey = "tablekey";   //
+	    String tableQuery = "tablequery"; //
+	    String userInfo = "userID = \'" + userId + "\'"; 
+	    String dateInfo = "";
+	    String spendInfo = "";
+	    String otherInfo = "";
+	   if (info.get("startDate").equals("")) {
+	      if (info.get("endDate").equals("")) {
+	        dateInfo = "";
+	      } else {
+	        dateInfo = " and datetime between '2000-01-01' and '" + info.get("endDate") + "'";
+	      }
+	    } else {
+	      if (info.get("endDate").equals("")) {
+	        dateInfo = " and datetime between '" + info.get("startDate") + "' and '2500-01-01'";
+	      } else {
+	        dateInfo = " and datetime between '" + info.get("startDate") + "' and '" + info.get("endDate") + "'";
+	      }
+	    }
+	    if (info.get("minSpend").equals("")) {
+	      if (info.get("maxSpend").equals("")) {
+	        spendInfo = "";
+	      } else {
+	        spendInfo = " and spend between '0' and '" + info.get("maxSpend") + "'";
+	      }
+	    } else {
+	      if (info.get("maxSpend").equals("")) {
+	        spendInfo = " and spend between '" + info.get("minSpend") + "' and '1000000'";
+	      } else {
+	        spendInfo = " and spend between '" + info.get("minSpend") + "' and '" + info.get("maxSpend") + "'";
+	      }
+	    }
+	    if(info.get("place").equals("")) {
+	      otherInfo = "";
+	    } else {
+	      otherInfo = otherInfo +" and place " +" like \'%" + info.get("place") + "%\'";
+	    }
+	    sqlQuery = "select pdoID,datetime from " + tableQuery + " where " + userInfo + dateInfo 
+	        + spendInfo  + otherInfo + "order by datetime DESC, spend ASC";
+	    System.out.println(sqlQuery);
+	    ResultSet rs = DataOperation.getInstance().query(sqlQuery);
+	    List <String> pdoList = new ArrayList<String>();
+	    List<String> timeList = new ArrayList<String>();
+	    while (rs.next()) {
+	      if (rs.getString(2)==null)
+	        continue;
+	        pdoList.add(rs.getString(1));
+	        timeList.add(rs.getString(2));
+	    }
+	    if (pdoList.size() == 0) {
+	      return null;
+	    }
+	    String pdoIdInfo = "";
+	    for (int i = 0; i<pdoList.size()-1;i++) {
+	        pdoIdInfo = pdoIdInfo +" pdoID = '" +  pdoList.get(i) + "'or";
+	    }
+	    pdoIdInfo = pdoIdInfo +" pdoID = '" +pdoList.get(pdoList.size()-1) + "'";
+	    sqlKey = "select * from " + tableKey + " where"+ pdoIdInfo;
+	    sqlValue = "select * from " + tableValue + " where"+  pdoIdInfo;
+	    ResultSet rsKey = DataOperation.getInstance().query(sqlKey);
+	    ResultSet rsValue = DataOperation.getInstance().query(sqlValue);
+	    Map<String, List<PDOModel>> queryRes = new LinkedHashMap<String, List<PDOModel>>();
+	    int pdoindex = 0;
+	    while (rsKey.next() && rsValue.next()) {
+    	    PDOModel pdo = new PDOModel();
+    		Map<String, String> map = new LinkedHashMap<String, String>();
+    		pdo.setPdoID(rsValue.getInt(1));
+    		pdo.setUserID(rsValue.getInt(2));
+    		pdo.setName(rsValue.getString(3));
+    		for (int i = 4;;i++) {
+    			try {
+    				if (rsKey.getString(i) == null) {
+    					break;
+    				}
+    				map.put(rsKey.getString(i), rsValue.getString(i));
+    			} catch(SQLException e) {
+    				e.printStackTrace();
+    				break;
+    			}
+    		}
+    		pdo.setInfoMap(map);
+    		List<PDOModel> temp = queryRes.get(timeList.get(pdoindex)) ;
+    		if (temp == null) {
+    			temp = new ArrayList<PDOModel>();
+    			temp.add(pdo);
+    			queryRes.put(timeList.get(pdoindex), temp);
+    		}else {
+    			temp.add(pdo);
+    			queryRes.put(timeList.get(pdoindex), temp);
+    		}
+    		pdoindex ++;
+    	}
+	    return queryRes;
+	}
+
 	
+	public Map<String, List<PDOModel>> queryPlace(int userId, Map<String, String>info) throws SQLException{
+	    String sqlQuery = "";
+	    String sqlKey = "";
+	    String sqlValue = "";
+	    String tableValue = "tablevalue"; //the names of relative tables
+	    String tableKey = "tablekey";   //
+	    String tableQuery = "tablequery"; //
+	    String userInfo = "userID = \'" + userId + "\'"; 
+	    String dateInfo = "";
+	    String spendInfo = "";
+	    String otherInfo = "";
+	   if (info.get("startDate").equals("")) {
+	      if (info.get("endDate").equals("")) {
+	        dateInfo = "";
+	      } else {
+	        dateInfo = " and datetime between '2000-01-01' and '" + info.get("endDate") + "'";
+	      }
+	    } else {
+	      if (info.get("endDate").equals("")) {
+	        dateInfo = " and datetime between '" + info.get("startDate") + "' and '2500-01-01'";
+	      } else {
+	        dateInfo = " and datetime between '" + info.get("startDate") + "' and '" + info.get("endDate") + "'";
+	      }
+	    }
+	    if (info.get("minSpend").equals("")) {
+	      if (info.get("maxSpend").equals("")) {
+	        spendInfo = "";
+	      } else {
+	        spendInfo = " and spend between '0' and '" + info.get("maxSpend") + "'";
+	      }
+	    } else {
+	      if (info.get("maxSpend").equals("")) {
+	        spendInfo = " and spend between '" + info.get("minSpend") + "' and '1000000'";
+	      } else {
+	        spendInfo = " and spend between '" + info.get("minSpend") + "' and '" + info.get("maxSpend") + "'";
+	      }
+	    }
+	    if(info.get("place").equals("")) {
+	      otherInfo = "";
+	    } else {
+	      otherInfo = otherInfo +" and place " +" like \'%" + info.get("place") + "%\'";
+	    }
+	    sqlQuery = "select pdoID,place from " + tableQuery + " where " + userInfo + dateInfo 
+	        + spendInfo  + otherInfo + "order by datetime DESC, spend ASC";
+	    System.out.println(sqlQuery);
+	    ResultSet rs = DataOperation.getInstance().query(sqlQuery);
+	    List <String> pdoList = new ArrayList<String>();
+	    List<String> placeList = new ArrayList<String>();
+	    while (rs.next()) {
+	      if (rs.getString(2)==null)
+	        continue;
+	        pdoList.add(rs.getString(1));
+	        placeList.add(rs.getString(2));
+	        //System.out.println(rs.getString(2));
+	    }
+	    if (pdoList.size() == 0) {
+	      return null;
+	    }
+	    String pdoIdInfo = "";
+	    for (int i = 0; i<pdoList.size()-1;i++) {
+	        pdoIdInfo = pdoIdInfo +" pdoID = '" +  pdoList.get(i) + "'or";
+	    }
+	    pdoIdInfo = pdoIdInfo +" pdoID = '" +pdoList.get(pdoList.size()-1) + "'";
+	    sqlKey = "select * from " + tableKey + " where"+ pdoIdInfo;
+	    sqlValue = "select * from " + tableValue + " where"+  pdoIdInfo;
+	    ResultSet rsKey = DataOperation.getInstance().query(sqlKey);
+	    ResultSet rsValue = DataOperation.getInstance().query(sqlValue);
+	    Map<String, List<PDOModel>> queryRes = new LinkedHashMap<String, List<PDOModel>>();
+	    int pdoindex = 0;
+	    while (rsKey.next() && rsValue.next()) {
+    	    PDOModel pdo = new PDOModel();
+    		Map<String, String> map = new LinkedHashMap<String, String>();
+    		pdo.setPdoID(rsValue.getInt(1));
+    		pdo.setUserID(rsValue.getInt(2));
+    		pdo.setName(rsValue.getString(3));
+    		for (int i = 4;;i++) {
+    			try {
+    				if (rsKey.getString(i) == null) {
+    					break;
+    				}
+    				map.put(rsKey.getString(i), rsValue.getString(i));
+    			} catch(SQLException e) {
+    				e.printStackTrace();
+    				break;
+    			}
+    		}
+    		pdo.setInfoMap(map);
+    		List<PDOModel> temp = queryRes.get(placeList.get(pdoindex)) ;
+    		if (temp == null) {
+    			temp = new ArrayList<PDOModel>();
+    			temp.add(pdo);
+    			queryRes.put(placeList.get(pdoindex), temp);
+    		}else {
+    			temp.add(pdo);
+    			queryRes.put(placeList.get(pdoindex), temp);
+    		}
+    		pdoindex ++;
+    	}
+	    return queryRes;
+	}
 	//建立两个pdo之间的关系 main key auto incre col1 pdo1 col2 pdo2 pdo1 < pdo2
 	public void addrelate(int pdo1, int pdo2){
 		int tmp = pdo1;
@@ -275,7 +468,7 @@ public class PDOService {
 			ResultSet rs = pst.executeQuery();
 			while(rs.next()) {
 				int colNum = 8 + 3;
-				int k = 2;
+				int k = 3;
 				while(k < colNum) {
 					key = rs.getString(k);
 					if(key == null)
@@ -293,6 +486,8 @@ public class PDOService {
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
+		if(ans.size() == 0)
+			return null;
 		return ans;
 	}
 
@@ -301,7 +496,7 @@ public class PDOService {
         String sqlKey = "select * from tablekey where userId = " + "\'" + userId + "\'";
         String sqlValue = "select * from tablevalue where userId = " + "\'" + userId + "\'";
         String sqlheader = "select * from tableheader where userId = " + "\'" + userId + "\'";
-	    Map<String, List<PDOModel>> queryRes = new HashMap<String, List<PDOModel>>();
+	    Map<String, List<PDOModel>> queryRes = new LinkedHashMap<String, List<PDOModel>>();
 	    try {
 	    	ResultSet rsKey = DataOperation.getInstance().query(sqlKey);
 	    	ResultSet rsValue = DataOperation.getInstance().query(sqlValue);
@@ -311,7 +506,7 @@ public class PDOService {
 	    	}
 	    	while (rsKey.next() && rsValue.next()) {
 	    	    PDOModel pdo = new PDOModel();
-	    		Map<String, String> map = new HashMap<String, String>();
+	    		Map<String, String> map = new LinkedHashMap<String, String>();
 	    		pdo.setPdoID(rsValue.getInt(1));
 	    		pdo.setUserID(rsValue.getInt(2));
 	    		pdo.setName(rsValue.getString(3));
@@ -347,7 +542,7 @@ public class PDOService {
 	      String sqlKey = "select * from tablekey where pdoId = " + "\'" + pdoId + "\'";
 	      String sqlValue = "select * from tablevalue where pdoId = " + "\'" + pdoId + "\'";	
 		  PDOModel pdo = new PDOModel();
-		  Map<String, String> map = new HashMap<String, String>();
+		  Map<String, String> map = new LinkedHashMap<String, String>();
 	      try {
 		    	ResultSet rsKey = DataOperation.getInstance().query(sqlKey);
 		    	ResultSet rsValue = DataOperation.getInstance().query(sqlValue);

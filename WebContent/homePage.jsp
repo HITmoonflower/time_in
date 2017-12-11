@@ -12,9 +12,19 @@
 SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
 
         <style type="text/css">
-        #MapAddPdo{
+        #MapQueryPdo{
             height: 400px;
-            width: 500px;
+            width: 800px;
+            margin: 0px
+        }
+        #MapShowAllPdo{
+            height: 400px;
+            width: 800px;
+            margin: 0px
+        }
+        #MapAddPdo{
+            height: 300px;
+            width: 300px;
             margin: 0px
         }
     </style>
@@ -117,15 +127,15 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                             </li>
 
                             <li>
-                                <a href="javascript:queryPdoLayer();"><i class="fa fa-book nav_icon"></i>查询数据 </a>
+                                <a href="javascript:queryPdoLayer();"><i class="fa fa-search nav_icon"></i>查询数据 </a>
                             </li>
 
 
                             <li>
-                                <a href="javascript:addPdoLayer();"><i class="fa fa-th-large nav_icon"></i>添加pdo对象</a>
+                                <a href="javascript:addPdoLayer();"><i class="	fa fa-plus-square-o nav_icon"></i>添加pdo对象</a>
                             </li>
                             <li>
-                                <a  onclick = 'addRelation()' ><i class="fa fa-th-large nav_icon"></i>添加数据关联</a>
+                                <a  onclick = 'addRelation()' ><i class="fa fa-plus-square nav_icon"></i>添加数据关联</a>
                             </li>
 
 
@@ -134,35 +144,35 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 
 
 
-                                <a href="javascript:document:jumpAdd.submit();"><i class="fa fa-th-large nav_icon"></i>添加文件<span class="fa arrow"></span></a>
-
+                                <a href="javascript:document:jumpAdd.submit();"><i class="fa fa-file nav_icon"></i>添加文件<span class="fa arrow"></span></a>
+									
                             		<ul class="nav nav-second-level collapse">
+                            		<li>
                                      <s:form id = "fileForm">
-																			<input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
-																			<input type = "hidden" name = "excelFileName" id = "fileName"/>
-																		  <center><input type = "file" name = "excelFile"
-																		  onChange="if(this.value)insertTitle(this.value);"  />
-																		  </center>
-                                    </li>
-                                    <br/>
-                                    <li class="btn btn-default">
-                                    <input type="text" list="name_list" name="tranName" />
+                                     
+											<input type = "hidden" name = "userId" value = '<s:property value = "userId"/>'/>
+											<input type = "hidden" name = "excelFileName" id = "fileName"/>
+										 <input type = "file" name = "excelFile" style="color: #FFFFFF"
+										  onChange="if(this.value)insertTitle(this.value);"  />
+										  <input type="text" list="name_list" name="tranName" id="uploadExcelName"/>
                                     <datalist id="name_list">
                                      <s:iterator value = "queryRes" var = "pdoName" status = "sta">
                                      <option label='<s:property value="%{#pdoName.key}" />' value='<s:property value="%{#pdoName.key}" />' />
                                      </s:iterator>
                                     </datalist>
+									&nbsp;&nbsp;	  
+
                                     <!-- 
-                                      <select name="tranName">
-                                      <s:iterator value = "queryRes" var = "pdoName" status = "sta"> 
-                                      <option value='<s:property value="%{#pdoName.key}" />'><s:property value="%{#pdoName.key}" /></option> 
-                                      </s:iterator> 
-                                      </select> 
-                                       -->
-                                      </li>
-                                    <li class="btn btn-default">
-                                       <center><input type = "button" class="btn  btn-default"
-                                       value = "submit" onclick="importExcel();" />
+                                       <center><input type = "button" class="btn  btn-default fa fa-upload"
+                                       value = "提交" onclick="importExcel();" />
+                                      --> 
+                                       
+                                      <button type="button" onclick="importExcel();" class="btn btn-default  btn-info" aria-label="Left Align">
+										 <span class="fa fa-upload" aria-hidden="true"></span>提交
+									</button>
+										 						
+																
+																
                                    </li>
                                    </s:form>
                                 </ul>
@@ -172,10 +182,10 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 
 
                             <li>
-                                <a href="login.jsp"><i class="fa fa-th-large nav_icon"></i>logout</a>
+                                <a href="login.jsp"><i class="fa fa-sign-out nav_icon"></i>logout</a>
                             </li>
 
-
+						<!--  
                             <li>
                                 <a href="#" class="chart-nav"><i class="fa fa-bar-chart nav_icon"></i>Extras<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level collapse">
@@ -186,8 +196,11 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                       <a href="" class="chart-nav"><i class="fa fa-location-arrow nav_icon"></i>地图选点</a>
                                    </li>
                                 </ul>
-                                <!-- //nav-second-level -->
+                               
                             </li>
+                          
+                          --> 
+                            
                         </ul>
                     </div>
                     <!-- //sidebar-collapse -->
@@ -258,17 +271,20 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                     <div class="tabbable" id="tabs-391969">
                     
         <ul class="nav nav-tabs">
-          <li>
+          <li class="active">
              <a href="#panel-474133" data-toggle="tab">分类显示</a>
           </li>
-          <li class="active">
+          <li>
              <a href="#panel-805073" data-toggle="tab">按时间线展示</a>
+          </li>
+           <li>
+             <a href="#panel-map" id="showByPlace"data-toggle="tab" onclick="javasript:layer.tips('输入不精确的地址可能会出现定位不精确的情况', '#showByPlace');">在地图上展示</a>
           </li>
         </ul>
         
       
       <div class="tab-content">
-          <div class="tab-pane" id="panel-474133">
+          <div class="tab-pane active" id="panel-474133">
       
                         <div class="tables">
 
@@ -288,45 +304,58 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                              <div class="drawerTotal">
                              <!-- 抽屉头部div -->
                              <div class="drawerHead">
-                             <p>
-                             <s:property value="%{#pdoName.key}" />
-                              	共<s:property value="#pdoName.value.size()"/>
-                              	<s:if test="#pdoName.value==null">
-                              	0
-                              	</s:if>条数据
-                             </p>
-                             <!-- 生成表单div -->
+		                            <div class="row clearfix">
+													<div class="col-md-10 column">
+														<h3>
+																<button type="button" class="btn btn-default btn-lg  btn-info" aria-label="Left Align">
+																  <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>详细
+																</button>
+																														
+														
+																&nbsp;&nbsp;&nbsp;
+															<s:property value="%{#pdoName.key}" />
+																
+														</h3>
+													</div>
+													<div class="col-md-1 column">
+		
+														<h3>
+															
+															<s:property value="#pdoName.value.size()" />
+															<s:if test="#pdoName.value==null">
+									                              	0
+									                              	</s:if>
+		
+														</h3>
+													</div>
+													<div class="col-md-1 column">
+														 <!-- 生成表单div -->
                              
-                             <div class="showForm">
-                             <s:form class="genePdoForm">
-                             <input type="hidden" name = "userId" value = '<s:property value = "userId"/>'/>
-                             <input type="hidden" name = "userID" value = '<s:property value = "userId"/>'/>
-                             <input type="hidden" class="getName" name = "tranName" value ='<s:property value="%{#pdoName.key}" />'  />
-                             <input class="btn btn-primary  hvr-shutter-out-vertical" value="generateForm"/>
-                             </s:form>
-                             </div>
-                             <!-- 
-                             <s:iterator value = "#pdoName.value" var = "pdo" status = "s">
-                             <tr>
-                             <td></td>
-                             <s:if test="#s.Count <= 1">
-                             <s:iterator value="#pdo.infoMap" status="ss" var = "map">
-                                  <th><s:property value="%{#map.key}" /></th>
-                             </s:iterator>
-                             </s:if>
-                             </tr></s:iterator>
-                                 <s:form action = "actionForm">
-                                     <input type="hidden" name="userId" value = '<s:property value = "userId"/>'/>
-                                     <input type="hidden" name="tranName" value = '<s:property value="#pdoName.key" />'/>
-                                     <input type="submit" class="btn btn-primary  hvr-shutter-out-vertical" value="generateForm"/>
-						 		</s:form>
-						 		 -->
+							                             <div class="showForm">
+							                             <s:form class="genePdoForm">
+							                             <input type="hidden" name = "userId" value = '<s:property value = "userId"/>'/>
+							                             <input type="hidden" name = "userID" value = '<s:property value = "userId"/>'/>
+							                             <input type="hidden" class="getName" name = "tranName" value ='<s:property value="%{#pdoName.key}" />'/>
+							                             
+							                             		<button type="button" class="btn btn-default btn-lg  btn-info"  aria-label="Right Align">
+  																	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>添加
+																</button>
+
+							                             </s:form>
+							                             </div>
+													<br>
+													</div>
+		
+												</div>
+
+
+
 
 									</div>
 									<!-- 抽屉折叠div -->
 									<div class="drawer" style="display: none">
 
-										<table
+										<table style="table-layout:fixed"
 											class="table table-condensed table-hover table-bordered">
 
 											<s:iterator value="#pdoName.value" var="pdo" status="s">
@@ -335,23 +364,23 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 													<tr>
 
 														<s:if test="#s.Count <= 1">
-															<th></th>
+															<th style="width:20px"></th>
 															<s:iterator value="#pdo.infoMap" status="ss" var="map">
-																<th><s:property value="%{#map.key}" /></th>
+																<th style="white-space:nowrap;text-align:center"><s:property value="%{#map.key}" /></th>
 															</s:iterator>
-															<th></th>
+															<th style="width:160px"></th>
 														</s:if>
 													</tr>
 												</thead>
 												<tbody>
 													<tr>
 														<!-- 复选框  -->
-														<th><input type="checkbox" name="pdoItem"
-															value='<s:property value = "#pdo.pdoID"/>'></th>
+														<td style="width:20px;text-align:center;vertical-align:middle"><input type="checkbox" name="pdoItem"
+															value='<s:property value = "#pdo.pdoID"/>'></td>
 														<s:iterator value="#pdo.infoMap" status="ss" var="map">
-															<th><s:property value="%{#map.value}" /></th>
+															<td style="white-space:nowrap;text-align:center;vertical-align:middle"><s:property value="%{#map.value}" /></td>
 														</s:iterator>
-														<th>
+														<td style="text-align:center">
 															<!-- 关联pdo -->
 															<div class="relateForm">
 																<form id="relateForm" class="navbar-form navbar-left">
@@ -364,13 +393,13 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 																		<div class="getRealteButton">
 																			<center>
 																				<input type="button" class="btn btn-lg btn-success"
-																					value="相关数据" onclick="getRelate()" />
+																					value="相关数据" onclick="getRelate()" /></center>
 																		</div>
 																	</div>
 																</form>
 															</div>
 
-														</th>
+														</td>
 													</tr>
 												</tbody>
 											</s:iterator>
@@ -384,12 +413,10 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                 </div>
                 </div>
                 
-<div class="tab-pane active" id="panel-805073">                
+<div class="tab-pane" id="panel-805073">                
 <div class="container-fluid">
         <div class="col-md-12">
-            <div class="row">
-                <h1>时间线</h1>
-            </div>
+           
 
             <div class="row">
                 <div class="timeline timeline-single-column">
@@ -411,11 +438,11 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                             <div class="timeline-body">
                             <table class="table table-striped table-hover">
                                 <tr><s:iterator value="#pdo.infoMap" status="ss" var="map">
-                                    <th><s:property value="%{#map.key}" /></th>
+                                    <th style=" width:200px"><s:property value="%{#map.key}" /></th>
                                     </s:iterator>
                                 </tr>
                                 <tr><s:iterator value="#pdo.infoMap" status="ss" var="map">
-                                    <td><s:property value="%{#map.value}" /></td>
+                                    <td style=" width:200px"><s:property value="%{#map.value}" /></td>
                                     </s:iterator>
                                 </tr>
                                 
@@ -434,8 +461,12 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
             </div>
         </div>
     </div>
-				</div></div></div>
-			
+			</div>
+        
+<div class="tab-pane" id="panel-map">
+<div id="MapShowAllPdo"></div>
+     
+</div></div>
 				<!-- 查询页面 -->
 
 
@@ -444,7 +475,13 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 						<!--grids-->
 						<div class="grids">
 							<div class="progressbar-heading grids-heading">
-								<h2>查询pdo数据</h2>
+								<div class="col-md-12 column">
+									<div class="alert alert-success alert-dismissable">
+										<center><strong><h3>
+											查询数据页面
+										</h3> </strong> 
+									</div>
+								</div>
 							</div>
 							<div class="container">
 								<div class="row clearfix">
@@ -455,9 +492,9 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 											<input type="hidden" name="userId"
 												value='<s:property value = "userId"/>' />
 											<div class="form-group">
-												<label for="inputPassword" class="control-label">Date</label>
+												<h3><label for="inputPassword" class="col-sm-2 control-label">Date:</label></h3>
 												<div class="form-inline row">
-													<div class="form-group col-sm-6">
+													<div class="form-group col-sm-5">
 
 														<input type="text" name="info.startDate"
 															class="form-control" data-error="请输入形如xxxx-xx-xx的合法日期"
@@ -465,7 +502,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 															date() id="startDate" />
 														<div class="help-block">请输入形如xxxx-xx-xx的合法日期</div>
 													</div>
-													<div class="form-group col-sm-6">
+													<div class="form-group col-sm-5">
 														<input type="text" name="info.endDate"
 															class="form-control" data-error="请输入形如xxxx-xx-xx的合法日期"
 															pattern="^(?:19|20)[0-9][0-9]-(?:(?:0[1-9])|(?:1[0-2]))-(?:(?:[0-2][1-9])|(?:[1-3][0-1]))"
@@ -474,36 +511,41 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 												</div>
 											</div>
 											<div class="form-group">
-												<label for="inputPassword" class="control-label">Spend</label>
+												<h3><label for="inputPassword" class="col-sm-2 control-label">Spend:</label></h3>
 												<div class="form-inline row">
-													<div class="form-group col-sm-6">
-														<input type="number" min=0 max=100000000000000
+													<div class="form-group col-sm-5">
+														<input type="text" 
 															name="info.minSpend" Class="form-control" id="minSpend" />
 														<div class="help-block">必须是正整数!</div>
 													</div>
-													<div class="form-group col-sm-6">
-														<input type="number" min=0 max=100000000000000
+													<div class="form-group col-sm-5">
+														<input type="text"
 															name="info.maxSpend" Class="form-control" id="maxSpend" />
 														<div class="help-block with-errors"></div>
 													</div>
 												</div>
 											</div>
 											<div class="form-group">
-												<label for="inputEmail" class="control-label">place</label>
-												<input type="text" maxlength="20" name="info.place"
-													Class="form-control" id="place" />
-												<div class="help-block with-errors"></div>
-												<div class="help-block">最大长度是20!</div>
+												<h3><label for="inputEmail" class=" col-sm-2 control-label">place:</label></h3>
+											
+													<div class="form-group col-sm-8">
+													
+															<input type="text" maxlength="100" name="info.place"
+																Class="form-control" id="queryPdoPlace" />
+													</div>
+												
 											</div>
+											<div id="MapQueryPdo" tabindex="0"></div>
 											<div class="form-group">
 												<center>
 													<button type="button"
 														class="btn  btn-lg btn-primary  hvr-shutter-out-vertical"
-														onclick="jsonQueryPdo()">queryPdo</button>
+														onclick="jsonQueryPdo()">查询</button>
 												</center>
 											</div>
 										</s:form>
 									</div>
+									<div class="col-md-2 column"></div>
 								</div>
 							</div>
 						</div>
@@ -521,45 +563,43 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 					</h4>
 				</div>
 
-
-
               <table id = "pdo">
               <tr class="form-group">
-                    <th class="col-sm-2">属性</th>
-                    <th class="col-sm-2">Value</th>
-                    <th class="col-sm-2">Operation</th>
+                    <th class="col-sm-6">属性</th>
+                    <th class="col-sm-6">Value</th>
+                    
              </tr><br>
               <tr class="form-group">
-                    <td class="col-sm-4" >name</td>
-                    <td class="col-sm-4">
-                        <input type="text" Class="form-control" name = "tranName"/>
+                    <td class="col-sm-6" >name</td>
+                    <td class="col-sm-6">
+                        <input type="text" Class="form-control" name = "tranName" id="addHeaderName"/>
                         
                     </td>
               <tr class="form-group">
-                    <td class="col-sm-4" >属性1</td>
-                    <td class="col-sm-4">
+                    <td class="col-sm-6" >属性1</td>
+                    <td class="col-sm-6">
                         <input type="text" Class="form-control" name="header[0]" value="datetime"/>
                     </td>
-             </tr><br/>
-             </tr><br/>
+             </tr>
+             </tr>
               <tr class="form-group">
-                    <td class="col-sm-4" >属性2</td>
-                    <td class="col-sm-4">
+                    <td class="col-sm-6" >属性2</td>
+                    <td class="col-sm-6">
                         <input type="text" Class="form-control" name="header[1]" value="spend"/>
                         
                     </td>
-             </tr><br/>
+             </tr>
               <tr class="form-group">
-                    <td class="col-sm-4">属性3</td>
-                    <td class="col-sm-4">
+                    <td class="col-sm-6">属性3</td>
+                    <td class="col-sm-6">
                         <input type="text" maxlength="10" Class="form-control" name="header[2]" value = 'place'/>
                     </td>
              </tr>
-             <br/>
+             
              </table>
-             <br><br>  <br><br>
+             <br><br>  <br>
 		          <div class="form-group">
-		                    <div class="col-sm-offset-2 col-sm-4">
+		                    <div class="col-sm-offset-1 col-sm-4">
 		                    
 		                <button type="button" class="btn  btn-lg btn-primary  hvr-shutter-out-vertical" onclick="jsonAddPdo()">AddPdo</button>
 
@@ -588,15 +628,26 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 </div>                 
 <div id="gnenrateFormLayer" style="display:none">
          <div class="panel panel-widget">
+         
+         <div class="col-md-12 column">
+			<div class="alert alert-success alert-dismissable">
+				<center><strong><h3>
+					添加数据
+				</h3> </strong> 
+			</div>
+		</div>
+         
+         
+         
               <div class="tables">
                   <s:form class = "generateAddForm">
                        <input type="hidden" name="userID" value = '<s:property value = "userId"/>'/>
                            <table id = "genePdoFormInfo" class="table">
                                   </table>
                                   <div class = "addPdoByGeneButton">
-                                  <div class="col-md-10 column">
+                                  <div class="col-md-12 column">
                                   <center>
-                                  <input type = "button" class="btn btn-lg btn-primary" onclick = "jsonGenerateAddPdo(this)" value = "addPdo"/>
+                                  <input type = "button" class="btn btn-lg btn-primary" onclick = "jsonGenerateAddPdo(this)" value = "确认"/>
                                   </center>
                                   </div>
                                   </div>
@@ -668,11 +719,77 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 		<script src="js/classie.js"></script>
 		<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.2&key=b58724f1cb6b3589a9f864c179ede219"></script>
 <script type="text/javascript">
+var mapShowAll = new AMap.Map('MapShowAllPdo',{
+    resizeEnable: true,
+    zoom: 5,
+    center: [116.39,39.9]
+});
 
+var showPlaceStr='${queryP}';
+var showPlace = eval('(' + showPlaceStr + ')');
+$.each(showPlace,function(place,pdo){
+      AMap.service('AMap.Geocoder',function(){//回调函数
+    	    geocoder = new AMap.Geocoder({
+    	    });
+      geocoder.getLocation(place, function (status, result) {
+    	  alert
+          if (status == 'complete' && result.geocodes.length) {
+                  //marker.setPosition(result.geocodes[0].location);
+                  var ss=result.geocodes[0].location
+                  var marker = new AMap.Marker({
+                      position: ss,
+                      map: mapShowAll
+                  });
+              }
+        });
+      })
+});
+
+
+var map = new AMap.Map('MapQueryPdo',{
+    resizeEnable: true,
+    zoom: 13,
+    center: [116.39,39.9]
+});
+AMap.plugin('AMap.Geocoder',function(){
+    var geocoder = new AMap.Geocoder({
+    });
+    var marker = new AMap.Marker({
+        map:map,
+        bubble:true
+    })
+    var input = document.getElementById('queryPdoPlace');
+    var message = document.getElementById('message');
+    map.on('click',function(e){
+        marker.setPosition(e.lnglat);
+        geocoder.getAddress(e.lnglat,function(status,result){
+            if(status=='complete'){
+                input.value = result.regeocode.formattedAddress
+                message.innerHTML = ''
+            }else{
+                message.innerHTML = '无法获取地址'
+            }
+        })
+    })
+
+    input.onchange = function(e){
+        var address = input.value;
+        geocoder.getLocation(address,function(status,result){
+            if(status=='complete'&&result.geocodes.length){
+                marker.setPosition(result.geocodes[0].location);
+                map.setCenter(marker.getPosition())
+                message.innerHTML = ''
+            }else{
+                message.innerHTML = '无法获取位置'
+            }
+        })
+    }
+
+});
 </script>
 <script type="text/javascript" src="https://webapi.amap.com/demos/js/liteToolbar.js"></script>
 		<script>
-
+		var i=3
 			var menuLeft = document.getElementById( 'cbp-spmenu-s1' ),
 				showLeftPush = document.getElementById( 'showLeftPush' ),
 				body = document.body;
@@ -693,46 +810,53 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 
 		     //ajax请求导入excel
 		      function importExcel(){
-		        var formData = new FormData(document.getElementById("fileForm"));
-		        $.ajax({
-		          type : "post",
-		          url : 'actionImport',
-		          data : formData,
-		          async : false,
-		          cache : false,
-		          contentType : false,
-		          processData : false,
-		          success : function(data){
-		            var obj = JSON.parse(data);
-		            if (obj.importRes == "emptyHeader"){
-		              layer.alert("请添加键");
-		            }else if(obj.importRes == "addHeaderSuccess"){
-		              alert("导入模板成功");
-		            }else if(obj.importRes == "addHeaderFail"){
-		              alert("导入模板失败");
-		            }else if(obj.importRes == "existPdo"){
-		              alert("当前pdo模板已存在")
-		            }else if(obj.importRes == "addPdoSuccess"){
-		              alert("导入成功")
-		            }else if(obj.importRes == "notSameHeader"){
-		              alert("当前模板和已有模板冲突!")
-		            }else if(obj.importRes == "typeError"){
-		              layer.alert("文件类型只能是xls或者xlsx！");
-		            }else if(obj.importRes == "fileNotFound"){
-		              alert("文件不存在！");
-		            }else if(obj.importRes == "error"){
-		              alert("上传失败！");
-		            }else{
-		              
-		            }
-		              
-		          },
-		          error : function(e){
-		            alert("上传失败！");
-		          }
-		        });
-		        get();
-		      }
+		   	   if ($('#uploadExcelName')[0].value==""){
+		   		   layer.tips('请输入name', '#uploadExcelName',{
+		   			  tips: [3, '#78BA32'] //还可配置颜色
+		   		});
+		   		   return
+		   	   }
+		   	 var formData = new FormData(document.getElementById("fileForm"));
+	            $.ajax({
+	              type : "post",
+	              url : 'actionImport',
+	              data : formData,
+	              async : false,
+	              cache : false,
+	              contentType : false,
+	              processData : false,
+	              success : function(data){
+	                var obj = JSON.parse(data);
+	                if (obj.importRes == "emptyHeader"){
+	                  layer.alert("请添加键");
+	                }else if(obj.importRes == "addHeaderSuccess"){
+	                  alert("导入模板成功");
+	                }else if(obj.importRes == "addHeaderFail"){
+	                  alert("导入模板失败");
+	                }else if(obj.importRes == "existPdo"){
+	                  alert("当前pdo模板已存在")
+	                }else if(obj.importRes == "addPdoSuccess"){
+	                  alert("导入成功")
+	                }else if(obj.importRes == "notSameHeader"){
+	                  alert("当前模板和已有模板冲突!")
+	                }else if(obj.importRes == "typeError"){
+	                  layer.alert("文件类型只能是xls或者xlsx！");
+	                }else if(obj.importRes == "fileNotFound"){
+	                  alert("文件不存在！");
+	                }else if(obj.importRes == "error"){
+	                  alert("上传失败！");
+	                }else{
+	                  
+	                }
+	                  
+	              },
+	              error : function(e){
+	                alert("上传失败！");
+	              }
+	            });
+	            get();
+	          }
+
 			//抽屉效果
 	        $(document).ready(function(){
 	            //$(".drawerTotal").each(function(){
@@ -767,18 +891,21 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 	        		          var obj = JSON.parse(data);
 	        		          $.each(obj.header,function(n,key){
 	        		        	  if (n==0){
-	        		        		  var name="<tr  class='info'><td> <center>Name</center></td><td><center><input type = 'text' name = 'name' value='"+key+"' readonly='readonly'/></center></td></tr>";
+	        		        		  var name="<tr  class='info'><td> <center>Name</center></td><td><center><input type = 'text' name = 'name' value='"+key+"' readonly='readonly'/></center></td></tr> ";
+	        		        		  //name=name+"<tr style='width:20px'><td></td><td></td></tr>";
 	        		        		  $("#genePdoFormInfo").append(name);
 	        		        	  }
 	        		        	  else{
-	        		        		  var info="<tr><td><center>"+key+"</center></td><td><center><input type = 'text' name = 'infoMap."+key+"'/></center></td></tr>";
+	        		        		  var info="<tr><td><center>"+key+"</center></td><td><center><input type = 'text' name = 'infovalue["+String(n-1)+"]'/></center>";
+	        		        		  info=info+"<input type='hidden' name='infokey["+String(n-1)+"]' value='"+key+"'/></td></tr>";
+	        		        		  //info=info+"<tr><td></td><td></td></tr>";
 	        		        		  $("#genePdoFormInfo").append(info);
 	        		        	  }
 	        		          })
 	        		          layer.open({
                                 type:1,
-                                title:"AddPdo",
-                                area:['1000px','600px'],
+                                title:"添加数据",
+                                area:['500px','600px'],
                                       shadeClose:true,
                                       content:$("#gnenrateFormLayer")
                               })
@@ -803,26 +930,41 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 	        	layer.open({
 	        		type:1,
 	        		title:"queryPdo",
-	        		area:['1000px','600px'],
+	        		area:['1200px','600px'],
                     shadeClose:true,
                     content:$("#queryPdoLayer")
 	        	})
 	        }
 	        //添加pdo抽屉
 	        function addPdoLayer(){
+	        	for(var i=3;i<8;i++){
+	        		var str="#newShuXing"+String(i);
+	        		$(str).remove();
+	        	}
+	        	window.i=3
 	                layer.open({
 	                    type:1,
-	                    title:"AddPdo",
-	                    area:['1000px','600px'],
+	                    title:"AddPdo",  
+	                    area:['400px','600px'],
 	                    shadeClose:true,
 	                    content:$("#addPdoLayer")
 	                })
 	            }
-	        var i=3
+	        
 	        function getObj(id){
 	            return document.getElementById(id);
 	        }
 	        function addRow(){
+	        	if (window.i>=8){
+	        		layer.alert("最多有8个属性");
+	        		return
+	        	}
+	        	var tab=$('#pdo');
+	        	var cell='<tr class="form-group" id="newShuXing'+String(window.i)+'"><td class="col-sm-4" >属性'+String(window.i+1)+
+	        	'</td><td class="col-sm-4"><input type="text" Class="form-control" name="header['+
+	        		String(window.i)+']" value="spend"/></td> </tr>';
+	        	tab.append(cell);
+	        	/*
 	            var tab=getObj("pdo");
 	            var row=tab.insertRow();
 	            row.className = "form-horizontal form-group ";
@@ -837,8 +979,9 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 	            cell1.className ="col-sm-4";
 	            //cell2.innerHTML='<input value="删除"type="button" class="btn btn-lg btn-primary  hvr-shutter-out-vertical" onclick="deleteRow(this)"/>';
 	           // cell2.className ="col-sm-4";
-
+*/
 	            i++;
+	            
 	        }
 	        function deleteRow(obj){
 	            var row=obj.parentNode.parentNode;
@@ -880,39 +1023,43 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 	      	 return true;
 	        }
 	      //json添加pdo
-	function jsonAddPdo(){
-		var formData = new FormData(document.getElementById("pdoForm"));
-		$.ajax({
-			type : "post",
-			url : 'actionAddPdo',
-			data : formData,
-			async : false,
-			cache : false,
-			contentType : false,
-			processData : false,
-			success : function(data){
-				var obj = JSON.parse(data);
-				layer.open({
-	        		  type: 1,
-	        		  title:"AddPdo Message",
-	        		  skin: 'layui-layer-demo',
-	        		  closeBtn: 0,
-	        		  anim: 2,
-	        		  area:['240px','120px'],
-	        		  shadeClose: true,
-	        		  content: obj.result,
-	        		  end:function (){
-	        			  location.reload();
-	        		  }
-	        		});
-
-			},
-			error : function(e){
-				msg="上传失败！";
-			}
-		});
-		get();
-	}
+  function jsonAddPdo(){
+	   if ($('#addHeaderName')[0].value==""){
+		   layer.tips('请输入name', '#addHeaderName');
+		   return
+	   }
+    var formData = new FormData(document.getElementById("pdoForm"));
+    $.ajax({
+      type : "post",
+      url : 'actionAddPdo',
+      data : formData,
+      async : false,
+      cache : false,
+      contentType : false,
+      processData : false,
+      success : function(data){
+        var obj = JSON.parse(data);
+        layer.open({
+                type: 1,
+                title:"AddPdo Message",
+                skin: 'layui-layer-demo',
+                closeBtn: 0,
+                anim: 2,
+                area:['240px','120px'],
+                shadeClose: true,
+                content: obj.result,
+                end:function (){
+                  location.reload();
+                }
+              });
+ 
+      },
+      error : function(e){
+        msg="上传失败！";
+      }
+    });
+    get();
+  }
 	      //生成表单添加数据
 	   
 	    $(document).ready(function(){
@@ -978,6 +1125,21 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
             	        processData : false,
             	        success : function(data){
             	          var obj = JSON.parse(data);
+            	          if(obj.datas.length==0){
+            	        	  
+            	        	  
+            	        	  $("#relateTable").append("请尝试添加相关数据.");
+            	        	  
+            	        	  layer.open({
+            	                  type:1,
+            	                  title:"没找到相关数据",
+            	                  area:['200px','100px'],
+            	                        shadeClose:true,
+            	                        content:$("#relatePdoLayer")
+            	                })
+            	        	 
+            	          }
+            	          else{
             	           $.each(obj.datas,function(n,onedata){
             	              //var nameInfo = '<tr class="info"><td>name</td><td>'+onedata.name+'</td></tr>';
             	              $("#relateTable").append(
@@ -1006,11 +1168,11 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
             	           layer.open({
             	                  type:1,
             	                  title:"相关的数据",
-            	                  area:['1000px','600px'],
+            	                  area:['1000px','650px'],
             	                        shadeClose:true,
             	                        content:$("#relatePdoLayer")
             	                })
-            	        }
+            	        }}
             	      });
              })
            })
@@ -1039,7 +1201,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 			        		title:"Error Message",
 			        		area:['240px','120px'],
 		                    shadeClose:true,
-		                    content:'没有查询到符合属性的数据'
+		                    content:obj.result
 			        	})
 					}
 					
