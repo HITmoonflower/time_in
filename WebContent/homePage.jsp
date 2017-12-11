@@ -141,11 +141,19 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 
 
 							 <li>
+<<<<<<< HEAD
 
 
 
                                 <a href="javascript:document:jumpAdd.submit();"><i class="fa fa-file nav_icon"></i>添加文件<span class="fa arrow"></span></a>
 									
+=======
+							   
+									 
+								
+                                <a href="javascript:document:jumpAdd.submit();"><i class="fa fa-th-large nav_icon"></i>新建PDO<span class="fa arrow"></span></a>
+                            		
+>>>>>>> origin/master
                             		<ul class="nav nav-second-level collapse">
                             		<li>
                                      <s:form id = "fileForm">
@@ -265,7 +273,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 
                 <div class="grids">
                     <div class="progressbar-heading grids-heading">
-                        <h2>Tables</h2>
+                        <h2>所有PDO</h2>
                     </div>
                     <div class="panel panel-widget">
                     <div class="tabbable" id="tabs-391969">
